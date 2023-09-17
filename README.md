@@ -23,3 +23,5 @@ Bu pot ise 2.potun üst limitini kısmak için eklenmiştir. fiziksel olarak pot
 -Çalışma saati eklendi.
 
 -500 saat ve katlarında Yağ bakımı uyarısı eklendi.
+
+-Feed moduna yumuşak kalkış eklendi.
