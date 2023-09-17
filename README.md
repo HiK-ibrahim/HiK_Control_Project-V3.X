@@ -17,5 +17,6 @@ Bu pot ise 2.potun üst limitini kısmak için eklenmiştir. fiziksel olarak pot
 
 
 ÖZELLİKLER:
+
 Sistem ilk açıldığında yön anahtarlarından herhangi biri yönlü ise sistem başlamaz ve 0 konumuna getirilmesi istenir.
 Çalışma saati eklendi.
