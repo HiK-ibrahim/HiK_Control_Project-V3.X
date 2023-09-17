@@ -2088,7 +2088,7 @@ struct Time {
     unsigned int seconds;
 };
 
-struct Time currentTime = {0, 0, 0};
+struct Time currentTime = {500, 0, 0};
 
 
 
@@ -2145,28 +2145,32 @@ int main()
   unsigned int a;
 
 
-  TRISBbits.TRISB0 = 0;
-  TRISBbits.TRISB1 = 0;
-  TRISBbits.TRISB2 = 0;
-  TRISBbits.TRISB3 = 0;
-  TRISBbits.TRISB4 = 0;
-  TRISBbits.TRISB5 = 0;
+TRISB = 0b00000000;
+TRISA4 = 0;
+TRISE0 = 1;
+TRISE1 = 1;
+TRISC1 = 1;
+TRISC2 = 1;
+TRISE2 = 1;
+TRISC0 = 1;
+TRISC3 = 1;
+TRISD0 = 1;
 
-  TRISA4 = 0;
+TRISA1 = 1;
+TRISA2 = 1;
+TRISA3 = 1;
+Lcd_Init();
 
- TRISE0 = 1;
- TRISE1 = 1;
- TRISC1 = 1;
- TRISC2 = 1;
- TRISE2 = 1;
- TRISC0 = 1;
- TRISC3 = 1;
- TRISD0 = 1;
- TRISA1 = 1;
-    Lcd_Init();
+TRISC6 = 0;
+TRISC7 = 1;
 
- TRISC6 = 0;
- TRISC7 = 1;
+
+TRISA0 = 0;
+TRISA5 = 0;
+TRISC0 = 0;
+TRISC4 = 0;
+TRISC5 = 0;
+TRISD = 0b00000001;
 
 
   _delay((unsigned long)((100)*(4000000/4000.0)));
@@ -2197,7 +2201,7 @@ int main()
     Lcd_Set_Cursor(2,1);
     Lcd_Write_String("www.borvek.com");
     Lcd_Set_Cursor(2,17);
-    Lcd_Write_String("V2");
+    Lcd_Write_String("V3");
 
     _delay((unsigned long)((1000)*(4000000/4000.0)));
     Lcd_Clear();
@@ -2222,16 +2226,39 @@ unsigned int displayValue = 0;
     unsigned int adcValue3;
     float rpmtofloat;
 
-unsigned int value = 0;
-unsigned int FWDartan = 0;
 
+
+
+
+
+
+    RC1 = 0;
+    RE2 = 0;
+    RE0 = 0;
+    RC2 = 0;
+    RC0 = 0;
+    RE1 = 0;
+
+int ilkAcilis = 1;
 
 while(1){
 
+if (ilkAcilis) {
 
+    Lcd_Set_Cursor(1,1);
+    Lcd_Write_String("STOP DURUMUNA GETIR");
+    Lcd_Set_Cursor(2,1);
+    Lcd_Write_String("PUT IT IN STOP STATE");
+        if ( RE2 == 0 && RE0 == 0 && RC0 == 0 && RE1 == 0) {
+            ilkAcilis = 0;
+        } else {
+
+            return 0;
+        }
+    }
 
 if( !RC3 && !RD0){
-     if ((currentTime.hours == 0 || currentTime.hours == 501 || currentTime.hours == 502) && currentTime.minutes == 1) {
+     if ((currentTime.hours == 500 || currentTime.hours == 501 || currentTime.hours == 502) && currentTime.minutes == 1) {
 
     Lcd_Clear();
     int i=0 ;
@@ -2261,7 +2288,6 @@ Lcd_Write_String("OIL THE GEARS");
 RA4 = 1;
 }
     Lcd_Clear();
-
     RA4 = 0;
 }
 
@@ -2278,7 +2304,6 @@ Lcd_Write_String("OIL THE GEARS");
 RA4 = 1;
 }
     Lcd_Clear();
-
     RA4 = 0;
 }
 
@@ -2295,7 +2320,6 @@ Lcd_Write_String("OIL THE GEARS");
 RA4 = 1;
 }
     Lcd_Clear();
-
     RA4 = 0;
 }
 
@@ -2312,7 +2336,6 @@ Lcd_Write_String("OIL THE GEARS");
 RA4 = 1;
 }
     Lcd_Clear();
-
     RA4 = 0;
 }
 
@@ -2329,11 +2352,8 @@ Lcd_Write_String("OIL THE GEARS");
 RA4 = 1;
 }
     Lcd_Clear();
-
     RA4 = 0;
 }
-
-
 
 
         sprintf(lcdText, "%5uh %02um", currentTime.hours, currentTime.minutes);
@@ -2343,7 +2363,6 @@ RA4 = 1;
      Lcd_Write_String("  ");
      Lcd_Set_Cursor(1, 11);
      Lcd_Write_String(lcdText);
-
 
 
         writeEEPROM(0x00, currentTime.hours);
@@ -2372,7 +2391,9 @@ RA4 = 1;
         ADCON0bits.GO = 1;
         while (ADCON0bits.GO);
         adcValue1 = (ADRESH << 8) | ADRESL;
-        unsigned int displayValue = (int)adcValue1 >> 1;
+        if (RE2==0 && RC0== 0 ){
+        displayValue = (int)adcValue1 >> 1;
+        }
         float gostermeliklcd = adcValue1 / 1024 * 1000;
 
 
@@ -2403,87 +2424,67 @@ Lcd_Write_String(rpmString);
 
 
 
- if (RC1 == 1 && (RE0==1 || RE2==1))
-        {
-            Lcd_Set_Cursor(2,13 );
+ if (RC1 == 1 && (RE0 == 1 || RE2 == 1)) {
+            Lcd_Set_Cursor(2, 13);
             Lcd_Write_String(" FWD LMT");
             UART_Write_Text("s0\r\n");
-        }
 
- else if ((RE2 == 1 && RE0==1) || RE2==1 && RE1==0)
-        {
+        } else if ((RE2 == 1 && RE0 == 1) || (RE2 == 1 && RE1 == 0)) {
             Lcd_Set_Cursor(2, 13);
             Lcd_Write_String(" FWD 1.6K");
-              if (displayValue < 800) {
-            char uartMessage[8];
+            if (displayValue < 800) {
+                char uartMessage[8];
+                displayValue += 80;
 
-            FWDartan+=80;
-            if (FWDartan > 800) {
-                FWDartan = 800;
+                if (displayValue > 800) {
+                    displayValue = 800;
+                }
+                sprintf(uartMessage, "s%d\r\n", displayValue);
+                UART_Write_Text(uartMessage);
             }
-             sprintf(uartMessage, "s%d\r\n", FWDartan);
-            UART_Write_Text(uartMessage);
 
-        }
-        }
-
-        else if (RE0 == 1 )
-        {
+        } else if (RE0 == 1) {
             Lcd_Set_Cursor(2, 13);
-             Lcd_Write_String(" FWD      ");
-
-                char combinedText[20];
-        sprintf(combinedText, "s%d\r\n", displayValue);
-        UART_Write_Text(combinedText);
-
-        }
+            Lcd_Write_String(" FWD          ");
+            char combinedText[20];
+            sprintf(combinedText, "s%d\r\n", displayValue);
+            UART_Write_Text(combinedText);
 
 
-        else if (RC2 == 1 && (RE1==1 || RC0==1))
-        {
-
+        } else if (RC2 == 1 && (RE1 == 1 || RC0 == 1)) {
             Lcd_Set_Cursor(2, 13);
             Lcd_Write_String(" REW LMT");
             UART_Write_Text("s0\r\n");
-        }
 
-        else if ((RC0 == 1 && RE1==1) || (RC0==1 && RE0==0) )
-        {
-        Lcd_Set_Cursor(2, 13);
-        Lcd_Write_String(" REW 1.6K");
-
-         if (displayValue < -800) {
-            char uartMessage[8];
-            FWDartan-=80;
-
-            if (FWDartan < -800) {
-                FWDartan = -800;
+        } else if ((RC0 == 1 && RE1 == 1) || (RC0 == 1 && RE0 == 0)) {
+            Lcd_Set_Cursor(2, 13);
+            Lcd_Write_String(" REW 1.6K");
+            int negativeFeedValue = -displayValue;
+            if (negativeFeedValue > -800) {
+                char uartMessage[8];
+                negativeFeedValue -= 80;
+                if (negativeFeedValue < -800) {
+                    negativeFeedValue = -800;
+                }
+                displayValue=-negativeFeedValue;
+                sprintf(uartMessage, "s%d\r\n", negativeFeedValue);
+                UART_Write_Text(uartMessage);
             }
 
-             sprintf(uartMessage, "s%d\r\n", FWDartan);
-            UART_Write_Text(uartMessage);
+        } else if (RE1 == 1) {
+            Lcd_Set_Cursor(2, 13);
+            Lcd_Write_String(" REW         ");
+            int negativeDisplayValue = -displayValue;
+            char combinedText[20];
+            sprintf(combinedText, "s%d\r\n", negativeDisplayValue);
+            UART_Write_Text(combinedText);
+        } else {
 
-
-
+            Lcd_Set_Cursor(2, 13);
+            Lcd_Write_String(" STOP       ");
+            UART_Write_Text("s0\r\n");
         }
 
-    } else if (RE1 == 1 ) {
-        Lcd_Set_Cursor(2, 13);
-        Lcd_Write_String(" REW        ");
-
-        int negativeDisplayValue = -displayValue;
-    char combinedText[20];
-    sprintf(combinedText, "s%d\r\n", negativeDisplayValue);
-    UART_Write_Text(combinedText);
-
-
-    } else {
-        FWDartan = 0;
-        Lcd_Set_Cursor(2, 13);
-        Lcd_Write_String(" STOP        ");
-        UART_Write_Text("s0\r\n");
-
-    }
 
 
 
@@ -2535,6 +2536,5 @@ else if( RC3==1) {
 }
     }
   return 0;
-
 
 }

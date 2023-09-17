@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=HiK_LCD_Project.X
+PROJECTNAME=HiK_Control_Project-V3.X
 
 # Active Configuration
 DEFAULTCONF=default

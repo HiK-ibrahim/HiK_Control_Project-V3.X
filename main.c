@@ -1,5 +1,5 @@
 #define _XTAL_FREQ 4000000
-//16.09.2023 YÖN-YAZ-YA?BAKIM fixed
+//16.09.2023 bitti
 //lcd pinleri tan?mlamalari
 #define RS RB5
 #define EN RB4
@@ -88,29 +88,33 @@ int main()
 {
   unsigned int a;
   
-  //lcd pinleri
-  TRISBbits.TRISB0 = 0; // D7 pini cikis  olarak ayarla
-  TRISBbits.TRISB1 = 0; // D6 pini cikis  olarak ayarla
-  TRISBbits.TRISB2 = 0; // D5 pini cikis  olarak ayarla
-  TRISBbits.TRISB3 = 0; // D4 Pini cikis  olarak ayarla
-  TRISBbits.TRISB4 = 0; // en pini cikis  olarak ayarla
-  TRISBbits.TRISB5 = 0; // rs pini çikis  olarak ayarla
-  //lcd pinleri biti?
-  TRISA4 = 0;           // RA4 BUZZER Pini cikis olarak ayarla
- 
- TRISE0 = 1; // sag giris olarak 
- TRISE1 = 1; // sol giris olarak ayarla  YÖN P?NLER?
- TRISC1 = 1; // limit giris 
- TRISC2 = 1; // limit giris
- TRISE2 = 1; //SOL 400HIZ Giris
- TRISC0 = 1; //SAG 400HIZ giris set
- TRISC3 = 1; // dc servo eror pin giris
- TRISD0 = 1; // AC SERVO EROR G?R?S
- TRISA1 = 1; //// RA1 PiNi dc servonun speed nin potu giri? 
-    Lcd_Init();
-  //uart pinleri
- TRISC6 = 0; // TX Pin set as output
- TRISC7 = 1; // RX Pin set as input
+ //lcd pinleri
+TRISB = 0b00000000; // Port B pinlerini ç?k?? olarak ayarla
+TRISA4 = 0;           // RA4 BUZZER Pini ç?k?? olarak ayarla
+TRISE0 = 1; // sag giris olarak 
+TRISE1 = 1; // sol giris olarak ayarla  YÖN P?NLER?
+TRISC1 = 1; // limit giris 
+TRISC2 = 1; // limit giris
+TRISE2 = 1; //SOL FEED Giri?
+TRISC0 = 1; //SAG FEED giri? set
+TRISC3 = 1; // dc servo eror pin giri?
+TRISD0 = 1; // AC SERVO EROR G?R??
+//pot pinleri
+TRISA1 = 1; //// RA1 Pin dc servonun speed'in potu giri? 
+TRISA2 = 1; // RPM POTU G?R??
+TRISA3 = 1; // KARTIN ÜSTÜNDEK? AYAR POTU
+Lcd_Init();
+//uart pinleri
+TRISC6 = 0; // TX Pin ç?k?? olarak ayarla
+TRISC7 = 1; // RX Pin giri? olarak ayarla
+
+//kullan?lmayan pinler c?k?? olarak ayarlan?yor
+TRISA0 = 0;
+TRISA5 = 0;
+TRISC0 = 0;
+TRISC4 = 0;
+TRISC5 = 0;
+TRISD = 0b00000001; // RD1, RD2, RD3, RD4, RD5, RD6, RD7 ç?k??; di?eri giri?
 
   //buzzer ba?lang?çta kapat
   __delay_ms(100); //
@@ -141,7 +145,7 @@ int main()
     Lcd_Set_Cursor(2,1);
     Lcd_Write_String("www.borvek.com");
     Lcd_Set_Cursor(2,17);
-    Lcd_Write_String("V2");
+    Lcd_Write_String("V3");
      
     __delay_ms(1000);
     Lcd_Clear();
@@ -166,16 +170,36 @@ unsigned int displayValue = 0; // Güncel de?eri saklamak için bir de?i?ken
     unsigned int adcValue3; // trimpot de?eri
     float rpmtofloat; // Sonucu saklayacak sabit kayan nokta de?i?ken
     // adc bitti
-unsigned int value = 0; // Ba?lang?ç de?eri
-unsigned int FWDartan = 0; 
 
+
+ // Yön bayraklar?n? ba?lang?çta s?f?ra ayarla
+    FwdLMT = 0;
+    FwdFEAD = 0;
+    FWD = 0;
+    RewLMT = 0;
+    RewFEAD = 0;
+    REW = 0;
+
+int ilkAcilis = 1;
 
 while(1){
     
-
+if (ilkAcilis) {
+    
+    Lcd_Set_Cursor(1,1);
+    Lcd_Write_String("STOP DURUMUNA GETIR");
+    Lcd_Set_Cursor(2,1);
+    Lcd_Write_String("PUT IT IN STOP STATE");
+        if ( FwdFEAD == 0 && FWD == 0 &&  RewFEAD == 0 && REW == 0) {
+            ilkAcilis = 0; // ?lk çal??t?rma i?lemi tamamland?
+        } else {
+            // Yön bayraklar? hala 0 de?ilse ana döngüye girmeyin
+            return 0; // Ana döngüye girmeyin
+        }
+    }
 
 if( !DcEror && !AcEror){
-     if ((currentTime.hours == 0 || currentTime.hours == 501 || currentTime.hours == 502) && currentTime.minutes == 1) {
+     if ((currentTime.hours == 500 || currentTime.hours == 501 || currentTime.hours == 502) && currentTime.minutes == 1) {
     
     Lcd_Clear();
     int i=0 ;
@@ -205,7 +229,6 @@ Lcd_Write_String("OIL THE GEARS");
 RA4 = 1;
 } 
     Lcd_Clear();
- 
     RA4 = 0;    
 }
   //1000 YAG BAKIM UYARISI
@@ -222,7 +245,6 @@ Lcd_Write_String("OIL THE GEARS");
 RA4 = 1;
 } 
     Lcd_Clear();
- 
     RA4 = 0;    
 }
   //1500 YAG BAKIM UYARISI
@@ -239,7 +261,6 @@ Lcd_Write_String("OIL THE GEARS");
 RA4 = 1;
 } 
     Lcd_Clear();
- 
     RA4 = 0;    
 }
   //2000 YAG BAKIM UYARISI
@@ -256,7 +277,6 @@ Lcd_Write_String("OIL THE GEARS");
 RA4 = 1;
 } 
     Lcd_Clear();
- 
     RA4 = 0;    
 }
   //2500 YAG BAKIM UYARISI
@@ -273,11 +293,8 @@ Lcd_Write_String("OIL THE GEARS");
 RA4 = 1;
 } 
     Lcd_Clear();
- 
     RA4 = 0;    
 }
-
-
 
         // Saati ve dakikay? do?ru formatta birle?tirip lcdText'e yaz
         sprintf(lcdText, "%5uh %02um", currentTime.hours, currentTime.minutes);
@@ -287,8 +304,7 @@ RA4 = 1;
      Lcd_Write_String("  ");
      Lcd_Set_Cursor(1, 11);
      Lcd_Write_String(lcdText); // Saat, dakika ve saniyeyi yazd?r
-    
-   
+
         // EEPROM'a güncel süreyi yaz
         writeEEPROM(0x00, currentTime.hours);
         writeEEPROM(0x01, currentTime.minutes);
@@ -316,7 +332,9 @@ RA4 = 1;
         ADCON0bits.GO = 1; // ADC dönü?ümünü ba?lat
         while (ADCON0bits.GO); // Dönü?ümün tamamlanmas?n? bekle
         adcValue1 = (ADRESH << 8) | ADRESL;
-        unsigned int displayValue = (int)adcValue1 >> 1; // ADC sonucunu 0-255 aras?na dönü?tür
+        if (FwdFEAD==0 && RewFEAD== 0 ){
+        displayValue = (int)adcValue1 >> 1; // ADC sonucunu 0-512 aras?na dönü?tür
+        }
         float gostermeliklcd = adcValue1 / 1024 * 1000;
        
     // üçüncü( kart?n üstündeki trimpot) de?eri
@@ -346,88 +364,68 @@ Lcd_Write_String(rpmString);
             
 //yönler basla
 
-//fwd limit 
- if (FwdLMT == 1 && (FWD==1 || FwdFEAD==1))
-        {   
-            Lcd_Set_Cursor(2,13 );
-            Lcd_Write_String(" FWD LMT");         
-            UART_Write_Text("s0\r\n");          
-        }
-// fwd fead
- else if ((FwdFEAD == 1 && FWD==1) || FwdFEAD==1 && REW==0)
-        {
+// Fwd k?sm?
+ if (FwdLMT == 1 && (FWD == 1 || FwdFEAD == 1)) {
             Lcd_Set_Cursor(2, 13);
-            Lcd_Write_String(" FWD 1.6K");  
-              if (displayValue < 800) {
-            char uartMessage[8];
-            
-            FWDartan+=80; // De?eri art?r
-            if (FWDartan > 800) {
-                FWDartan = 800; // De?eri 400 olarak sabitle
+            Lcd_Write_String(" FWD LMT");
+            UART_Write_Text("s0\r\n");
+        
+        } else if ((FwdFEAD == 1 && FWD == 1) || (FwdFEAD == 1 && REW == 0)) {
+            Lcd_Set_Cursor(2, 13);
+            Lcd_Write_String(" FWD 1.6K");
+            if (displayValue < 800) {
+                char uartMessage[8];
+                displayValue += 80;
+                
+                if (displayValue > 800) {
+                    displayValue = 800;
+                }
+                sprintf(uartMessage, "s%d\r\n", displayValue);
+                UART_Write_Text(uartMessage);
             }
-             sprintf(uartMessage, "s%d\r\n", FWDartan);
-            UART_Write_Text(uartMessage);
+          
+        } else if (FWD == 1) {
+            Lcd_Set_Cursor(2, 13);
+            Lcd_Write_String(" FWD          ");
+            char combinedText[20];
+            sprintf(combinedText, "s%d\r\n", displayValue);
+            UART_Write_Text(combinedText);
             
-        }
-        }
-//fwd        
-        else if (FWD == 1 )
-        {
+//rew k?sm?            
+        } else if (RewLMT == 1 && (REW == 1 || RewFEAD == 1)) {
             Lcd_Set_Cursor(2, 13);
-             Lcd_Write_String(" FWD      ");
-             
-                char combinedText[20];
-        sprintf(combinedText, "s%d\r\n", displayValue);
-        UART_Write_Text(combinedText);
-    
-        }
-
-        // REW KANALI
-        else if (RewLMT == 1 && (REW==1 || RewFEAD==1))
-        {
-//rew limit          
+            Lcd_Write_String(" REW LMT");
+            UART_Write_Text("s0\r\n");
+       
+        } else if ((RewFEAD == 1 && REW == 1) || (RewFEAD == 1 && FWD == 0)) {
             Lcd_Set_Cursor(2, 13);
-            Lcd_Write_String(" REW LMT");         
+            Lcd_Write_String(" REW 1.6K");
+            int negativeFeedValue = -displayValue;
+            if (negativeFeedValue > -800) {
+                char uartMessage[8];
+                negativeFeedValue -= 80;
+                if (negativeFeedValue < -800) {
+                    negativeFeedValue = -800;
+                }
+                displayValue=-negativeFeedValue;
+                sprintf(uartMessage, "s%d\r\n", negativeFeedValue);
+                UART_Write_Text(uartMessage);
+            }
+        
+        } else if (REW == 1) {
+            Lcd_Set_Cursor(2, 13);
+            Lcd_Write_String(" REW         ");
+            int negativeDisplayValue = -displayValue;
+            char combinedText[20];
+            sprintf(combinedText, "s%d\r\n", negativeDisplayValue);
+            UART_Write_Text(combinedText);
+        } else {
+          
+            Lcd_Set_Cursor(2, 13);
+            Lcd_Write_String(" STOP       ");
             UART_Write_Text("s0\r\n");
         }
-//rew fead
-        else if ((RewFEAD == 1 && REW==1) || (RewFEAD==1 && FWD==0) )
-        {
-        Lcd_Set_Cursor(2, 13);
-        Lcd_Write_String(" REW 1.6K");
-        
-         if (displayValue < -800) {
-            char uartMessage[8];
-            FWDartan-=80; // De?eri art?r
-            
-            if (FWDartan < -800) {
-                FWDartan = -800; // De?eri 255 olarak sabitle
-            }
-            
-             sprintf(uartMessage, "s%d\r\n", FWDartan);
-            UART_Write_Text(uartMessage);
-        
-        
-            
-        }
-//rew
-    } else if (REW == 1  ) {
-        Lcd_Set_Cursor(2, 13);
-        Lcd_Write_String(" REW        ");
-      
-        int negativeDisplayValue = -displayValue;
-    char combinedText[20];
-    sprintf(combinedText, "s%d\r\n", negativeDisplayValue);
-    UART_Write_Text(combinedText);
-        
-     
-    } else {
-        FWDartan = 0; // Durumda hiçbir dü?me bas?lmam??sa de?eri s?f?rla
-        Lcd_Set_Cursor(2, 13);
-        Lcd_Write_String(" STOP        ");
-        UART_Write_Text("s0\r\n");
-        
-    }
+
     
 //yönler bitii  
          
@@ -479,6 +477,5 @@ else if( DcEror==1) {
 }
     }
   return 0;
-  
   
 }

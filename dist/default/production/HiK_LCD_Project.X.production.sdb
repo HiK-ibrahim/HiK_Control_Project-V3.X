@@ -61,7 +61,7 @@
 [v _UART_Write_Text UART_Write_Text `(v  1 e 1 0 ]
 "59 C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC16Fxxx_DFP/1.4.149/xc8\pic\include\proc\pic16f877a.h
 [v _TMR0 TMR0 `VEuc  1 e 1 @1 ]
-[s S107 . 1 `uc 1 RBIF 1 0 :1:0 
+[s S94 . 1 `uc 1 RBIF 1 0 :1:0 
 `uc 1 INTF 1 0 :1:1 
 `uc 1 TMR0IF 1 0 :1:2 
 `uc 1 RBIE 1 0 :1:3 
@@ -71,27 +71,27 @@
 `uc 1 GIE 1 0 :1:7 
 ]
 "477
-[s S116 . 1 `uc 1 . 1 0 :2:0 
+[s S103 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 T0IF 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 T0IE 1 0 :1:5 
 ]
-[u S121 . 1 `S107 1 . 1 0 `S116 1 . 1 0 ]
-[v _INTCONbits INTCONbits `VES121  1 e 1 @11 ]
+[u S108 . 1 `S94 1 . 1 0 `S103 1 . 1 0 ]
+[v _INTCONbits INTCONbits `VES108  1 e 1 @11 ]
 "964
 [v _RCSTA RCSTA `VEuc  1 e 1 @24 ]
 "1059
 [v _TXREG TXREG `VEuc  1 e 1 @25 ]
 "1152
 [v _ADRESH ADRESH `VEuc  1 e 1 @30 ]
-[s S168 . 1 `uc 1 ADON 1 0 :1:0 
+[s S155 . 1 `uc 1 ADON 1 0 :1:0 
 `uc 1 . 1 0 :1:1 
 `uc 1 GO_nDONE 1 0 :1:2 
 `uc 1 CHS 1 0 :3:3 
 `uc 1 ADCS 1 0 :2:6 
 ]
 "1190
-[s S174 . 1 `uc 1 . 1 0 :2:0 
+[s S161 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 GO 1 0 :1:2 
 `uc 1 CHS0 1 0 :1:3 
 `uc 1 CHS1 1 0 :1:4 
@@ -99,15 +99,15 @@
 `uc 1 ADCS0 1 0 :1:6 
 `uc 1 ADCS1 1 0 :1:7 
 ]
-[s S182 . 1 `uc 1 . 1 0 :2:0 
+[s S169 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 nDONE 1 0 :1:2 
 ]
-[s S185 . 1 `uc 1 . 1 0 :2:0 
+[s S172 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 GO_DONE 1 0 :1:2 
 ]
-[u S188 . 1 `S168 1 . 1 0 `S174 1 . 1 0 `S182 1 . 1 0 `S185 1 . 1 0 ]
-[v _ADCON0bits ADCON0bits `VES188  1 e 1 @31 ]
-[s S81 . 1 `uc 1 PS 1 0 :3:0 
+[u S175 . 1 `S155 1 . 1 0 `S161 1 . 1 0 `S169 1 . 1 0 `S172 1 . 1 0 ]
+[v _ADCON0bits ADCON0bits `VES175  1 e 1 @31 ]
+[s S68 . 1 `uc 1 PS 1 0 :3:0 
 `uc 1 PSA 1 0 :1:3 
 `uc 1 T0SE 1 0 :1:4 
 `uc 1 T0CS 1 0 :1:5 
@@ -115,43 +115,35 @@
 `uc 1 nRBPU 1 0 :1:7 
 ]
 "1275
-[s S88 . 1 `uc 1 PS0 1 0 :1:0 
+[s S75 . 1 `uc 1 PS0 1 0 :1:0 
 `uc 1 PS1 1 0 :1:1 
 `uc 1 PS2 1 0 :1:2 
 ]
-[u S92 . 1 `S81 1 . 1 0 `S88 1 . 1 0 ]
-[v _OPTION_REGbits OPTION_REGbits `VES92  1 e 1 @129 ]
-[s S47 . 1 `uc 1 TRISB0 1 0 :1:0 
-`uc 1 TRISB1 1 0 :1:1 
-`uc 1 TRISB2 1 0 :1:2 
-`uc 1 TRISB3 1 0 :1:3 
-`uc 1 TRISB4 1 0 :1:4 
-`uc 1 TRISB5 1 0 :1:5 
-`uc 1 TRISB6 1 0 :1:6 
-`uc 1 TRISB7 1 0 :1:7 
-]
-"1392
-[u S56 . 1 `S47 1 . 1 0 ]
-[v _TRISBbits TRISBbits `VES56  1 e 1 @134 ]
+[u S79 . 1 `S68 1 . 1 0 `S75 1 . 1 0 ]
+[v _OPTION_REGbits OPTION_REGbits `VES79  1 e 1 @129 ]
+"1375
+[v _TRISB TRISB `VEuc  1 e 1 @134 ]
+"1499
+[v _TRISD TRISD `VEuc  1 e 1 @136 ]
 "1999
 [v _TXSTA TXSTA `VEuc  1 e 1 @152 ]
 "2080
 [v _SPBRG SPBRG `VEuc  1 e 1 @153 ]
 "2222
 [v _ADRESL ADRESL `VEuc  1 e 1 @158 ]
-[s S144 . 1 `uc 1 PCFG 1 0 :4:0 
+[s S131 . 1 `uc 1 PCFG 1 0 :4:0 
 `uc 1 . 1 0 :2:4 
 `uc 1 ADCS2 1 0 :1:6 
 `uc 1 ADFM 1 0 :1:7 
 ]
 "2248
-[s S149 . 1 `uc 1 PCFG0 1 0 :1:0 
+[s S136 . 1 `uc 1 PCFG0 1 0 :1:0 
 `uc 1 PCFG1 1 0 :1:1 
 `uc 1 PCFG2 1 0 :1:2 
 `uc 1 PCFG3 1 0 :1:3 
 ]
-[u S154 . 1 `S144 1 . 1 0 `S149 1 . 1 0 ]
-[v _ADCON1bits ADCON1bits `VES154  1 e 1 @159 ]
+[u S141 . 1 `S131 1 . 1 0 `S136 1 . 1 0 ]
+[v _ADCON1bits ADCON1bits `VES141  1 e 1 @159 ]
 "2288
 [v _EEDATA EEDATA `VEuc  1 e 1 @268 ]
 "2295
@@ -194,10 +186,18 @@
 [v _RE2 RE2 `VEb  1 e 0 @74 ]
 "2855
 [v _T0IF T0IF `VEb  1 e 0 @90 ]
+"2921
+[v _TRISA0 TRISA0 `VEb  1 e 0 @1064 ]
 "2924
 [v _TRISA1 TRISA1 `VEb  1 e 0 @1065 ]
+"2927
+[v _TRISA2 TRISA2 `VEb  1 e 0 @1066 ]
+"2930
+[v _TRISA3 TRISA3 `VEb  1 e 0 @1067 ]
 "2933
 [v _TRISA4 TRISA4 `VEb  1 e 0 @1068 ]
+"2936
+[v _TRISA5 TRISA5 `VEb  1 e 0 @1069 ]
 "2963
 [v _TRISC0 TRISC0 `VEb  1 e 0 @1080 ]
 "2966
@@ -206,6 +206,10 @@
 [v _TRISC2 TRISC2 `VEb  1 e 0 @1082 ]
 "2972
 [v _TRISC3 TRISC3 `VEb  1 e 0 @1083 ]
+"2975
+[v _TRISC4 TRISC4 `VEb  1 e 0 @1084 ]
+"2978
+[v _TRISC5 TRISC5 `VEb  1 e 0 @1085 ]
 "2981
 [v _TRISC6 TRISC6 `VEb  1 e 0 @1086 ]
 "2984
@@ -234,57 +238,59 @@
 "87
 [v _main main `(i  1 e 2 0 ]
 {
-"400
-[v main@uartMessage_391 uartMessage `[8]uc  1 a 8 37 ]
-"362
+"408
+[v main@uartMessage_371 uartMessage `[8]uc  1 a 8 37 ]
+"380
 [v main@uartMessage uartMessage `[8]uc  1 a 8 29 ]
-"419
-[v main@combinedText_395 combinedText `[20]uc  1 a 20 0 ]
-"418
+"422
+[v main@combinedText_375 combinedText `[20]uc  1 a 20 0 ]
+"421
 [v main@negativeDisplayValue negativeDisplayValue `i  1 a 2 62 ]
-"379
+"406
+[v main@negativeFeedValue negativeFeedValue `i  1 a 2 12 ]
+"393
 [v main@combinedText combinedText `[20]uc  1 a 20 56 ]
-"266
-[v main@i_353 i `i  1 a 2 4 ]
-"249
-[v main@i_350 i `i  1 a 2 2 ]
-"232
-[v main@i_347 i `i  1 a 2 0 ]
-"215
-[v main@i_344 i `i  1 a 2 78 ]
-"198
-[v main@i_341 i `i  1 a 2 76 ]
-"181
-[v main@i i `i  1 a 2 74 ]
-"340
+"289
+[v main@i_333 i `i  1 a 2 6 ]
+"273
+[v main@i_330 i `i  1 a 2 4 ]
+"257
+[v main@i_327 i `i  1 a 2 2 ]
+"241
+[v main@i_324 i `i  1 a 2 0 ]
+"225
+[v main@i_321 i `i  1 a 2 78 ]
+"208
+[v main@i i `i  1 a 2 76 ]
+"361
 [v main@rpmString rpmString `[5]uc  1 a 5 49 ]
-"332
+"353
 [v main@adcString1 adcString1 `[4]uc  1 a 4 64 ]
-"320
+"341
 [v main@gostermeliklcd gostermeliklcd `f  1 a 4 45 ]
-"319
-[v main@displayValue_371 displayValue `ui  1 a 2 10 ]
-"303
-[v main@integerPart integerPart `ui  1 a 2 8 ]
-"305
-[v main@binler binler `i  1 a 2 6 ]
-"306
-[v main@yuzler yuzler `i  1 a 2 72 ]
-"308
-[v main@birler birler `i  1 a 2 60 ]
-"307
-[v main@onlar onlar `i  1 a 2 58 ]
+"322
+[v main@integerPart integerPart `ui  1 a 2 10 ]
+"324
+[v main@binler binler `i  1 a 2 8 ]
+"325
+[v main@yuzler yuzler `i  1 a 2 74 ]
 "327
+[v main@birler birler `i  1 a 2 60 ]
+"326
+[v main@onlar onlar `i  1 a 2 58 ]
+"348
 [v main@rpmValue rpmValue `ui  1 a 2 76 ]
-"124
+"128
 [v main@lcdText lcdText `[9]uc  1 a 9 20 ]
-"164
-[v main@adcValue1 adcValue1 `f  1 a 4 68 ]
+"168
+[v main@adcValue1 adcValue1 `f  1 a 4 70 ]
+"158
+[v main@displayValue displayValue `ui  1 a 2 14 ]
+"186
+[v main@ilkAcilis ilkAcilis `i  1 a 2 68 ]
 "170
-[v main@FWDartan FWDartan `ui  1 a 2 12 ]
-"166
 [v main@adcValue3 adcValue3 `ui  1 a 2 56 ]
-"165
+"169
 [v main@adcValue2 adcValue2 `ui  1 a 2 54 ]
 "484
 } 0
@@ -393,17 +399,17 @@
 "8 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c90\common\sprcmul.c
 [v ___flmul __flmul `(d  1 e 4 0 ]
 {
-[s S721 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
+[s S701 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
 "13
-[s S726 . 4 `i 1 wordA 2 0 `i 1 wordB 2 2 ]
-[u S729 . 4 `l 1 i 4 0 `d 1 f 4 0 `S721 1 fAsBytes 4 0 `S726 1 fAsWords 4 0 ]
-[v ___flmul@prod prod `S729  1 a 4 46 ]
+[s S706 . 4 `i 1 wordA 2 0 `i 1 wordB 2 2 ]
+[u S709 . 4 `l 1 i 4 0 `d 1 f 4 0 `S701 1 fAsBytes 4 0 `S706 1 fAsWords 4 0 ]
+[v ___flmul@prod prod `S709  1 a 4 46 ]
 "12
 [v ___flmul@grs grs `ul  1 a 4 41 ]
-[s S798 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
+[s S778 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
 "14
-[u S801 . 2 `i 1 i 2 0 `ui 1 n 2 0 `S798 1 nAsBytes 2 0 ]
-[v ___flmul@temp temp `S801  1 a 2 50 ]
+[u S781 . 2 `i 1 i 2 0 `ui 1 n 2 0 `S778 1 nAsBytes 2 0 ]
+[v ___flmul@temp temp `S781  1 a 2 50 ]
 "10
 [v ___flmul@bexp bexp `uc  1 a 1 45 ]
 "11
