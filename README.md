@@ -21,3 +21,4 @@ Bu pot ise 2.potun üst limitini kısmak için eklenmiştir. fiziksel olarak pot
 -Sistem ilk açıldığında yön anahtarlarından herhangi biri yönlü ise sistem başlamaz ve 0 konumuna getirilmesi istenir.
 
 -Çalışma saati eklendi.
+-500 saat ve katlarında Yağ bakımı uyarısı eklendi.
