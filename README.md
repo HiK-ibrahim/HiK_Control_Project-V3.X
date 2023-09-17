@@ -14,3 +14,8 @@ Sistemde 3 adet POT vardır.
 AC servo motorumuzun hızını bu pot ile kontrol eder ve hızı ekrana ondalık 1 basamak yazabilecek hassasiyette yazdırız.
 3. pot: Sınır
 Bu pot ise 2.potun üst limitini kısmak için eklenmiştir. fiziksel olarak potun değerini sadece LCD ekranda kısıyoruz.
+
+
+ÖZELLİKLER:
+Sistem ilk açıldığında yön anahtarlarından herhangi biri yönlü ise sistem başlamaz ve 0 konumuna getirilmesi istenir.
+Çalışma saati eklendi.
