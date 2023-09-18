@@ -1,5 +1,5 @@
 #define _XTAL_FREQ 4000000
-//16.09.2023 bitti
+//18.09.2023 bo?  pinler silindi her?ey ok 
 //lcd pinleri tan?mlamalari
 #define RS RB5
 #define EN RB4
