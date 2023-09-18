@@ -2088,7 +2088,7 @@ struct Time {
     unsigned int seconds;
 };
 
-struct Time currentTime = {500, 0, 0};
+struct Time currentTime = {0, 0, 0};
 
 
 
@@ -2167,7 +2167,6 @@ TRISC7 = 1;
 
 TRISA0 = 0;
 TRISA5 = 0;
-TRISC0 = 0;
 TRISC4 = 0;
 TRISC5 = 0;
 TRISD = 0b00000001;
@@ -2225,9 +2224,6 @@ unsigned int displayValue = 0;
     unsigned int adcValue2;
     unsigned int adcValue3;
     float rpmtofloat;
-
-
-
 
 
 

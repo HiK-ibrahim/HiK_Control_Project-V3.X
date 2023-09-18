@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <executable name="dist/default/production\HiK_LCD_Project.X.production.hex">
+  <executable name="dist/default/production\HiK_Control_Project-V3.X.production.hex">
     <memory name="program">
       <units>words</units>
       <length>8192</length>
-      <used>6041</used>
-      <free>2151</free>
+      <used>6004</used>
+      <free>2188</free>
     </memory>
     <memory name="data">
       <units>bytes</units>

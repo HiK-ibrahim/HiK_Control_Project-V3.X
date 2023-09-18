@@ -111,7 +111,6 @@ TRISC7 = 1; // RX Pin giri? olarak ayarla
 //kullan?lmayan pinler c?k?? olarak ayarlan?yor
 TRISA0 = 0;
 TRISA5 = 0;
-TRISC0 = 0;
 TRISC4 = 0;
 TRISC5 = 0;
 TRISD = 0b00000001; // RD1, RD2, RD3, RD4, RD5, RD6, RD7 ç?k??; di?eri giri?
