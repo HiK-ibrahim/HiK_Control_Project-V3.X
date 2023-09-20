@@ -763,7 +763,13 @@ Version 4.0 HI-TECH Software Intermediate Code
 [p x WRT  =  OFF  ]
 "13
 [p x CP  =  OFF  ]
-"28 main.c
+"27 main.c
+[; ;main.c: 27: unsigned int epromayaz = 0;
+[v _epromayaz `ui ~T0 @X0 1 e ]
+[i _epromayaz
+-> -> 0 `i `ui
+]
+"28
 [; ;main.c: 28: unsigned int kesmeSayaci = 0;
 [v _kesmeSayaci `ui ~T0 @X0 1 e ]
 [i _kesmeSayaci
@@ -907,335 +913,303 @@ Version 4.0 HI-TECH Software Intermediate Code
 "77
 [; ;main.c: 77:         TMR0 = 61;
 [e = _TMR0 -> -> 61 `i `uc ]
+"78
+[; ;main.c: 78:   epromayaz++;
+[e ++ _epromayaz -> -> 1 `i `ui ]
 "79
-[; ;main.c: 79:         kesmeSayaci++;
-[e ++ _kesmeSayaci -> -> 1 `i `ui ]
-"80
-[; ;main.c: 80:         if (kesmeSayaci==20){
-[e $ ! == _kesmeSayaci -> -> 20 `i `ui 129  ]
+[; ;main.c: 79:   if (epromayaz==800){
+[e $ ! == _epromayaz -> -> 800 `i `ui 129  ]
 {
-"81
-[; ;main.c: 81:             kesmeSayaci = 0 ;
-[e = _kesmeSayaci -> -> 0 `i `ui ]
+"80
+[; ;main.c: 80:       epromayaz=0;
+[e = _epromayaz -> -> 0 `i `ui ]
 "82
-[; ;main.c: 82:             incrementTime(&currentTime);
-[e ( _incrementTime (1 &U _currentTime ]
+[; ;main.c: 82:         writeEEPROM(0x00, currentTime.hours);
+[e ( _writeEEPROM (2 , -> -> 0 `i `ui . _currentTime 0 ]
 "83
-[; ;main.c: 83:         }
+[; ;main.c: 83:         writeEEPROM(0x01, currentTime.minutes);
+[e ( _writeEEPROM (2 , -> -> 1 `i `ui . _currentTime 1 ]
+"87
+[; ;main.c: 87:   }
 }
 [e :U 129 ]
-"84
-[; ;main.c: 84:     }
+"90
+[; ;main.c: 90:         kesmeSayaci++;
+[e ++ _kesmeSayaci -> -> 1 `i `ui ]
+"91
+[; ;main.c: 91:         if (kesmeSayaci==20){
+[e $ ! == _kesmeSayaci -> -> 20 `i `ui 130  ]
+{
+"92
+[; ;main.c: 92:             kesmeSayaci = 0 ;
+[e = _kesmeSayaci -> -> 0 `i `ui ]
+"93
+[; ;main.c: 93:             incrementTime(&currentTime);
+[e ( _incrementTime (1 &U _currentTime ]
+"96
+[; ;main.c: 96:         }
+}
+[e :U 130 ]
+"97
+[; ;main.c: 97:     }
 }
 [e :U 128 ]
-"85
-[; ;main.c: 85: }
+"98
+[; ;main.c: 98: }
 [e :UE 127 ]
 }
 [v $root$_main `(v ~T0 @X0 0 e ]
-"87
-[; ;main.c: 87: int main()
+"100
+[; ;main.c: 100: int main()
 [v _main `(i ~T0 @X0 1 ef ]
-"88
-[; ;main.c: 88: {
+"101
+[; ;main.c: 101: {
 {
 [e :U _main ]
 [f ]
-"89
-[; ;main.c: 89:   unsigned int a;
+"102
+[; ;main.c: 102:   unsigned int a;
 [v _a `ui ~T0 @X0 1 a ]
-"92
-[; ;main.c: 92: TRISB = 0b00000000;
-[e = _TRISB -> -> 0 `i `uc ]
-"93
-[; ;main.c: 93: TRISA4 = 0;
-[e = _TRISA4 -> -> 0 `i `b ]
-"94
-[; ;main.c: 94: TRISE0 = 1;
-[e = _TRISE0 -> -> 1 `i `b ]
-"95
-[; ;main.c: 95: TRISE1 = 1;
-[e = _TRISE1 -> -> 1 `i `b ]
-"96
-[; ;main.c: 96: TRISC1 = 1;
-[e = _TRISC1 -> -> 1 `i `b ]
-"97
-[; ;main.c: 97: TRISC2 = 1;
-[e = _TRISC2 -> -> 1 `i `b ]
-"98
-[; ;main.c: 98: TRISE2 = 1;
-[e = _TRISE2 -> -> 1 `i `b ]
-"99
-[; ;main.c: 99: TRISC0 = 1;
-[e = _TRISC0 -> -> 1 `i `b ]
-"100
-[; ;main.c: 100: TRISC3 = 1;
-[e = _TRISC3 -> -> 1 `i `b ]
-"101
-[; ;main.c: 101: TRISD0 = 1;
-[e = _TRISD0 -> -> 1 `i `b ]
-"103
-[; ;main.c: 103: TRISA1 = 1;
-[e = _TRISA1 -> -> 1 `i `b ]
-"104
-[; ;main.c: 104: TRISA2 = 1;
-[e = _TRISA2 -> -> 1 `i `b ]
 "105
-[; ;main.c: 105: TRISA3 = 1;
-[e = _TRISA3 -> -> 1 `i `b ]
+[; ;main.c: 105: TRISB = 0b00000000;
+[e = _TRISB -> -> 0 `i `uc ]
 "106
-[; ;main.c: 106: Lcd_Init();
-[e ( _Lcd_Init ..  ]
+[; ;main.c: 106: TRISA4 = 0;
+[e = _TRISA4 -> -> 0 `i `b ]
+"107
+[; ;main.c: 107: TRISE0 = 1;
+[e = _TRISE0 -> -> 1 `i `b ]
 "108
-[; ;main.c: 108: TRISC6 = 0;
-[e = _TRISC6 -> -> 0 `i `b ]
+[; ;main.c: 108: TRISE1 = 1;
+[e = _TRISE1 -> -> 1 `i `b ]
 "109
-[; ;main.c: 109: TRISC7 = 1;
-[e = _TRISC7 -> -> 1 `i `b ]
+[; ;main.c: 109: TRISC1 = 1;
+[e = _TRISC1 -> -> 1 `i `b ]
+"110
+[; ;main.c: 110: TRISC2 = 1;
+[e = _TRISC2 -> -> 1 `i `b ]
+"111
+[; ;main.c: 111: TRISE2 = 1;
+[e = _TRISE2 -> -> 1 `i `b ]
 "112
-[; ;main.c: 112: TRISA0 = 0;
-[e = _TRISA0 -> -> 0 `i `b ]
+[; ;main.c: 112: TRISC0 = 1;
+[e = _TRISC0 -> -> 1 `i `b ]
 "113
-[; ;main.c: 113: TRISA5 = 0;
-[e = _TRISA5 -> -> 0 `i `b ]
+[; ;main.c: 113: TRISC3 = 1;
+[e = _TRISC3 -> -> 1 `i `b ]
 "114
-[; ;main.c: 114: TRISC4 = 0;
-[e = _TRISC4 -> -> 0 `i `b ]
-"115
-[; ;main.c: 115: TRISC5 = 0;
-[e = _TRISC5 -> -> 0 `i `b ]
+[; ;main.c: 114: TRISD0 = 1;
+[e = _TRISD0 -> -> 1 `i `b ]
 "116
-[; ;main.c: 116: TRISD = 0b00000001;
-[e = _TRISD -> -> 1 `i `uc ]
+[; ;main.c: 116: TRISA1 = 1;
+[e = _TRISA1 -> -> 1 `i `b ]
+"117
+[; ;main.c: 117: TRISA2 = 1;
+[e = _TRISA2 -> -> 1 `i `b ]
+"118
+[; ;main.c: 118: TRISA3 = 1;
+[e = _TRISA3 -> -> 1 `i `b ]
 "119
-[; ;main.c: 119:   _delay((unsigned long)((100)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
-"120
-[; ;main.c: 120:   RA4 = 0;
-[e = _RA4 -> -> 0 `i `b ]
-"124
-[; ;main.c: 124:     currentTime.hours = readEEPROM(0x00);
-[e = . _currentTime 0 ( _readEEPROM (1 -> -> 0 `i `ui ]
+[; ;main.c: 119: Lcd_Init();
+[e ( _Lcd_Init ..  ]
+"121
+[; ;main.c: 121: TRISC6 = 0;
+[e = _TRISC6 -> -> 0 `i `b ]
+"122
+[; ;main.c: 122: TRISC7 = 1;
+[e = _TRISC7 -> -> 1 `i `b ]
 "125
-[; ;main.c: 125:     currentTime.minutes = readEEPROM(0x01);
-[e = . _currentTime 1 ( _readEEPROM (1 -> -> 1 `i `ui ]
+[; ;main.c: 125: TRISA0 = 0;
+[e = _TRISA0 -> -> 0 `i `b ]
 "126
-[; ;main.c: 126:     currentTime.seconds = readEEPROM(0x02);
-[e = . _currentTime 2 ( _readEEPROM (1 -> -> 2 `i `ui ]
+[; ;main.c: 126: TRISA5 = 0;
+[e = _TRISA5 -> -> 0 `i `b ]
 "127
-[; ;main.c: 127:     char lcdText[9];
-[v _lcdText `uc ~T0 @X0 -> 9 `i a ]
+[; ;main.c: 127: TRISC4 = 0;
+[e = _TRISC4 -> -> 0 `i `b ]
+"128
+[; ;main.c: 128: TRISC5 = 0;
+[e = _TRISC5 -> -> 0 `i `b ]
 "129
-[; ;main.c: 129:     OPTION_REGbits.T0CS = 0;
-[e = . . _OPTION_REGbits 0 3 -> -> 0 `i `uc ]
-"130
-[; ;main.c: 130:     OPTION_REGbits.PSA = 0;
-[e = . . _OPTION_REGbits 0 1 -> -> 0 `i `uc ]
-"131
-[; ;main.c: 131:     OPTION_REGbits.PS2 = 1;
-[e = . . _OPTION_REGbits 1 2 -> -> 1 `i `uc ]
+[; ;main.c: 129: TRISD = 0b00000001;
+[e = _TRISD -> -> 1 `i `uc ]
 "132
-[; ;main.c: 132:     OPTION_REGbits.PS1 = 1;
-[e = . . _OPTION_REGbits 1 1 -> -> 1 `i `uc ]
+[; ;main.c: 132:   _delay((unsigned long)((100)*(4000000/4000.0)));
+[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
 "133
-[; ;main.c: 133:     OPTION_REGbits.PS0 = 1;
-[e = . . _OPTION_REGbits 1 0 -> -> 1 `i `uc ]
-"136
-[; ;main.c: 136:     INTCONbits.GIE = 1;
-[e = . . _INTCONbits 0 7 -> -> 1 `i `uc ]
+[; ;main.c: 133:   RA4 = 0;
+[e = _RA4 -> -> 0 `i `b ]
 "137
-[; ;main.c: 137:     INTCONbits.PEIE = 1;
-[e = . . _INTCONbits 0 6 -> -> 1 `i `uc ]
+[; ;main.c: 137:     currentTime.hours = readEEPROM(0x00);
+[e = . _currentTime 0 ( _readEEPROM (1 -> -> 0 `i `ui ]
 "138
-[; ;main.c: 138:     INTCONbits.T0IE = 1;
-[e = . . _INTCONbits 1 3 -> -> 1 `i `uc ]
-"141
-[; ;main.c: 141:     Lcd_Clear();
-[e ( _Lcd_Clear ..  ]
-"142
-[; ;main.c: 142:     Lcd_Set_Cursor(1,1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+[; ;main.c: 138:     currentTime.minutes = readEEPROM(0x01);
+[e = . _currentTime 1 ( _readEEPROM (1 -> -> 1 `i `ui ]
 "143
-[; ;main.c: 143:     Lcd_Write_String("UZMANLAR MAKINA");
-[e ( _Lcd_Write_String (1 :s 1C ]
-"144
-[; ;main.c: 144:     Lcd_Set_Cursor(2,1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
+[; ;main.c: 143:     char lcdText[9];
+[v _lcdText `uc ~T0 @X0 -> 9 `i a ]
 "145
-[; ;main.c: 145:     Lcd_Write_String("www.borvek.com");
-[e ( _Lcd_Write_String (1 :s 2C ]
+[; ;main.c: 145:     OPTION_REGbits.T0CS = 0;
+[e = . . _OPTION_REGbits 0 3 -> -> 0 `i `uc ]
 "146
-[; ;main.c: 146:     Lcd_Set_Cursor(2,17);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 17 `i `uc ]
+[; ;main.c: 146:     OPTION_REGbits.PSA = 0;
+[e = . . _OPTION_REGbits 0 1 -> -> 0 `i `uc ]
 "147
-[; ;main.c: 147:     Lcd_Write_String("V3");
-[e ( _Lcd_Write_String (1 :s 3C ]
+[; ;main.c: 147:     OPTION_REGbits.PS2 = 1;
+[e = . . _OPTION_REGbits 1 2 -> -> 1 `i `uc ]
+"148
+[; ;main.c: 148:     OPTION_REGbits.PS1 = 1;
+[e = . . _OPTION_REGbits 1 1 -> -> 1 `i `uc ]
 "149
-[; ;main.c: 149:     _delay((unsigned long)((1000)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
-"150
-[; ;main.c: 150:     Lcd_Clear();
-[e ( _Lcd_Clear ..  ]
-"155
-[; ;main.c: 155:     SPBRG = ((4000000/16)/19200) - 1;
-[e = _SPBRG -> - / / -> 4000000 `l -> -> 16 `i `l -> -> 19200 `i `l -> -> 1 `i `l `uc ]
-"156
-[; ;main.c: 156:     UART_Initialize();
-[e ( _UART_Initialize ..  ]
+[; ;main.c: 149:     OPTION_REGbits.PS0 = 1;
+[e = . . _OPTION_REGbits 1 0 -> -> 1 `i `uc ]
+"152
+[; ;main.c: 152:     INTCONbits.GIE = 1;
+[e = . . _INTCONbits 0 7 -> -> 1 `i `uc ]
+"153
+[; ;main.c: 153:     INTCONbits.PEIE = 1;
+[e = . . _INTCONbits 0 6 -> -> 1 `i `uc ]
+"154
+[; ;main.c: 154:     INTCONbits.T0IE = 1;
+[e = . . _INTCONbits 1 3 -> -> 1 `i `uc ]
 "157
-[; ;main.c: 157: unsigned int displayValue = 0;
+[; ;main.c: 157:     Lcd_Clear();
+[e ( _Lcd_Clear ..  ]
+"158
+[; ;main.c: 158:     Lcd_Set_Cursor(1,1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+"159
+[; ;main.c: 159:     Lcd_Write_String("UZMANLAR MAKINA");
+[e ( _Lcd_Write_String (1 :s 1C ]
+"160
+[; ;main.c: 160:     Lcd_Set_Cursor(2,1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
+"161
+[; ;main.c: 161:     Lcd_Write_String("www.borvek.com");
+[e ( _Lcd_Write_String (1 :s 2C ]
+"162
+[; ;main.c: 162:     Lcd_Set_Cursor(2,17);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 17 `i `uc ]
+"163
+[; ;main.c: 163:     Lcd_Write_String("V3");
+[e ( _Lcd_Write_String (1 :s 3C ]
+"165
+[; ;main.c: 165:     _delay((unsigned long)((1000)*(4000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+"166
+[; ;main.c: 166:     Lcd_Clear();
+[e ( _Lcd_Clear ..  ]
+"171
+[; ;main.c: 171:     SPBRG = ((4000000/16)/19200) - 1;
+[e = _SPBRG -> - / / -> 4000000 `l -> -> 16 `i `l -> -> 19200 `i `l -> -> 1 `i `l `uc ]
+"172
+[; ;main.c: 172:     UART_Initialize();
+[e ( _UART_Initialize ..  ]
+"173
+[; ;main.c: 173: unsigned int displayValue = 0;
 [v _displayValue `ui ~T0 @X0 1 a ]
 [e = _displayValue -> -> 0 `i `ui ]
-"162
-[; ;main.c: 162:     ADCON1bits.ADFM = 1;
-[e = . . _ADCON1bits 0 3 -> -> 1 `i `uc ]
-"163
-[; ;main.c: 163:     ADCON1bits.PCFG = 0b100;
-[e = . . _ADCON1bits 0 0 -> -> 4 `i `uc ]
-"164
-[; ;main.c: 164:     ADCON0bits.ADCS = 0b10;
-[e = . . _ADCON0bits 0 4 -> -> 2 `i `uc ]
-"165
-[; ;main.c: 165:     ADCON0bits.ADON = 1;
-[e = . . _ADCON0bits 0 0 -> -> 1 `i `uc ]
-"167
-[; ;main.c: 167:     float adcValue1;
-[v _adcValue1 `f ~T0 @X0 1 a ]
-"168
-[; ;main.c: 168:     unsigned int adcValue2;
-[v _adcValue2 `ui ~T0 @X0 1 a ]
-"169
-[; ;main.c: 169:     unsigned int adcValue3;
-[v _adcValue3 `ui ~T0 @X0 1 a ]
-"170
-[; ;main.c: 170:     float rpmtofloat;
-[v _rpmtofloat `f ~T0 @X0 1 a ]
-"175
-[; ;main.c: 175:     RC1 = 0;
-[e = _RC1 -> -> 0 `i `b ]
-"176
-[; ;main.c: 176:     RE2 = 0;
-[e = _RE2 -> -> 0 `i `b ]
-"177
-[; ;main.c: 177:     RE0 = 0;
-[e = _RE0 -> -> 0 `i `b ]
 "178
-[; ;main.c: 178:     RC2 = 0;
-[e = _RC2 -> -> 0 `i `b ]
+[; ;main.c: 178:     ADCON1bits.ADFM = 1;
+[e = . . _ADCON1bits 0 3 -> -> 1 `i `uc ]
 "179
-[; ;main.c: 179:     RC0 = 0;
-[e = _RC0 -> -> 0 `i `b ]
+[; ;main.c: 179:     ADCON1bits.PCFG = 0b100;
+[e = . . _ADCON1bits 0 0 -> -> 4 `i `uc ]
 "180
-[; ;main.c: 180:     RE1 = 0;
+[; ;main.c: 180:     ADCON0bits.ADCS = 0b10;
+[e = . . _ADCON0bits 0 4 -> -> 2 `i `uc ]
+"181
+[; ;main.c: 181:     ADCON0bits.ADON = 1;
+[e = . . _ADCON0bits 0 0 -> -> 1 `i `uc ]
+"183
+[; ;main.c: 183:     float adcValue1;
+[v _adcValue1 `f ~T0 @X0 1 a ]
+"184
+[; ;main.c: 184:     int adcValue2;
+[v _adcValue2 `i ~T0 @X0 1 a ]
+"185
+[; ;main.c: 185:     float adcValue3;
+[v _adcValue3 `f ~T0 @X0 1 a ]
+"186
+[; ;main.c: 186:     float rpmtofloat;
+[v _rpmtofloat `f ~T0 @X0 1 a ]
+"191
+[; ;main.c: 191:     RC1 = 0;
+[e = _RC1 -> -> 0 `i `b ]
+"192
+[; ;main.c: 192:     RE2 = 0;
+[e = _RE2 -> -> 0 `i `b ]
+"193
+[; ;main.c: 193:     RE0 = 0;
+[e = _RE0 -> -> 0 `i `b ]
+"194
+[; ;main.c: 194:     RC2 = 0;
+[e = _RC2 -> -> 0 `i `b ]
+"195
+[; ;main.c: 195:     RC0 = 0;
+[e = _RC0 -> -> 0 `i `b ]
+"196
+[; ;main.c: 196:     RE1 = 0;
 [e = _RE1 -> -> 0 `i `b ]
-"182
-[; ;main.c: 182: int ilkAcilis = 1;
+"198
+[; ;main.c: 198: int ilkAcilis = 1;
 [v _ilkAcilis `i ~T0 @X0 1 a ]
 [e = _ilkAcilis -> 1 `i ]
-"184
-[; ;main.c: 184: while(1){
-[e :U 132 ]
-{
-"186
-[; ;main.c: 186: if (ilkAcilis) {
-[e $ ! != _ilkAcilis -> 0 `i 134  ]
-{
-"188
-[; ;main.c: 188:     Lcd_Set_Cursor(1,1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-"189
-[; ;main.c: 189:     Lcd_Write_String("STOP DURUMUNA GETIR");
-[e ( _Lcd_Write_String (1 :s 4C ]
-"190
-[; ;main.c: 190:     Lcd_Set_Cursor(2,1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
-"191
-[; ;main.c: 191:     Lcd_Write_String("PUT IT IN STOP STATE");
-[e ( _Lcd_Write_String (1 :s 5C ]
-"192
-[; ;main.c: 192:         if ( RE2 == 0 && RE0 == 0 && RC0 == 0 && RE1 == 0) {
-[e $ ! && && && == -> _RE2 `i -> 0 `i == -> _RE0 `i -> 0 `i == -> _RC0 `i -> 0 `i == -> _RE1 `i -> 0 `i 135  ]
-{
-"193
-[; ;main.c: 193:             ilkAcilis = 0;
-[e = _ilkAcilis -> 0 `i ]
-"194
-[; ;main.c: 194:         } else {
-}
-[e $U 136  ]
-[e :U 135 ]
-{
-"196
-[; ;main.c: 196:             return 0;
-[e ) -> 0 `i ]
-[e $UE 130  ]
-"197
-[; ;main.c: 197:         }
-}
-[e :U 136 ]
-"198
-[; ;main.c: 198:     }
-}
-[e :U 134 ]
 "200
-[; ;main.c: 200: if( !RC3 && !RD0){
-[e $ ! && ! _RC3 ! _RD0 137  ]
+[; ;main.c: 200: while(1){
+[e :U 133 ]
 {
-"201
-[; ;main.c: 201:      if ((currentTime.hours == 500 || currentTime.hours == 501 || currentTime.hours == 502) && currentTime.minutes == 1) {
-[e $ ! && || || == . _currentTime 0 -> -> 500 `i `ui == . _currentTime 0 -> -> 501 `i `ui == . _currentTime 0 -> -> 502 `i `ui == . _currentTime 1 -> -> 1 `i `ui 138  ]
+"202
+[; ;main.c: 202: if (ilkAcilis) {
+[e $ ! != _ilkAcilis -> 0 `i 135  ]
 {
-"203
-[; ;main.c: 203:     Lcd_Clear();
-[e ( _Lcd_Clear ..  ]
 "204
-[; ;main.c: 204:     int i=0 ;
-[v _i `i ~T0 @X0 1 a ]
-[e = _i -> 0 `i ]
-"205
-[; ;main.c: 205:     for(; i < 10; i++)
-{
-[e $ < _i -> 10 `i 139  ]
-[e $U 140  ]
-[e :U 139 ]
-"206
-[; ;main.c: 206: {
-{
-"207
-[; ;main.c: 207:    Lcd_Set_Cursor(1, 1);
+[; ;main.c: 204:     Lcd_Set_Cursor(1,1);
 [e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-"208
-[; ;main.c: 208: Lcd_Write_String("YAG BAKIMI YAPINIZ");
-[e ( _Lcd_Write_String (1 :s 6C ]
-"209
-[; ;main.c: 209: Lcd_Set_Cursor(2, 1);
+"205
+[; ;main.c: 205:     Lcd_Write_String("STOP DURUMUNA GETIR");
+[e ( _Lcd_Write_String (1 :s 4C ]
+"206
+[; ;main.c: 206:     Lcd_Set_Cursor(2,1);
 [e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
+"207
+[; ;main.c: 207:     Lcd_Write_String("PUT IT IN STOP STATE");
+[e ( _Lcd_Write_String (1 :s 5C ]
+"208
+[; ;main.c: 208:     _delay((unsigned long)((500)*(4000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+"209
+[; ;main.c: 209:         if ( RE2 == 0 && RE0 == 0 && RC0 == 0 && RE1 == 0) {
+[e $ ! && && && == -> _RE2 `i -> 0 `i == -> _RE0 `i -> 0 `i == -> _RC0 `i -> 0 `i == -> _RE1 `i -> 0 `i 136  ]
+{
 "210
-[; ;main.c: 210: Lcd_Write_String("OIL THE GEARS");
-[e ( _Lcd_Write_String (1 :s 7C ]
+[; ;main.c: 210:             ilkAcilis = 0;
+[e = _ilkAcilis -> 0 `i ]
 "211
-[; ;main.c: 211: RA4 = 1;
-[e = _RA4 -> -> 1 `i `b ]
-"212
-[; ;main.c: 212: }
+[; ;main.c: 211:         } else {
 }
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 10 `i 139  ]
-[e :U 140 ]
-}
+[e $U 137  ]
+[e :U 136 ]
+{
 "213
-[; ;main.c: 213:     Lcd_Clear();
-[e ( _Lcd_Clear ..  ]
-"215
-[; ;main.c: 215:     RA4 = 0;
-[e = _RA4 -> -> 0 `i `b ]
-"216
-[; ;main.c: 216: }
+[; ;main.c: 213:             return 0;
+[e ) -> 0 `i ]
+[e $UE 131  ]
+"214
+[; ;main.c: 214:         }
 }
-[e :U 138 ]
+[e :U 137 ]
+"215
+[; ;main.c: 215:     }
+}
+[e :U 135 ]
+"217
+[; ;main.c: 217: if( !RC3 && !RD0){
+[e $ ! && ! _RC3 ! _RD0 138  ]
+{
 "218
-[; ;main.c: 218: if ((currentTime.hours == 500 || currentTime.hours == 501 || currentTime.hours == 502) && currentTime.minutes == 0) {
-[e $ ! && || || == . _currentTime 0 -> -> 500 `i `ui == . _currentTime 0 -> -> 501 `i `ui == . _currentTime 0 -> -> 502 `i `ui == . _currentTime 1 -> -> 0 `i `ui 142  ]
+[; ;main.c: 218:      if ((currentTime.hours == 500 || currentTime.hours == 501 || currentTime.hours == 502) && currentTime.minutes == 1) {
+[e $ ! && || || == . _currentTime 0 -> -> 500 `i `ui == . _currentTime 0 -> -> 501 `i `ui == . _currentTime 0 -> -> 502 `i `ui == . _currentTime 1 -> -> 1 `i `ui 139  ]
 {
 "220
 [; ;main.c: 220:     Lcd_Clear();
@@ -1247,9 +1221,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "222
 [; ;main.c: 222:     for(; i < 10; i++)
 {
-[e $ < _i -> 10 `i 143  ]
-[e $U 144  ]
-[e :U 143 ]
+[e $ < _i -> 10 `i 140  ]
+[e $U 141  ]
+[e :U 140 ]
 "223
 [; ;main.c: 223: {
 {
@@ -1258,13 +1232,13 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
 "225
 [; ;main.c: 225: Lcd_Write_String("YAG BAKIMI YAPINIZ");
-[e ( _Lcd_Write_String (1 :s 8C ]
+[e ( _Lcd_Write_String (1 :s 6C ]
 "226
 [; ;main.c: 226: Lcd_Set_Cursor(2, 1);
 [e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
 "227
 [; ;main.c: 227: Lcd_Write_String("OIL THE GEARS");
-[e ( _Lcd_Write_String (1 :s 9C ]
+[e ( _Lcd_Write_String (1 :s 7C ]
 "228
 [; ;main.c: 228: RA4 = 1;
 [e = _RA4 -> -> 1 `i `b ]
@@ -1272,705 +1246,762 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 229: }
 }
 [e ++ _i -> 1 `i ]
-[e $ < _i -> 10 `i 143  ]
-[e :U 144 ]
+[e $ < _i -> 10 `i 140  ]
+[e :U 141 ]
 }
 "230
 [; ;main.c: 230:     Lcd_Clear();
 [e ( _Lcd_Clear ..  ]
-"231
-[; ;main.c: 231:     RA4 = 0;
-[e = _RA4 -> -> 0 `i `b ]
 "232
-[; ;main.c: 232: }
+[; ;main.c: 232:     RA4 = 0;
+[e = _RA4 -> -> 0 `i `b ]
+"233
+[; ;main.c: 233: }
 }
-[e :U 142 ]
-"234
-[; ;main.c: 234: if ((currentTime.hours == 1000 || currentTime.hours == 1001 || currentTime.hours == 1002) && currentTime.minutes == 0) {
-[e $ ! && || || == . _currentTime 0 -> -> 1000 `i `ui == . _currentTime 0 -> -> 1001 `i `ui == . _currentTime 0 -> -> 1002 `i `ui == . _currentTime 1 -> -> 0 `i `ui 146  ]
+[e :U 139 ]
+"235
+[; ;main.c: 235: if ((currentTime.hours == 500 || currentTime.hours == 501 || currentTime.hours == 502) && currentTime.minutes == 0) {
+[e $ ! && || || == . _currentTime 0 -> -> 500 `i `ui == . _currentTime 0 -> -> 501 `i `ui == . _currentTime 0 -> -> 502 `i `ui == . _currentTime 1 -> -> 0 `i `ui 143  ]
 {
-"236
-[; ;main.c: 236:     Lcd_Clear();
-[e ( _Lcd_Clear ..  ]
 "237
-[; ;main.c: 237:     int i=0 ;
-[v _i `i ~T0 @X0 1 a ]
-[e = _i -> 0 `i ]
+[; ;main.c: 237:     Lcd_Clear();
+[e ( _Lcd_Clear ..  ]
 "238
-[; ;main.c: 238:     for(; i < 10; i++)
-{
-[e $ < _i -> 10 `i 147  ]
-[e $U 148  ]
-[e :U 147 ]
+[; ;main.c: 238:     int i=0 ;
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
 "239
-[; ;main.c: 239: {
+[; ;main.c: 239:     for(; i < 10; i++)
 {
+[e $ < _i -> 10 `i 144  ]
+[e $U 145  ]
+[e :U 144 ]
 "240
-[; ;main.c: 240:    Lcd_Set_Cursor(1, 1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+[; ;main.c: 240: {
+{
 "241
-[; ;main.c: 241: Lcd_Write_String("YAG BAKIMI YAPINIZ");
-[e ( _Lcd_Write_String (1 :s 10C ]
+[; ;main.c: 241:    Lcd_Set_Cursor(1, 1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
 "242
-[; ;main.c: 242: Lcd_Set_Cursor(2, 1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
+[; ;main.c: 242: Lcd_Write_String("YAG BAKIMI YAPINIZ");
+[e ( _Lcd_Write_String (1 :s 8C ]
 "243
-[; ;main.c: 243: Lcd_Write_String("OIL THE GEARS");
-[e ( _Lcd_Write_String (1 :s 11C ]
+[; ;main.c: 243: Lcd_Set_Cursor(2, 1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
 "244
-[; ;main.c: 244: RA4 = 1;
-[e = _RA4 -> -> 1 `i `b ]
+[; ;main.c: 244: Lcd_Write_String("OIL THE GEARS");
+[e ( _Lcd_Write_String (1 :s 9C ]
 "245
-[; ;main.c: 245: }
-}
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 10 `i 147  ]
-[e :U 148 ]
-}
+[; ;main.c: 245: RA4 = 1;
+[e = _RA4 -> -> 1 `i `b ]
 "246
-[; ;main.c: 246:     Lcd_Clear();
-[e ( _Lcd_Clear ..  ]
+[; ;main.c: 246: }
+}
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 10 `i 144  ]
+[e :U 145 ]
+}
 "247
-[; ;main.c: 247:     RA4 = 0;
-[e = _RA4 -> -> 0 `i `b ]
+[; ;main.c: 247:     Lcd_Clear();
+[e ( _Lcd_Clear ..  ]
 "248
-[; ;main.c: 248: }
+[; ;main.c: 248:     RA4 = 0;
+[e = _RA4 -> -> 0 `i `b ]
+"249
+[; ;main.c: 249: }
 }
-[e :U 146 ]
-"250
-[; ;main.c: 250: if ((currentTime.hours == 1500 || currentTime.hours == 1501 || currentTime.hours == 1502) && currentTime.minutes == 0) {
-[e $ ! && || || == . _currentTime 0 -> -> 1500 `i `ui == . _currentTime 0 -> -> 1501 `i `ui == . _currentTime 0 -> -> 1502 `i `ui == . _currentTime 1 -> -> 0 `i `ui 150  ]
+[e :U 143 ]
+"251
+[; ;main.c: 251: if ((currentTime.hours == 1000 || currentTime.hours == 1001 || currentTime.hours == 1002) && currentTime.minutes == 0) {
+[e $ ! && || || == . _currentTime 0 -> -> 1000 `i `ui == . _currentTime 0 -> -> 1001 `i `ui == . _currentTime 0 -> -> 1002 `i `ui == . _currentTime 1 -> -> 0 `i `ui 147  ]
 {
-"252
-[; ;main.c: 252:     Lcd_Clear();
-[e ( _Lcd_Clear ..  ]
 "253
-[; ;main.c: 253:     int i=0 ;
-[v _i `i ~T0 @X0 1 a ]
-[e = _i -> 0 `i ]
+[; ;main.c: 253:     Lcd_Clear();
+[e ( _Lcd_Clear ..  ]
 "254
-[; ;main.c: 254:     for(; i < 10; i++)
-{
-[e $ < _i -> 10 `i 151  ]
-[e $U 152  ]
-[e :U 151 ]
+[; ;main.c: 254:     int i=0 ;
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
 "255
-[; ;main.c: 255: {
+[; ;main.c: 255:     for(; i < 10; i++)
 {
+[e $ < _i -> 10 `i 148  ]
+[e $U 149  ]
+[e :U 148 ]
 "256
-[; ;main.c: 256:    Lcd_Set_Cursor(1, 1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+[; ;main.c: 256: {
+{
 "257
-[; ;main.c: 257: Lcd_Write_String("YAG BAKIMI YAPINIZ");
-[e ( _Lcd_Write_String (1 :s 12C ]
+[; ;main.c: 257:    Lcd_Set_Cursor(1, 1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
 "258
-[; ;main.c: 258: Lcd_Set_Cursor(2, 1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
+[; ;main.c: 258: Lcd_Write_String("YAG BAKIMI YAPINIZ");
+[e ( _Lcd_Write_String (1 :s 10C ]
 "259
-[; ;main.c: 259: Lcd_Write_String("OIL THE GEARS");
-[e ( _Lcd_Write_String (1 :s 13C ]
+[; ;main.c: 259: Lcd_Set_Cursor(2, 1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
 "260
-[; ;main.c: 260: RA4 = 1;
-[e = _RA4 -> -> 1 `i `b ]
+[; ;main.c: 260: Lcd_Write_String("OIL THE GEARS");
+[e ( _Lcd_Write_String (1 :s 11C ]
 "261
-[; ;main.c: 261: }
-}
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 10 `i 151  ]
-[e :U 152 ]
-}
+[; ;main.c: 261: RA4 = 1;
+[e = _RA4 -> -> 1 `i `b ]
 "262
-[; ;main.c: 262:     Lcd_Clear();
-[e ( _Lcd_Clear ..  ]
+[; ;main.c: 262: }
+}
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 10 `i 148  ]
+[e :U 149 ]
+}
 "263
-[; ;main.c: 263:     RA4 = 0;
-[e = _RA4 -> -> 0 `i `b ]
+[; ;main.c: 263:     Lcd_Clear();
+[e ( _Lcd_Clear ..  ]
 "264
-[; ;main.c: 264: }
+[; ;main.c: 264:     RA4 = 0;
+[e = _RA4 -> -> 0 `i `b ]
+"265
+[; ;main.c: 265: }
 }
-[e :U 150 ]
-"266
-[; ;main.c: 266: if ((currentTime.hours == 2000 || currentTime.hours == 2001 || currentTime.hours == 2002) && currentTime.minutes == 0) {
-[e $ ! && || || == . _currentTime 0 -> -> 2000 `i `ui == . _currentTime 0 -> -> 2001 `i `ui == . _currentTime 0 -> -> 2002 `i `ui == . _currentTime 1 -> -> 0 `i `ui 154  ]
+[e :U 147 ]
+"267
+[; ;main.c: 267: if ((currentTime.hours == 1500 || currentTime.hours == 1501 || currentTime.hours == 1502) && currentTime.minutes == 0) {
+[e $ ! && || || == . _currentTime 0 -> -> 1500 `i `ui == . _currentTime 0 -> -> 1501 `i `ui == . _currentTime 0 -> -> 1502 `i `ui == . _currentTime 1 -> -> 0 `i `ui 151  ]
 {
-"268
-[; ;main.c: 268:     Lcd_Clear();
-[e ( _Lcd_Clear ..  ]
 "269
-[; ;main.c: 269:     int i=0 ;
-[v _i `i ~T0 @X0 1 a ]
-[e = _i -> 0 `i ]
+[; ;main.c: 269:     Lcd_Clear();
+[e ( _Lcd_Clear ..  ]
 "270
-[; ;main.c: 270:     for(; i < 10; i++)
-{
-[e $ < _i -> 10 `i 155  ]
-[e $U 156  ]
-[e :U 155 ]
-"271
-[; ;main.c: 271: {
-{
-"272
-[; ;main.c: 272:    Lcd_Set_Cursor(1, 1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-"273
-[; ;main.c: 273: Lcd_Write_String("YAG BAKIMI YAPINIZ");
-[e ( _Lcd_Write_String (1 :s 14C ]
-"274
-[; ;main.c: 274: Lcd_Set_Cursor(2, 1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
-"275
-[; ;main.c: 275: Lcd_Write_String("OIL THE GEARS");
-[e ( _Lcd_Write_String (1 :s 15C ]
-"276
-[; ;main.c: 276: RA4 = 1;
-[e = _RA4 -> -> 1 `i `b ]
-"277
-[; ;main.c: 277: }
-}
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 10 `i 155  ]
-[e :U 156 ]
-}
-"278
-[; ;main.c: 278:     Lcd_Clear();
-[e ( _Lcd_Clear ..  ]
-"279
-[; ;main.c: 279:     RA4 = 0;
-[e = _RA4 -> -> 0 `i `b ]
-"280
-[; ;main.c: 280: }
-}
-[e :U 154 ]
-"282
-[; ;main.c: 282: if ((currentTime.hours == 2500 || currentTime.hours == 2501 || currentTime.hours == 2502) && currentTime.minutes == 0) {
-[e $ ! && || || == . _currentTime 0 -> -> 2500 `i `ui == . _currentTime 0 -> -> 2501 `i `ui == . _currentTime 0 -> -> 2502 `i `ui == . _currentTime 1 -> -> 0 `i `ui 158  ]
-{
-"284
-[; ;main.c: 284:     Lcd_Clear();
-[e ( _Lcd_Clear ..  ]
-"285
-[; ;main.c: 285:     int i=0 ;
+[; ;main.c: 270:     int i=0 ;
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 0 `i ]
-"286
-[; ;main.c: 286:     for(; i < 10; i++)
+"271
+[; ;main.c: 271:     for(; i < 10; i++)
 {
-[e $ < _i -> 10 `i 159  ]
-[e $U 160  ]
-[e :U 159 ]
-"287
-[; ;main.c: 287: {
+[e $ < _i -> 10 `i 152  ]
+[e $U 153  ]
+[e :U 152 ]
+"272
+[; ;main.c: 272: {
 {
-"288
-[; ;main.c: 288:    Lcd_Set_Cursor(1, 1);
+"273
+[; ;main.c: 273:    Lcd_Set_Cursor(1, 1);
 [e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-"289
-[; ;main.c: 289: Lcd_Write_String("YAG BAKIMI YAPINIZ");
-[e ( _Lcd_Write_String (1 :s 16C ]
-"290
-[; ;main.c: 290: Lcd_Set_Cursor(2, 1);
+"274
+[; ;main.c: 274: Lcd_Write_String("YAG BAKIMI YAPINIZ");
+[e ( _Lcd_Write_String (1 :s 12C ]
+"275
+[; ;main.c: 275: Lcd_Set_Cursor(2, 1);
 [e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
-"291
-[; ;main.c: 291: Lcd_Write_String("OIL THE GEARS");
-[e ( _Lcd_Write_String (1 :s 17C ]
-"292
-[; ;main.c: 292: RA4 = 1;
+"276
+[; ;main.c: 276: Lcd_Write_String("OIL THE GEARS");
+[e ( _Lcd_Write_String (1 :s 13C ]
+"277
+[; ;main.c: 277: RA4 = 1;
 [e = _RA4 -> -> 1 `i `b ]
-"293
-[; ;main.c: 293: }
+"278
+[; ;main.c: 278: }
 }
 [e ++ _i -> 1 `i ]
-[e $ < _i -> 10 `i 159  ]
-[e :U 160 ]
+[e $ < _i -> 10 `i 152  ]
+[e :U 153 ]
 }
-"294
-[; ;main.c: 294:     Lcd_Clear();
+"279
+[; ;main.c: 279:     Lcd_Clear();
 [e ( _Lcd_Clear ..  ]
-"295
-[; ;main.c: 295:     RA4 = 0;
+"280
+[; ;main.c: 280:     RA4 = 0;
 [e = _RA4 -> -> 0 `i `b ]
-"296
-[; ;main.c: 296: }
+"281
+[; ;main.c: 281: }
 }
-[e :U 158 ]
-"299
-[; ;main.c: 299:         sprintf(lcdText, "%5uh %02um", currentTime.hours, currentTime.minutes);
-[e ( _sprintf (1 , , (. , &U _lcdText :s 18C . _currentTime 0 . _currentTime 1 ]
-"302
-[; ;main.c: 302:      Lcd_Set_Cursor(1, 10);
-[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 10 `i `uc ]
-"303
-[; ;main.c: 303:      Lcd_Write_String("  ");
-[e ( _Lcd_Write_String (1 :s 19C ]
-"304
-[; ;main.c: 304:      Lcd_Set_Cursor(1, 11);
-[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 11 `i `uc ]
-"305
-[; ;main.c: 305:      Lcd_Write_String(lcdText);
-[e ( _Lcd_Write_String (1 &U _lcdText ]
-"308
-[; ;main.c: 308:         writeEEPROM(0x00, currentTime.hours);
-[e ( _writeEEPROM (2 , -> -> 0 `i `ui . _currentTime 0 ]
-"309
-[; ;main.c: 309:         writeEEPROM(0x01, currentTime.minutes);
-[e ( _writeEEPROM (2 , -> -> 1 `i `ui . _currentTime 1 ]
-"310
-[; ;main.c: 310:         writeEEPROM(0x02, currentTime.seconds);
-[e ( _writeEEPROM (2 , -> -> 2 `i `ui . _currentTime 2 ]
-"313
-[; ;main.c: 313:     ADCON0bits.CHS = 0b0011;
-[e = . . _ADCON0bits 0 3 -> -> 3 `i `uc ]
-"314
-[; ;main.c: 314:     ADCON0bits.GO = 1;
-[e = . . _ADCON0bits 1 1 -> -> 1 `i `uc ]
-"315
-[; ;main.c: 315:     while (ADCON0bits.GO);
-[e $U 162  ]
-[e :U 163 ]
-[e :U 162 ]
-[e $ != -> . . _ADCON0bits 1 1 `i -> 0 `i 163  ]
-[e :U 164 ]
-"316
-[; ;main.c: 316:     adcValue2 = (ADRESH << 8) | ADRESL;
-[e = _adcValue2 -> | << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
-"318
-[; ;main.c: 318:     unsigned int integerPart = adcValue2*3 ;
-[v _integerPart `ui ~T0 @X0 1 a ]
-[e = _integerPart * _adcValue2 -> -> 3 `i `ui ]
-"320
-[; ;main.c: 320:     int binler = integerPart/1000;
-[v _binler `i ~T0 @X0 1 a ]
-[e = _binler -> / _integerPart -> -> 1000 `i `ui `i ]
-"321
-[; ;main.c: 321:     int yuzler = (integerPart-binler*1000)/100;
-[v _yuzler `i ~T0 @X0 1 a ]
-[e = _yuzler -> / - _integerPart -> * _binler -> 1000 `i `ui -> -> 100 `i `ui `i ]
-"322
-[; ;main.c: 322:     int onlar = (integerPart-binler*1000-yuzler*100)/10;
-[v _onlar `i ~T0 @X0 1 a ]
-[e = _onlar -> / - - _integerPart -> * _binler -> 1000 `i `ui -> * _yuzler -> 100 `i `ui -> -> 10 `i `ui `i ]
-"323
-[; ;main.c: 323:     int birler = integerPart%10;
-[v _birler `i ~T0 @X0 1 a ]
-[e = _birler -> % _integerPart -> -> 10 `i `ui `i ]
-"329
-[; ;main.c: 329:         ADCON0bits.CHS = 0b0001;
-[e = . . _ADCON0bits 0 3 -> -> 1 `i `uc ]
-"330
-[; ;main.c: 330:         _delay((unsigned long)((50)*(4000000/4000000.0)));
-[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 4000000 `l `d .4000000.0 `ul ]
-"331
-[; ;main.c: 331:         ADCON0bits.GO = 1;
-[e = . . _ADCON0bits 1 1 -> -> 1 `i `uc ]
-"332
-[; ;main.c: 332:         while (ADCON0bits.GO);
-[e $U 165  ]
-[e :U 166 ]
-[e :U 165 ]
-[e $ != -> . . _ADCON0bits 1 1 `i -> 0 `i 166  ]
-[e :U 167 ]
-"333
-[; ;main.c: 333:         adcValue1 = (ADRESH << 8) | ADRESL;
-[e = _adcValue1 -> | << -> _ADRESH `i -> 8 `i -> _ADRESL `i `f ]
-"334
-[; ;main.c: 334:         if (RE2==0 && RC0== 0 ){
-[e $ ! && == -> _RE2 `i -> 0 `i == -> _RC0 `i -> 0 `i 168  ]
+[e :U 151 ]
+"283
+[; ;main.c: 283: if ((currentTime.hours == 2000 || currentTime.hours == 2001 || currentTime.hours == 2002) && currentTime.minutes == 0) {
+[e $ ! && || || == . _currentTime 0 -> -> 2000 `i `ui == . _currentTime 0 -> -> 2001 `i `ui == . _currentTime 0 -> -> 2002 `i `ui == . _currentTime 1 -> -> 0 `i `ui 155  ]
 {
-"335
-[; ;main.c: 335:         displayValue = (int)adcValue1 >> 1;
-[e = _displayValue -> >> -> _adcValue1 `i -> 1 `i `ui ]
-"336
-[; ;main.c: 336:         }
+"285
+[; ;main.c: 285:     Lcd_Clear();
+[e ( _Lcd_Clear ..  ]
+"286
+[; ;main.c: 286:     int i=0 ;
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
+"287
+[; ;main.c: 287:     for(; i < 10; i++)
+{
+[e $ < _i -> 10 `i 156  ]
+[e $U 157  ]
+[e :U 156 ]
+"288
+[; ;main.c: 288: {
+{
+"289
+[; ;main.c: 289:    Lcd_Set_Cursor(1, 1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+"290
+[; ;main.c: 290: Lcd_Write_String("YAG BAKIMI YAPINIZ");
+[e ( _Lcd_Write_String (1 :s 14C ]
+"291
+[; ;main.c: 291: Lcd_Set_Cursor(2, 1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
+"292
+[; ;main.c: 292: Lcd_Write_String("OIL THE GEARS");
+[e ( _Lcd_Write_String (1 :s 15C ]
+"293
+[; ;main.c: 293: RA4 = 1;
+[e = _RA4 -> -> 1 `i `b ]
+"294
+[; ;main.c: 294: }
 }
-[e :U 168 ]
-"337
-[; ;main.c: 337:         float gostermeliklcd = adcValue1 / 1024 * 1000;
-[v _gostermeliklcd `f ~T0 @X0 1 a ]
-[e = _gostermeliklcd * / _adcValue1 -> -> 1024 `i `f -> -> 1000 `i `f ]
-"340
-[; ;main.c: 340:     ADCON0bits.CHS = 0b0010;
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 10 `i 156  ]
+[e :U 157 ]
+}
+"295
+[; ;main.c: 295:     Lcd_Clear();
+[e ( _Lcd_Clear ..  ]
+"296
+[; ;main.c: 296:     RA4 = 0;
+[e = _RA4 -> -> 0 `i `b ]
+"297
+[; ;main.c: 297: }
+}
+[e :U 155 ]
+"299
+[; ;main.c: 299: if ((currentTime.hours == 2500 || currentTime.hours == 2501 || currentTime.hours == 2502) && currentTime.minutes == 0) {
+[e $ ! && || || == . _currentTime 0 -> -> 2500 `i `ui == . _currentTime 0 -> -> 2501 `i `ui == . _currentTime 0 -> -> 2502 `i `ui == . _currentTime 1 -> -> 0 `i `ui 159  ]
+{
+"301
+[; ;main.c: 301:     Lcd_Clear();
+[e ( _Lcd_Clear ..  ]
+"302
+[; ;main.c: 302:     int i=0 ;
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
+"303
+[; ;main.c: 303:     for(; i < 10; i++)
+{
+[e $ < _i -> 10 `i 160  ]
+[e $U 161  ]
+[e :U 160 ]
+"304
+[; ;main.c: 304: {
+{
+"305
+[; ;main.c: 305:    Lcd_Set_Cursor(1, 1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+"306
+[; ;main.c: 306: Lcd_Write_String("YAG BAKIMI YAPINIZ");
+[e ( _Lcd_Write_String (1 :s 16C ]
+"307
+[; ;main.c: 307: Lcd_Set_Cursor(2, 1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
+"308
+[; ;main.c: 308: Lcd_Write_String("OIL THE GEARS");
+[e ( _Lcd_Write_String (1 :s 17C ]
+"309
+[; ;main.c: 309: RA4 = 1;
+[e = _RA4 -> -> 1 `i `b ]
+"310
+[; ;main.c: 310: }
+}
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 10 `i 160  ]
+[e :U 161 ]
+}
+"311
+[; ;main.c: 311:     Lcd_Clear();
+[e ( _Lcd_Clear ..  ]
+"312
+[; ;main.c: 312:     RA4 = 0;
+[e = _RA4 -> -> 0 `i `b ]
+"313
+[; ;main.c: 313: }
+}
+[e :U 159 ]
+"314
+[; ;main.c: 314:    int saat = readEEPROM(0x00);
+[v _saat `i ~T0 @X0 1 a ]
+[e = _saat -> ( _readEEPROM (1 -> -> 0 `i `ui `i ]
+"315
+[; ;main.c: 315:    int dakika = readEEPROM(0x01);
+[v _dakika `i ~T0 @X0 1 a ]
+[e = _dakika -> ( _readEEPROM (1 -> -> 1 `i `ui `i ]
+"318
+[; ;main.c: 318:         sprintf(lcdText, "%5uh %02um", saat, dakika);
+[e ( _sprintf (1 , , (. , &U _lcdText :s 18C _saat _dakika ]
+"321
+[; ;main.c: 321:      Lcd_Set_Cursor(1, 10);
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 10 `i `uc ]
+"322
+[; ;main.c: 322:      Lcd_Write_String("  ");
+[e ( _Lcd_Write_String (1 :s 19C ]
+"323
+[; ;main.c: 323:      Lcd_Set_Cursor(1, 11);
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 11 `i `uc ]
+"324
+[; ;main.c: 324:      Lcd_Write_String(lcdText);
+[e ( _Lcd_Write_String (1 &U _lcdText ]
+"328
+[; ;main.c: 328:     ADCON0bits.CHS = 0b0010;
 [e = . . _ADCON0bits 0 3 -> -> 2 `i `uc ]
-"341
-[; ;main.c: 341:     ADCON0bits.GO = 1;
+"329
+[; ;main.c: 329:     _delay((unsigned long)((50)*(4000000/4000000.0)));
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 4000000 `l `d .4000000.0 `ul ]
+"330
+[; ;main.c: 330:     ADCON0bits.GO = 1;
 [e = . . _ADCON0bits 1 1 -> -> 1 `i `uc ]
-"342
-[; ;main.c: 342:     while (ADCON0bits.GO);
+"331
+[; ;main.c: 331:     while (ADCON0bits.GO);
+[e $U 163  ]
+[e :U 164 ]
+[e :U 163 ]
+[e $ != -> . . _ADCON0bits 1 1 `i -> 0 `i 164  ]
+[e :U 165 ]
+"332
+[; ;main.c: 332:     adcValue3 = (ADRESH << 8) | ADRESL;
+[e = _adcValue3 -> | << -> _ADRESH `i -> 8 `i -> _ADRESL `i `f ]
+"333
+[; ;main.c: 333:     float oranValue = adcValue3/1024.0;
+[v _oranValue `f ~T0 @X0 1 a ]
+[e = _oranValue -> / -> _adcValue3 `d .1024.0 `f ]
+"336
+[; ;main.c: 336:     ADCON0bits.CHS = 0b0011;
+[e = . . _ADCON0bits 0 3 -> -> 3 `i `uc ]
+"337
+[; ;main.c: 337:     _delay((unsigned long)((50)*(4000000/4000000.0)));
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 4000000 `l `d .4000000.0 `ul ]
+"338
+[; ;main.c: 338:     ADCON0bits.GO = 1;
+[e = . . _ADCON0bits 1 1 -> -> 1 `i `uc ]
+"339
+[; ;main.c: 339:     while (ADCON0bits.GO);
+[e $U 166  ]
+[e :U 167 ]
+[e :U 166 ]
+[e $ != -> . . _ADCON0bits 1 1 `i -> 0 `i 167  ]
+[e :U 168 ]
+"340
+[; ;main.c: 340:     adcValue2 = (ADRESH << 8) | ADRESL;
+[e = _adcValue2 | << -> _ADRESH `i -> 8 `i -> _ADRESL `i ]
+"344
+[; ;main.c: 344:     float integerPart = adcValue2*oranValue*3;
+[v _integerPart `f ~T0 @X0 1 a ]
+[e = _integerPart * * -> _adcValue2 `f _oranValue -> -> 3 `i `f ]
+"346
+[; ;main.c: 346:     int binler = (int)integerPart/1000;
+[v _binler `i ~T0 @X0 1 a ]
+[e = _binler / -> _integerPart `i -> 1000 `i ]
+"347
+[; ;main.c: 347:     int yuzler = ((int)integerPart-binler*1000)/100;
+[v _yuzler `i ~T0 @X0 1 a ]
+[e = _yuzler / - -> _integerPart `i * _binler -> 1000 `i -> 100 `i ]
+"348
+[; ;main.c: 348:     int onlar = ((int)integerPart-binler*1000-yuzler*100)/10;
+[v _onlar `i ~T0 @X0 1 a ]
+[e = _onlar / - - -> _integerPart `i * _binler -> 1000 `i * _yuzler -> 100 `i -> 10 `i ]
+"349
+[; ;main.c: 349:     int birler = (int)integerPart%10;
+[v _birler `i ~T0 @X0 1 a ]
+[e = _birler % -> _integerPart `i -> 10 `i ]
+"355
+[; ;main.c: 355:         ADCON0bits.CHS = 0b0001;
+[e = . . _ADCON0bits 0 3 -> -> 1 `i `uc ]
+"356
+[; ;main.c: 356:         _delay((unsigned long)((50)*(4000000/4000000.0)));
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 4000000 `l `d .4000000.0 `ul ]
+"357
+[; ;main.c: 357:         ADCON0bits.GO = 1;
+[e = . . _ADCON0bits 1 1 -> -> 1 `i `uc ]
+"358
+[; ;main.c: 358:         while (ADCON0bits.GO);
 [e $U 169  ]
 [e :U 170 ]
 [e :U 169 ]
 [e $ != -> . . _ADCON0bits 1 1 `i -> 0 `i 170  ]
 [e :U 171 ]
-"343
-[; ;main.c: 343:     adcValue3 = (ADRESH << 8) | ADRESL;
-[e = _adcValue3 -> | << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
-"344
-[; ;main.c: 344:     unsigned int rpmValue = adcValue3 >> 1;
-[v _rpmValue `ui ~T0 @X0 1 a ]
-[e = _rpmValue >> _adcValue3 -> 1 `i ]
-"347
-[; ;main.c: 347:         Lcd_Set_Cursor(2, 1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
-"348
-[; ;main.c: 348:         Lcd_Write_String("FeedRate:");
-[e ( _Lcd_Write_String (1 :s 20C ]
-"349
-[; ;main.c: 349:         char adcString1[4];
-[v _adcString1 `uc ~T0 @X0 -> 4 `i a ]
-"350
-[; ;main.c: 350:         sprintf(adcString1, "%003u", (int)gostermeliklcd);
-[e ( _sprintf (1 , (. , &U _adcString1 :s 21C -> _gostermeliklcd `i ]
-"351
-[; ;main.c: 351:         Lcd_Set_Cursor(2, 10);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 10 `i `uc ]
-"352
-[; ;main.c: 352:         Lcd_Write_String(adcString1);
-[e ( _Lcd_Write_String (1 &U _adcString1 ]
-"355
-[; ;main.c: 355:         Lcd_Set_Cursor(1, 1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-"356
-[; ;main.c: 356:         Lcd_Write_String("RPM:");
-[e ( _Lcd_Write_String (1 :s 22C ]
-"357
-[; ;main.c: 357:         char rpmString[5];
-[v _rpmString `uc ~T0 @X0 -> 5 `i a ]
-"358
-[; ;main.c: 358: sprintf(rpmString, "%u%u%u.%u", binler,yuzler,onlar,birler);
-[e ( _sprintf (1 , , , , (. , &U _rpmString :s 23C _binler _yuzler _onlar _birler ]
 "359
-[; ;main.c: 359: Lcd_Set_Cursor(1, 5);
-[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 5 `i `uc ]
+[; ;main.c: 359:         adcValue1 = (ADRESH << 8) | ADRESL;
+[e = _adcValue1 -> | << -> _ADRESH `i -> 8 `i -> _ADRESL `i `f ]
 "360
-[; ;main.c: 360: Lcd_Write_String(rpmString);
-[e ( _Lcd_Write_String (1 &U _rpmString ]
-"367
-[; ;main.c: 367:  if (RC1 == 1 && (RE0 == 1 || RE2 == 1)) {
-[e $ ! && == -> _RC1 `i -> 1 `i || == -> _RE0 `i -> 1 `i == -> _RE2 `i -> 1 `i 172  ]
+[; ;main.c: 360:         if (RE2==0 && RC0== 0 ){
+[e $ ! && == -> _RE2 `i -> 0 `i == -> _RC0 `i -> 0 `i 172  ]
 {
-"368
-[; ;main.c: 368:             Lcd_Set_Cursor(2, 13);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
-"369
-[; ;main.c: 369:             Lcd_Write_String(" FWD LMT");
-[e ( _Lcd_Write_String (1 :s 24C ]
-"370
-[; ;main.c: 370:             UART_Write_Text("s0\r\n");
-[e ( _UART_Write_Text (1 :s 25C ]
-"372
-[; ;main.c: 372:         } else if ((RE2 == 1 && RE0 == 1) || (RE2 == 1 && RE1 == 0)) {
+"361
+[; ;main.c: 361:         displayValue = (int)adcValue1 >> 1;
+[e = _displayValue -> >> -> _adcValue1 `i -> 1 `i `ui ]
+"362
+[; ;main.c: 362:         }
 }
-[e $U 173  ]
 [e :U 172 ]
-[e $ ! || && == -> _RE2 `i -> 1 `i == -> _RE0 `i -> 1 `i && == -> _RE2 `i -> 1 `i == -> _RE1 `i -> 0 `i 174  ]
-{
+"363
+[; ;main.c: 363:         float gostermeliklcd = adcValue1 / 1024 * 1000;
+[v _gostermeliklcd `f ~T0 @X0 1 a ]
+[e = _gostermeliklcd * / _adcValue1 -> -> 1024 `i `f -> -> 1000 `i `f ]
+"368
+[; ;main.c: 368:         Lcd_Set_Cursor(2, 1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
+"369
+[; ;main.c: 369:         Lcd_Write_String("FeedRate:");
+[e ( _Lcd_Write_String (1 :s 20C ]
+"370
+[; ;main.c: 370:         char adcString1[4];
+[v _adcString1 `uc ~T0 @X0 -> 4 `i a ]
+"371
+[; ;main.c: 371:         sprintf(adcString1, "%003u", (int)gostermeliklcd);
+[e ( _sprintf (1 , (. , &U _adcString1 :s 21C -> _gostermeliklcd `i ]
+"372
+[; ;main.c: 372:         Lcd_Set_Cursor(2, 10);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 10 `i `uc ]
 "373
-[; ;main.c: 373:             Lcd_Set_Cursor(2, 13);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
-"374
-[; ;main.c: 374:             Lcd_Write_String(" FWD 1.6K");
-[e ( _Lcd_Write_String (1 :s 26C ]
-"375
-[; ;main.c: 375:             if (displayValue < 800) {
-[e $ ! < _displayValue -> -> 800 `i `ui 175  ]
-{
+[; ;main.c: 373:         Lcd_Write_String(adcString1);
+[e ( _Lcd_Write_String (1 &U _adcString1 ]
 "376
-[; ;main.c: 376:                 char uartMessage[8];
-[v _uartMessage `uc ~T0 @X0 -> 8 `i a ]
+[; ;main.c: 376:         Lcd_Set_Cursor(1, 1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
 "377
-[; ;main.c: 377:                 displayValue += 80;
-[e =+ _displayValue -> -> 80 `i `ui ]
+[; ;main.c: 377:         Lcd_Write_String("RPM:");
+[e ( _Lcd_Write_String (1 :s 22C ]
+"378
+[; ;main.c: 378:         char rpmString[5];
+[v _rpmString `uc ~T0 @X0 -> 5 `i a ]
 "379
-[; ;main.c: 379:                 if (displayValue > 800) {
-[e $ ! > _displayValue -> -> 800 `i `ui 176  ]
-{
-"380
-[; ;main.c: 380:                     displayValue = 800;
-[e = _displayValue -> -> 800 `i `ui ]
+[; ;main.c: 379: sprintf(rpmString, "%u%u%u.%u", binler,yuzler,onlar,birler);
+[e ( _sprintf (1 , , , , (. , &U _rpmString :s 23C _binler _yuzler _onlar _birler ]
 "381
-[; ;main.c: 381:                 }
-}
-[e :U 176 ]
+[; ;main.c: 381: Lcd_Set_Cursor(1, 5);
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 5 `i `uc ]
 "382
-[; ;main.c: 382:                 sprintf(uartMessage, "s%d\r\n", displayValue);
-[e ( _sprintf (1 , (. , &U _uartMessage :s 27C _displayValue ]
-"383
-[; ;main.c: 383:                 UART_Write_Text(uartMessage);
-[e ( _UART_Write_Text (1 &U _uartMessage ]
-"384
-[; ;main.c: 384:             }
-}
-[e :U 175 ]
-"386
-[; ;main.c: 386:         } else if (RE0 == 1) {
-}
-[e $U 177  ]
-[e :U 174 ]
-[e $ ! == -> _RE0 `i -> 1 `i 178  ]
-{
-"387
-[; ;main.c: 387:             Lcd_Set_Cursor(2, 13);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
-"388
-[; ;main.c: 388:             Lcd_Write_String(" FWD          ");
-[e ( _Lcd_Write_String (1 :s 28C ]
+[; ;main.c: 382: Lcd_Write_String(rpmString);
+[e ( _Lcd_Write_String (1 &U _rpmString ]
 "389
-[; ;main.c: 389:             char combinedText[20];
-[v _combinedText `uc ~T0 @X0 -> 20 `i a ]
+[; ;main.c: 389:  if (RC1 == 1 && (RE0 == 1 || RE2 == 1)) {
+[e $ ! && == -> _RC1 `i -> 1 `i || == -> _RE0 `i -> 1 `i == -> _RE2 `i -> 1 `i 173  ]
+{
 "390
-[; ;main.c: 390:             sprintf(combinedText, "s%d\r\n", displayValue);
-[e ( _sprintf (1 , (. , &U _combinedText :s 29C _displayValue ]
+[; ;main.c: 390:             Lcd_Set_Cursor(2, 13);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
 "391
-[; ;main.c: 391:             UART_Write_Text(combinedText);
-[e ( _UART_Write_Text (1 &U _combinedText ]
+[; ;main.c: 391:             Lcd_Write_String(" FWD LMT");
+[e ( _Lcd_Write_String (1 :s 24C ]
+"392
+[; ;main.c: 392:             UART_Write_Text("s0\r\n");
+[e ( _UART_Write_Text (1 :s 25C ]
 "394
-[; ;main.c: 394:         } else if (RC2 == 1 && (RE1 == 1 || RC0 == 1)) {
+[; ;main.c: 394:         } else if ((RE2 == 1 && RE0 == 1) || (RE2 == 1 && RE1 == 0)) {
 }
-[e $U 179  ]
-[e :U 178 ]
-[e $ ! && == -> _RC2 `i -> 1 `i || == -> _RE1 `i -> 1 `i == -> _RC0 `i -> 1 `i 180  ]
+[e $U 174  ]
+[e :U 173 ]
+[e $ ! || && == -> _RE2 `i -> 1 `i == -> _RE0 `i -> 1 `i && == -> _RE2 `i -> 1 `i == -> _RE1 `i -> 0 `i 175  ]
 {
 "395
 [; ;main.c: 395:             Lcd_Set_Cursor(2, 13);
 [e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
 "396
-[; ;main.c: 396:             Lcd_Write_String(" REW LMT");
-[e ( _Lcd_Write_String (1 :s 30C ]
+[; ;main.c: 396:             Lcd_Write_String(" FWD 1.6K");
+[e ( _Lcd_Write_String (1 :s 26C ]
 "397
-[; ;main.c: 397:             UART_Write_Text("s0\r\n");
-[e ( _UART_Write_Text (1 :s 31C ]
-"399
-[; ;main.c: 399:         } else if ((RC0 == 1 && RE1 == 1) || (RC0 == 1 && RE0 == 0)) {
-}
-[e $U 181  ]
-[e :U 180 ]
-[e $ ! || && == -> _RC0 `i -> 1 `i == -> _RE1 `i -> 1 `i && == -> _RC0 `i -> 1 `i == -> _RE0 `i -> 0 `i 182  ]
+[; ;main.c: 397:             if (displayValue < 800) {
+[e $ ! < _displayValue -> -> 800 `i `ui 176  ]
 {
-"400
-[; ;main.c: 400:             Lcd_Set_Cursor(2, 13);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
+"398
+[; ;main.c: 398:                 char uartMessage[8];
+[v _uartMessage `uc ~T0 @X0 -> 8 `i a ]
+"399
+[; ;main.c: 399:                 displayValue += 80;
+[e =+ _displayValue -> -> 80 `i `ui ]
 "401
-[; ;main.c: 401:             Lcd_Write_String(" REW 1.6K");
-[e ( _Lcd_Write_String (1 :s 32C ]
+[; ;main.c: 401:                 if (displayValue > 800) {
+[e $ ! > _displayValue -> -> 800 `i `ui 177  ]
+{
 "402
-[; ;main.c: 402:             int negativeFeedValue = -displayValue;
+[; ;main.c: 402:                     displayValue = 800;
+[e = _displayValue -> -> 800 `i `ui ]
+"403
+[; ;main.c: 403:                 }
+}
+[e :U 177 ]
+"404
+[; ;main.c: 404:                 sprintf(uartMessage, "s%d\r\n", displayValue);
+[e ( _sprintf (1 , (. , &U _uartMessage :s 27C _displayValue ]
+"405
+[; ;main.c: 405:                 UART_Write_Text(uartMessage);
+[e ( _UART_Write_Text (1 &U _uartMessage ]
+"406
+[; ;main.c: 406:             }
+}
+[e :U 176 ]
+"408
+[; ;main.c: 408:         } else if (RE0 == 1) {
+}
+[e $U 178  ]
+[e :U 175 ]
+[e $ ! == -> _RE0 `i -> 1 `i 179  ]
+{
+"409
+[; ;main.c: 409:             Lcd_Set_Cursor(2, 13);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
+"410
+[; ;main.c: 410:             Lcd_Write_String(" FWD          ");
+[e ( _Lcd_Write_String (1 :s 28C ]
+"411
+[; ;main.c: 411:             char combinedText[20];
+[v _combinedText `uc ~T0 @X0 -> 20 `i a ]
+"412
+[; ;main.c: 412:             sprintf(combinedText, "s%d\r\n", displayValue);
+[e ( _sprintf (1 , (. , &U _combinedText :s 29C _displayValue ]
+"413
+[; ;main.c: 413:             UART_Write_Text(combinedText);
+[e ( _UART_Write_Text (1 &U _combinedText ]
+"416
+[; ;main.c: 416:         } else if (RC2 == 1 && (RE1 == 1 || RC0 == 1)) {
+}
+[e $U 180  ]
+[e :U 179 ]
+[e $ ! && == -> _RC2 `i -> 1 `i || == -> _RE1 `i -> 1 `i == -> _RC0 `i -> 1 `i 181  ]
+{
+"417
+[; ;main.c: 417:             Lcd_Set_Cursor(2, 13);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
+"418
+[; ;main.c: 418:             Lcd_Write_String(" REW LMT");
+[e ( _Lcd_Write_String (1 :s 30C ]
+"419
+[; ;main.c: 419:             UART_Write_Text("s0\r\n");
+[e ( _UART_Write_Text (1 :s 31C ]
+"421
+[; ;main.c: 421:         } else if ((RC0 == 1 && RE1 == 1) || (RC0 == 1 && RE0 == 0)) {
+}
+[e $U 182  ]
+[e :U 181 ]
+[e $ ! || && == -> _RC0 `i -> 1 `i == -> _RE1 `i -> 1 `i && == -> _RC0 `i -> 1 `i == -> _RE0 `i -> 0 `i 183  ]
+{
+"422
+[; ;main.c: 422:             Lcd_Set_Cursor(2, 13);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
+"423
+[; ;main.c: 423:             Lcd_Write_String(" REW 1.6K");
+[e ( _Lcd_Write_String (1 :s 32C ]
+"424
+[; ;main.c: 424:             int negativeFeedValue = -displayValue;
 [v _negativeFeedValue `i ~T0 @X0 1 a ]
 [e = _negativeFeedValue -> -U _displayValue `i ]
-"403
-[; ;main.c: 403:             if (negativeFeedValue > -800) {
-[e $ ! > _negativeFeedValue -U -> 800 `i 183  ]
+"425
+[; ;main.c: 425:             if (negativeFeedValue > -800) {
+[e $ ! > _negativeFeedValue -U -> 800 `i 184  ]
 {
-"404
-[; ;main.c: 404:                 char uartMessage[8];
+"426
+[; ;main.c: 426:                 char uartMessage[8];
 [v _uartMessage `uc ~T0 @X0 -> 8 `i a ]
-"405
-[; ;main.c: 405:                 negativeFeedValue -= 80;
+"427
+[; ;main.c: 427:                 negativeFeedValue -= 80;
 [e =- _negativeFeedValue -> 80 `i ]
-"406
-[; ;main.c: 406:                 if (negativeFeedValue < -800) {
-[e $ ! < _negativeFeedValue -U -> 800 `i 184  ]
+"428
+[; ;main.c: 428:                 if (negativeFeedValue < -800) {
+[e $ ! < _negativeFeedValue -U -> 800 `i 185  ]
 {
-"407
-[; ;main.c: 407:                     negativeFeedValue = -800;
+"429
+[; ;main.c: 429:                     negativeFeedValue = -800;
 [e = _negativeFeedValue -U -> 800 `i ]
-"408
-[; ;main.c: 408:                 }
+"430
+[; ;main.c: 430:                 }
+}
+[e :U 185 ]
+"431
+[; ;main.c: 431:                 displayValue=-negativeFeedValue;
+[e = _displayValue -> -U _negativeFeedValue `ui ]
+"432
+[; ;main.c: 432:                 sprintf(uartMessage, "s%d\r\n", negativeFeedValue);
+[e ( _sprintf (1 , (. , &U _uartMessage :s 33C _negativeFeedValue ]
+"433
+[; ;main.c: 433:                 UART_Write_Text(uartMessage);
+[e ( _UART_Write_Text (1 &U _uartMessage ]
+"434
+[; ;main.c: 434:             }
 }
 [e :U 184 ]
-"409
-[; ;main.c: 409:                 displayValue=-negativeFeedValue;
-[e = _displayValue -> -U _negativeFeedValue `ui ]
-"410
-[; ;main.c: 410:                 sprintf(uartMessage, "s%d\r\n", negativeFeedValue);
-[e ( _sprintf (1 , (. , &U _uartMessage :s 33C _negativeFeedValue ]
-"411
-[; ;main.c: 411:                 UART_Write_Text(uartMessage);
-[e ( _UART_Write_Text (1 &U _uartMessage ]
-"412
-[; ;main.c: 412:             }
-}
-[e :U 183 ]
-"414
-[; ;main.c: 414:         } else if (RE1 == 1) {
-}
-[e $U 185  ]
-[e :U 182 ]
-[e $ ! == -> _RE1 `i -> 1 `i 186  ]
-{
-"415
-[; ;main.c: 415:             Lcd_Set_Cursor(2, 13);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
-"416
-[; ;main.c: 416:             Lcd_Write_String(" REW         ");
-[e ( _Lcd_Write_String (1 :s 34C ]
-"417
-[; ;main.c: 417:             int negativeDisplayValue = -displayValue;
-[v _negativeDisplayValue `i ~T0 @X0 1 a ]
-[e = _negativeDisplayValue -> -U _displayValue `i ]
-"418
-[; ;main.c: 418:             char combinedText[20];
-[v _combinedText `uc ~T0 @X0 -> 20 `i a ]
-"419
-[; ;main.c: 419:             sprintf(combinedText, "s%d\r\n", negativeDisplayValue);
-[e ( _sprintf (1 , (. , &U _combinedText :s 35C _negativeDisplayValue ]
-"420
-[; ;main.c: 420:             UART_Write_Text(combinedText);
-[e ( _UART_Write_Text (1 &U _combinedText ]
-"421
-[; ;main.c: 421:         } else {
-}
-[e $U 187  ]
-[e :U 186 ]
-{
-"423
-[; ;main.c: 423:             Lcd_Set_Cursor(2, 13);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
-"424
-[; ;main.c: 424:             Lcd_Write_String(" STOP       ");
-[e ( _Lcd_Write_String (1 :s 36C ]
-"425
-[; ;main.c: 425:             UART_Write_Text("s0\r\n");
-[e ( _UART_Write_Text (1 :s 37C ]
-"426
-[; ;main.c: 426:         }
-}
-[e :U 187 ]
-[e :U 185 ]
-[e :U 181 ]
-[e :U 179 ]
-[e :U 177 ]
-[e :U 173 ]
-"432
-[; ;main.c: 432:         if((RC1==1) &&( RE0==1 || RE2 )){
-[e $ ! && == -> _RC1 `i -> 1 `i || == -> _RE0 `i -> 1 `i _RE2 188  ]
-{
-"434
-[; ;main.c: 434:             RA4=1;
-[e = _RA4 -> -> 1 `i `b ]
-"435
-[; ;main.c: 435:         }
-}
-[e $U 189  ]
 "436
-[; ;main.c: 436:         else if(( RC2==1) && (RE1==1 || RC0)){
-[e :U 188 ]
-[e $ ! && == -> _RC2 `i -> 1 `i || == -> _RE1 `i -> 1 `i _RC0 190  ]
+[; ;main.c: 436:         } else if (RE1 == 1) {
+}
+[e $U 186  ]
+[e :U 183 ]
+[e $ ! == -> _RE1 `i -> 1 `i 187  ]
 {
 "437
-[; ;main.c: 437:             RA4=1;
-[e = _RA4 -> -> 1 `i `b ]
+[; ;main.c: 437:             Lcd_Set_Cursor(2, 13);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
 "438
-[; ;main.c: 438:             }
-}
-[e $U 191  ]
+[; ;main.c: 438:             Lcd_Write_String(" REW         ");
+[e ( _Lcd_Write_String (1 :s 34C ]
+"439
+[; ;main.c: 439:             int negativeDisplayValue = -displayValue;
+[v _negativeDisplayValue `i ~T0 @X0 1 a ]
+[e = _negativeDisplayValue -> -U _displayValue `i ]
 "440
-[; ;main.c: 440:         else {
-[e :U 190 ]
-{
+[; ;main.c: 440:             char combinedText[20];
+[v _combinedText `uc ~T0 @X0 -> 20 `i a ]
 "441
-[; ;main.c: 441:             RA4=0;
-[e = _RA4 -> -> 0 `i `b ]
+[; ;main.c: 441:             sprintf(combinedText, "s%d\r\n", negativeDisplayValue);
+[e ( _sprintf (1 , (. , &U _combinedText :s 35C _negativeDisplayValue ]
 "442
-[; ;main.c: 442:         }
+[; ;main.c: 442:             UART_Write_Text(combinedText);
+[e ( _UART_Write_Text (1 &U _combinedText ]
+"443
+[; ;main.c: 443:         } else {
 }
-[e :U 191 ]
-[e :U 189 ]
-"445
-[; ;main.c: 445:   }
-}
-[e $U 192  ]
-"446
-[; ;main.c: 446: else if( RC3==1) {
-[e :U 137 ]
-[e $ ! == -> _RC3 `i -> 1 `i 193  ]
+[e $U 188  ]
+[e :U 187 ]
 {
-"451
-[; ;main.c: 451:     Lcd_Set_Cursor(1,1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-"452
-[; ;main.c: 452:             Lcd_Write_String("   FEED RATE ERROR       ");
-[e ( _Lcd_Write_String (1 :s 38C ]
-"453
-[; ;main.c: 453:     Lcd_Set_Cursor(2,1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
+"445
+[; ;main.c: 445:             Lcd_Set_Cursor(2, 13);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
+"446
+[; ;main.c: 446:             Lcd_Write_String(" STOP       ");
+[e ( _Lcd_Write_String (1 :s 36C ]
+"447
+[; ;main.c: 447:             UART_Write_Text("s0\r\n");
+[e ( _UART_Write_Text (1 :s 37C ]
+"448
+[; ;main.c: 448:         }
+}
+[e :U 188 ]
+[e :U 186 ]
+[e :U 182 ]
+[e :U 180 ]
+[e :U 178 ]
+[e :U 174 ]
 "454
-[; ;main.c: 454:             Lcd_Write_String("   ILERLEME HATASI        ");
-[e ( _Lcd_Write_String (1 :s 39C ]
-"455
-[; ;main.c: 455:      UART_Write_Text("s0\r\n");
-[e ( _UART_Write_Text (1 :s 40C ]
+[; ;main.c: 454:         if((RC1==1) &&( RE0==1 || RE2 )){
+[e $ ! && == -> _RC1 `i -> 1 `i || == -> _RE0 `i -> 1 `i _RE2 189  ]
+{
 "456
-[; ;main.c: 456:       RA4=1;
+[; ;main.c: 456:             RA4=1;
 [e = _RA4 -> -> 1 `i `b ]
 "457
-[; ;main.c: 457:       _delay((unsigned long)((1000)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;main.c: 457:         }
+}
+[e $U 190  ]
 "458
-[; ;main.c: 458:       RA4=0;
-[e = _RA4 -> -> 0 `i `b ]
-"459
-[; ;main.c: 459:       _delay((unsigned long)((3000)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 3000 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
-"460
-[; ;main.c: 460:       RA4=1;
-[e = _RA4 -> -> 1 `i `b ]
-"463
-[; ;main.c: 463: }
-}
-[e $U 194  ]
-"465
-[; ;main.c: 465:      else if (RD0 == 1 ){
-[e :U 193 ]
-[e $ ! == -> _RD0 `i -> 1 `i 195  ]
+[; ;main.c: 458:         else if(( RC2==1) && (RE1==1 || RC0)){
+[e :U 189 ]
+[e $ ! && == -> _RC2 `i -> 1 `i || == -> _RE1 `i -> 1 `i _RC0 191  ]
 {
-"466
-[; ;main.c: 466:     UART_Write_Text("s0\r\n");
-[e ( _UART_Write_Text (1 :s 41C ]
-"467
-[; ;main.c: 467:     Lcd_Set_Cursor(1,1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-"468
-[; ;main.c: 468:             Lcd_Write_String("   ROTATION ERROR      ");
-[e ( _Lcd_Write_String (1 :s 42C ]
-"469
-[; ;main.c: 469:     Lcd_Set_Cursor(2,1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
-"470
-[; ;main.c: 470:             Lcd_Write_String("   DONME HATASI        ");
-[e ( _Lcd_Write_String (1 :s 43C ]
-"471
-[; ;main.c: 471:                 RA4=1;
+"459
+[; ;main.c: 459:             RA4=1;
 [e = _RA4 -> -> 1 `i `b ]
-"472
-[; ;main.c: 472:       _delay((unsigned long)((1000)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
-"473
-[; ;main.c: 473:       RA4=0;
+"460
+[; ;main.c: 460:             }
+}
+[e $U 192  ]
+"462
+[; ;main.c: 462:         else {
+[e :U 191 ]
+{
+"463
+[; ;main.c: 463:             RA4=0;
 [e = _RA4 -> -> 0 `i `b ]
-"474
-[; ;main.c: 474:       _delay((unsigned long)((3000)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 3000 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
-"475
-[; ;main.c: 475:       RA4=1;
-[e = _RA4 -> -> 1 `i `b ]
-"476
-[; ;main.c: 476: }
+"464
+[; ;main.c: 464:         }
 }
-[e :U 195 ]
-[e :U 194 ]
 [e :U 192 ]
-"477
-[; ;main.c: 477:     }
+[e :U 190 ]
+"467
+[; ;main.c: 467:   }
 }
-[e :U 131 ]
-[e $U 132  ]
-[e :U 133 ]
+[e $U 193  ]
+"468
+[; ;main.c: 468: else if( RC3==1) {
+[e :U 138 ]
+[e $ ! == -> _RC3 `i -> 1 `i 194  ]
+{
+"473
+[; ;main.c: 473:     Lcd_Set_Cursor(1,1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+"474
+[; ;main.c: 474:             Lcd_Write_String("   FEED RATE ERROR       ");
+[e ( _Lcd_Write_String (1 :s 38C ]
+"475
+[; ;main.c: 475:     Lcd_Set_Cursor(2,1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
+"476
+[; ;main.c: 476:             Lcd_Write_String("   ILERLEME HATASI        ");
+[e ( _Lcd_Write_String (1 :s 39C ]
+"477
+[; ;main.c: 477:      UART_Write_Text("s0\r\n");
+[e ( _UART_Write_Text (1 :s 40C ]
 "478
-[; ;main.c: 478:   return 0;
-[e ) -> 0 `i ]
-[e $UE 130  ]
+[; ;main.c: 478:       RA4=1;
+[e = _RA4 -> -> 1 `i `b ]
+"479
+[; ;main.c: 479:       _delay((unsigned long)((1000)*(4000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
 "480
-[; ;main.c: 480: }
-[e :UE 130 ]
+[; ;main.c: 480:       RA4=0;
+[e = _RA4 -> -> 0 `i `b ]
+"481
+[; ;main.c: 481:       _delay((unsigned long)((3000)*(4000000/4000.0)));
+[e ( __delay (1 -> * -> -> 3000 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+"482
+[; ;main.c: 482:       RA4=1;
+[e = _RA4 -> -> 1 `i `b ]
+"485
+[; ;main.c: 485: }
+}
+[e $U 195  ]
+"487
+[; ;main.c: 487:      else if (RD0 == 1 ){
+[e :U 194 ]
+[e $ ! == -> _RD0 `i -> 1 `i 196  ]
+{
+"488
+[; ;main.c: 488:     UART_Write_Text("s0\r\n");
+[e ( _UART_Write_Text (1 :s 41C ]
+"489
+[; ;main.c: 489:     Lcd_Set_Cursor(1,1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+"490
+[; ;main.c: 490:             Lcd_Write_String("   ROTATION ERROR      ");
+[e ( _Lcd_Write_String (1 :s 42C ]
+"491
+[; ;main.c: 491:     Lcd_Set_Cursor(2,1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
+"492
+[; ;main.c: 492:             Lcd_Write_String("   DONME HATASI        ");
+[e ( _Lcd_Write_String (1 :s 43C ]
+"493
+[; ;main.c: 493:                 RA4=1;
+[e = _RA4 -> -> 1 `i `b ]
+"494
+[; ;main.c: 494:       _delay((unsigned long)((1000)*(4000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+"495
+[; ;main.c: 495:       RA4=0;
+[e = _RA4 -> -> 0 `i `b ]
+"496
+[; ;main.c: 496:       _delay((unsigned long)((3000)*(4000000/4000.0)));
+[e ( __delay (1 -> * -> -> 3000 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+"497
+[; ;main.c: 497:       RA4=1;
+[e = _RA4 -> -> 1 `i `b ]
+"498
+[; ;main.c: 498: }
+}
+[e :U 196 ]
+[e :U 195 ]
+[e :U 193 ]
+"499
+[; ;main.c: 499:     }
+}
+[e :U 132 ]
+[e $U 133  ]
+[e :U 134 ]
+"500
+[; ;main.c: 500:   return 0;
+[e ) -> 0 `i ]
+[e $UE 131  ]
+"502
+[; ;main.c: 502: }
+[e :UE 131 ]
 }
 [p f _sprintf 8422532 ]
 [a 21C 37 48 48 51 117 0 ]

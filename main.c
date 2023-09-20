@@ -1,5 +1,5 @@
 #define _XTAL_FREQ 4000000
-//18.09.2023 bo?  pinler silindi her?ey ok 
+//18.09.2023 eproma yaklaa??k daakkada bir yaz?l?yor
 //lcd pinleri tan?mlamalari
 #define RS RB5
 #define EN RB4
@@ -24,7 +24,7 @@
 #include <stdio.h>
 #include "uart.h"
 #include "16f877a_Conf.c"
-
+unsigned int epromayaz = 0;
 unsigned int kesmeSayaci = 0;
 struct Time {
     unsigned int hours;
@@ -34,7 +34,7 @@ struct Time {
 
 struct Time currentTime = {0, 0, 0}; // Saat, dakika ve saniye cinsinden süre
 
-
+ 
 
 void writeEEPROM(unsigned int address, unsigned int data) {
     // EEPROM'a veri yazma i?lemi
@@ -75,11 +75,24 @@ void __interrupt() timer_isr(void) {
     if (T0IF) { // Zamanlay?c? 0 kesmesi mi?
         T0IF = 0; // Kesme bayra??n? s?f?rla
         TMR0 = 61; // Zamanlay?c? de?erini ayarla (256 - 250 = 6)
+  epromayaz++;
+  if (epromayaz==800){
+      epromayaz=0;
+      // EEPROM'a güncel süreyi yaz
+        writeEEPROM(0x00, currentTime.hours);
+        writeEEPROM(0x01, currentTime.minutes);
+    
+   
+        
+  }
        
+        
         kesmeSayaci++;
         if (kesmeSayaci==20){
             kesmeSayaci = 0 ;
-            incrementTime(&currentTime);                
+            incrementTime(&currentTime);    
+             // EEPROM'dan kaydedilmi? süreyi oku    
+               
         }        
     }
 }
@@ -123,7 +136,10 @@ TRISD = 0b00000001; // RD1, RD2, RD3, RD4, RD5, RD6, RD7 ç?k??; di?eri giri?
   // EEPROM'dan kaydedilmi? süreyi oku
     currentTime.hours = readEEPROM(0x00);
     currentTime.minutes = readEEPROM(0x01);
-    currentTime.seconds = readEEPROM(0x02);
+  
+  // int saat = readEEPROM(0x00);
+  //int dakika = readEEPROM(0x01);
+   
     char lcdText[9]; // HH:MM:SS + null karakteri için yeterli bo?luk
 
     OPTION_REGbits.T0CS = 0; // Timer0 için dahili osilatörü kullan
@@ -165,8 +181,8 @@ unsigned int displayValue = 0; // Güncel de?eri saklamak için bir de?i?ken
     ADCON0bits.ADON = 1; // ADC'yi etkinle?tir
 
     float adcValue1; // Birinci potansiyometre de?eri
-    unsigned int adcValue2; // ?kinci potansiyometre de?eri
-    unsigned int adcValue3; // trimpot de?eri
+    int adcValue2; // ?kinci potansiyometre de?eri
+    float adcValue3; // trimpot de?eri
     float rpmtofloat; // Sonucu saklayacak sabit kayan nokta de?i?ken
     // adc bitti
 
@@ -189,6 +205,7 @@ if (ilkAcilis) {
     Lcd_Write_String("STOP DURUMUNA GETIR");
     Lcd_Set_Cursor(2,1);
     Lcd_Write_String("PUT IT IN STOP STATE");
+    __delay_ms(500);
         if ( FwdFEAD == 0 && FWD == 0 &&  RewFEAD == 0 && REW == 0) {
             ilkAcilis = 0; // ?lk çal??t?rma i?lemi tamamland?
         } else {
@@ -294,9 +311,11 @@ RA4 = 1;
     Lcd_Clear();
     RA4 = 0;    
 }
-
+   int saat = readEEPROM(0x00);
+   int dakika = readEEPROM(0x01);
+ 
         // Saati ve dakikay? do?ru formatta birle?tirip lcdText'e yaz
-        sprintf(lcdText, "%5uh %02um", currentTime.hours, currentTime.minutes);
+        sprintf(lcdText, "%5uh %02um", saat, dakika);
 
         // LCD'ye saati yazd?r
      Lcd_Set_Cursor(1, 10);
@@ -304,23 +323,30 @@ RA4 = 1;
      Lcd_Set_Cursor(1, 11);
      Lcd_Write_String(lcdText); // Saat, dakika ve saniyeyi yazd?r
 
-        // EEPROM'a güncel süreyi yaz
-        writeEEPROM(0x00, currentTime.hours);
-        writeEEPROM(0x01, currentTime.minutes);
-        writeEEPROM(0x02, currentTime.seconds);
+     
+         // üçüncü( kart?n üstündeki trimpot) de?eri
+    ADCON0bits.CHS = 0b0010; // RA2 pini seçildi (Analog giri? pininiz)
+    __delay_us(50);
+    ADCON0bits.GO = 1; // ADC dönü?ümünü ba?lat
+    while (ADCON0bits.GO); // Dönü?ümün tamamlanmas?n? bekle
+    adcValue3 = (ADRESH << 8) | ADRESL;
+    float oranValue = adcValue3/1024.0; 
         
  // rpm potansiyometre de?eri
     ADCON0bits.CHS = 0b0011; // RA3 pini seçildi (Analog giri? pininiz)
+    __delay_us(50);
     ADCON0bits.GO = 1; // ADC dönü?ümünü ba?lat
     while (ADCON0bits.GO); // Dönü?ümün tamamlanmas?n? bekle
     adcValue2 = (ADRESH << 8) | ADRESL;
-  
-    unsigned int integerPart = adcValue2*3 ; // Tam say? k?sm?
     
-    int binler = integerPart/1000;
-    int yuzler = (integerPart-binler*1000)/100;
-    int onlar  = (integerPart-binler*1000-yuzler*100)/10;
-    int birler = integerPart%10;
+    //adcValue2 = adcValue2*oranValue ;
+            
+    float integerPart = adcValue2*oranValue*3; // Tam say? k?sm?
+    
+    int binler = (int)integerPart/1000;
+    int yuzler = ((int)integerPart-binler*1000)/100;
+    int onlar  = ((int)integerPart-binler*1000-yuzler*100)/10;
+    int birler = (int)integerPart%10; 
     
    
     
@@ -336,12 +362,7 @@ RA4 = 1;
         }
         float gostermeliklcd = adcValue1 / 1024 * 1000;
        
-    // üçüncü( kart?n üstündeki trimpot) de?eri
-    ADCON0bits.CHS = 0b0010; // RA2 pini seçildi (Analog giri? pininiz)
-    ADCON0bits.GO = 1; // ADC dönü?ümünü ba?lat
-    while (ADCON0bits.GO); // Dönü?ümün tamamlanmas?n? bekle
-    adcValue3 = (ADRESH << 8) | ADRESL;
-    unsigned int rpmValue = adcValue3 >> 1; // ADC sonucunu 0-255 aras?na dönü?tür
+
             
 // feed rate pot de?erini LCD'ye yazd?r
         Lcd_Set_Cursor(2, 1);
@@ -356,6 +377,7 @@ RA4 = 1;
         Lcd_Write_String("RPM:");
         char rpmString[5]; // Virgülden sonraki 1 basamak için 5 hane yeterlidir
 sprintf(rpmString, "%u%u%u.%u", binler,yuzler,onlar,birler);
+        
 Lcd_Set_Cursor(1, 5);
 Lcd_Write_String(rpmString);
 

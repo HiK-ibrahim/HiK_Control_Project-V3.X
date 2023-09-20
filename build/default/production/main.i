@@ -2080,7 +2080,7 @@ void UART_Write_Text(char *text);
 #pragma config CP = OFF
 # 26 "main.c" 2
 
-
+unsigned int epromayaz = 0;
 unsigned int kesmeSayaci = 0;
 struct Time {
     unsigned int hours;
@@ -2131,11 +2131,24 @@ void __attribute__((picinterrupt(("")))) timer_isr(void) {
     if (T0IF) {
         T0IF = 0;
         TMR0 = 61;
+  epromayaz++;
+  if (epromayaz==800){
+      epromayaz=0;
+
+        writeEEPROM(0x00, currentTime.hours);
+        writeEEPROM(0x01, currentTime.minutes);
+
+
+
+  }
+
 
         kesmeSayaci++;
         if (kesmeSayaci==20){
             kesmeSayaci = 0 ;
             incrementTime(&currentTime);
+
+
         }
     }
 }
@@ -2179,7 +2192,10 @@ TRISD = 0b00000001;
 
     currentTime.hours = readEEPROM(0x00);
     currentTime.minutes = readEEPROM(0x01);
-    currentTime.seconds = readEEPROM(0x02);
+
+
+
+
     char lcdText[9];
 
     OPTION_REGbits.T0CS = 0;
@@ -2221,8 +2237,8 @@ unsigned int displayValue = 0;
     ADCON0bits.ADON = 1;
 
     float adcValue1;
-    unsigned int adcValue2;
-    unsigned int adcValue3;
+    int adcValue2;
+    float adcValue3;
     float rpmtofloat;
 
 
@@ -2245,6 +2261,7 @@ if (ilkAcilis) {
     Lcd_Write_String("STOP DURUMUNA GETIR");
     Lcd_Set_Cursor(2,1);
     Lcd_Write_String("PUT IT IN STOP STATE");
+    _delay((unsigned long)((500)*(4000000/4000.0)));
         if ( RE2 == 0 && RE0 == 0 && RC0 == 0 && RE1 == 0) {
             ilkAcilis = 0;
         } else {
@@ -2350,9 +2367,11 @@ RA4 = 1;
     Lcd_Clear();
     RA4 = 0;
 }
+   int saat = readEEPROM(0x00);
+   int dakika = readEEPROM(0x01);
 
 
-        sprintf(lcdText, "%5uh %02um", currentTime.hours, currentTime.minutes);
+        sprintf(lcdText, "%5uh %02um", saat, dakika);
 
 
      Lcd_Set_Cursor(1, 10);
@@ -2361,22 +2380,29 @@ RA4 = 1;
      Lcd_Write_String(lcdText);
 
 
-        writeEEPROM(0x00, currentTime.hours);
-        writeEEPROM(0x01, currentTime.minutes);
-        writeEEPROM(0x02, currentTime.seconds);
+
+    ADCON0bits.CHS = 0b0010;
+    _delay((unsigned long)((50)*(4000000/4000000.0)));
+    ADCON0bits.GO = 1;
+    while (ADCON0bits.GO);
+    adcValue3 = (ADRESH << 8) | ADRESL;
+    float oranValue = adcValue3/1024.0;
 
 
     ADCON0bits.CHS = 0b0011;
+    _delay((unsigned long)((50)*(4000000/4000000.0)));
     ADCON0bits.GO = 1;
     while (ADCON0bits.GO);
     adcValue2 = (ADRESH << 8) | ADRESL;
 
-    unsigned int integerPart = adcValue2*3 ;
 
-    int binler = integerPart/1000;
-    int yuzler = (integerPart-binler*1000)/100;
-    int onlar = (integerPart-binler*1000-yuzler*100)/10;
-    int birler = integerPart%10;
+
+    float integerPart = adcValue2*oranValue*3;
+
+    int binler = (int)integerPart/1000;
+    int yuzler = ((int)integerPart-binler*1000)/100;
+    int onlar = ((int)integerPart-binler*1000-yuzler*100)/10;
+    int birler = (int)integerPart%10;
 
 
 
@@ -2393,11 +2419,6 @@ RA4 = 1;
         float gostermeliklcd = adcValue1 / 1024 * 1000;
 
 
-    ADCON0bits.CHS = 0b0010;
-    ADCON0bits.GO = 1;
-    while (ADCON0bits.GO);
-    adcValue3 = (ADRESH << 8) | ADRESL;
-    unsigned int rpmValue = adcValue3 >> 1;
 
 
         Lcd_Set_Cursor(2, 1);
@@ -2412,6 +2433,7 @@ RA4 = 1;
         Lcd_Write_String("RPM:");
         char rpmString[5];
 sprintf(rpmString, "%u%u%u.%u", binler,yuzler,onlar,birler);
+
 Lcd_Set_Cursor(1, 5);
 Lcd_Write_String(rpmString);
 
