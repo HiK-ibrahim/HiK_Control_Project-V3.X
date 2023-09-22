@@ -1,4 +1,4 @@
-# 1 "main.c"
+# 1 "main1.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,8 +6,8 @@
 # 1 "<built-in>" 2
 # 1 "C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC16Fxxx_DFP/1.4.149/xc8\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "main.c" 2
-# 22 "main.c"
+# 1 "main1.c" 2
+# 21 "main1.c"
 # 1 "C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC16Fxxx_DFP/1.4.149/xc8\\pic\\include\\xc.h" 1 3
 # 18 "C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC16Fxxx_DFP/1.4.149/xc8\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -1854,7 +1854,7 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC16Fxxx_DFP/1.4.149/xc8\\pic\\include\\xc.h" 2 3
-# 22 "main.c" 2
+# 21 "main1.c" 2
 
 # 1 "./lcd.h" 1
 
@@ -1958,7 +1958,7 @@ void Lcd_Write_String(char *a)
  for(i=0;a[i]!='\0';i++)
     Lcd_Write_Char(a[i]);
 }
-# 23 "main.c" 2
+# 22 "main1.c" 2
 
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.41\\pic\\include\\c90\\stdio.h" 1 3
 
@@ -2053,7 +2053,7 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 #pragma printf_check(sprintf) const
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
-# 24 "main.c" 2
+# 23 "main1.c" 2
 
 # 1 "./uart.h" 1
 
@@ -2062,7 +2062,7 @@ extern int printf(const char *, ...);
 void UART_Initialize();
 void UART_Write(char data);
 void UART_Write_Text(char *text);
-# 25 "main.c" 2
+# 24 "main1.c" 2
 
 # 1 "./16f877a_Conf.c" 1
 
@@ -2078,7 +2078,21 @@ void UART_Write_Text(char *text);
 #pragma config CPD = OFF
 #pragma config WRT = OFF
 #pragma config CP = OFF
-# 26 "main.c" 2
+# 25 "main1.c" 2
+
+
+void yagBakim() {
+    Lcd_Clear();
+    for (int i = 0; i < 10; i++) {
+        Lcd_Set_Cursor(1, 1);
+        Lcd_Write_String("YAG BAKIMI YAPINIZ");
+        Lcd_Set_Cursor(2, 1);
+        Lcd_Write_String("OIL THE GEARS");
+        RA4 = 1;
+    }
+    Lcd_Clear();
+    RA4 = 0;
+}
 
 unsigned int epromayaz = 0;
 unsigned int kesmeSayaci = 0;
@@ -2088,7 +2102,7 @@ struct Time {
     unsigned int seconds;
 };
 
-struct Time currentTime = {0, 0, 0};
+struct Time currentTime = {000, 00, 00};
 
 
 
@@ -2110,7 +2124,6 @@ unsigned int readEEPROM(unsigned int address) {
 
     EEADR = address;
     RD = 1;
-    _delay((unsigned long)((20)*(4000000/4000000.0)));
     return EEDATA;
 }
 
@@ -2126,7 +2139,8 @@ void incrementTime(struct Time* time) {
         }
     }
 }
-# 93 "main.c"
+
+
 void __attribute__((picinterrupt(("")))) timer_isr(void) {
     if (T0IF) {
         T0IF = 0;
@@ -2136,10 +2150,21 @@ void __attribute__((picinterrupt(("")))) timer_isr(void) {
       epromayaz=0;
 
   }
+   unsigned char highByte = (unsigned char)(currentTime.hours / 256);
+    unsigned char lowByte = (unsigned char)(currentTime.hours % 256);
+
         kesmeSayaci++;
         if (kesmeSayaci==20){
             kesmeSayaci = 0 ;
             incrementTime(&currentTime);
+
+
+       writeEEPROM(0x01, currentTime.hours);
+        writeEEPROM(0x02, currentTime.minutes);
+        writeEEPROM(0x03, currentTime.seconds);
+
+
+
         }
     }
 }
@@ -2176,8 +2201,15 @@ TRISC5 = 0;
 TRISD = 0b00000001;
 
 
-  _delay((unsigned long)((100)*(4000000/4000.0)));
+  _delay((unsigned long)((200)*(4000000/4000.0)));
   RA4 = 0;
+
+
+
+
+
+    currentTime.hours = readEEPROM(0x01);
+    currentTime.minutes = readEEPROM(0x02);
 
 
 
@@ -2236,15 +2268,9 @@ unsigned int displayValue = 0;
     RC2 = 0;
     RC0 = 0;
     RE1 = 0;
-    currentTime.hours = readEEPROM(0x00);
-    currentTime.minutes = readEEPROM(0x01);
-    currentTime.seconds = readEEPROM(0x02);
-    if(currentTime.minutes==255){
-        writeEEPROM(0x00, 0);
-        writeEEPROM(0x01, 0);
-        writeEEPROM(0x02, 0);
-}
-    int ilkAcilis = 1;
+
+int ilkAcilis = 1;
+
 while(1){
 
 if (ilkAcilis) {
@@ -2265,94 +2291,24 @@ if (ilkAcilis) {
 if( !RC3 && !RD0){
 
 
-if ((currentTime.hours == 500 || currentTime.hours == 501 || currentTime.hours == 502) && currentTime.minutes == 0) {
-
-    Lcd_Clear();
-    int i=0 ;
-    for(; i < 10; i++)
-{
-   Lcd_Set_Cursor(1, 1);
-Lcd_Write_String("YAG BAKIMI YAPINIZ");
-Lcd_Set_Cursor(2, 1);
-Lcd_Write_String("OIL THE GEARS");
-RA4 = 1;
-}
-    Lcd_Clear();
-    RA4 = 0;
-}
-
-if ((currentTime.hours == 1000 || currentTime.hours == 1001 || currentTime.hours == 1002) && currentTime.minutes == 0) {
-
-    Lcd_Clear();
-    int i=0 ;
-    for(; i < 10; i++)
-{
-   Lcd_Set_Cursor(1, 1);
-Lcd_Write_String("YAG BAKIMI YAPINIZ");
-Lcd_Set_Cursor(2, 1);
-Lcd_Write_String("OIL THE GEARS");
-RA4 = 1;
-}
-    Lcd_Clear();
-    RA4 = 0;
-}
-
-if ((currentTime.hours == 1500 || currentTime.hours == 1501 || currentTime.hours == 1502) && currentTime.minutes == 0) {
-
-    Lcd_Clear();
-    int i=0 ;
-    for(; i < 10; i++)
-{
-   Lcd_Set_Cursor(1, 1);
-Lcd_Write_String("YAG BAKIMI YAPINIZ");
-Lcd_Set_Cursor(2, 1);
-Lcd_Write_String("OIL THE GEARS");
-RA4 = 1;
-}
-    Lcd_Clear();
-    RA4 = 0;
-}
-
-if ((currentTime.hours == 2000 || currentTime.hours == 2001 || currentTime.hours == 2002) && currentTime.minutes == 0) {
-
-    Lcd_Clear();
-    int i=0 ;
-    for(; i < 10; i++)
-{
-   Lcd_Set_Cursor(1, 1);
-Lcd_Write_String("YAG BAKIMI YAPINIZ");
-Lcd_Set_Cursor(2, 1);
-Lcd_Write_String("OIL THE GEARS");
-RA4 = 1;
-}
-    Lcd_Clear();
-    RA4 = 0;
-}
-
-if ((currentTime.hours == 2500 || currentTime.hours == 2501 || currentTime.hours == 2502) && currentTime.minutes == 0) {
-
-    Lcd_Clear();
-    int i=0 ;
-    for(; i < 10; i++)
-{
-   Lcd_Set_Cursor(1, 1);
-Lcd_Write_String("YAG BAKIMI YAPINIZ");
-Lcd_Set_Cursor(2, 1);
-Lcd_Write_String("OIL THE GEARS");
-RA4 = 1;
-}
-    Lcd_Clear();
-    RA4 = 0;
+if (( currentTime.hours % 500 == 0 && currentTime.hours != 0
+     || currentTime.hours % 500 == 1 && currentTime.hours != 1
+     || currentTime.hours % 500 == 2 && currentTime.hours != 2)
+     && currentTime.minutes == 0) {
+    yagBakim();
 }
 
 
-        writeEEPROM(0x00, currentTime.hours);
-        writeEEPROM(0x01, currentTime.minutes);
-        writeEEPROM(0x02, currentTime.seconds);
 
 
-         sprintf(lcdText, "%5uh %02um", currentTime.hours, currentTime.minutes) ;
 
+
+
+   int saat = readEEPROM(0x01);
+   int dakika = readEEPROM(0x02);
+
+
+        sprintf(lcdText, "%5uh %02um", saat, dakika);
 
 
      Lcd_Set_Cursor(1, 10);

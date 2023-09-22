@@ -1,5 +1,5 @@
 #define _XTAL_FREQ 4000000
-//18.09.2023 eproma yaklaa??k daakkada bir yaz?l?yor
+//18.09.2023 saat fena de?il saniyede 1 yazar
 //lcd pinleri tan?mlamalari
 #define RS RB5
 #define EN RB4
@@ -18,12 +18,25 @@
 
 #define AcEror RD0
 #define DcEror RC3
-
 #include <xc.h>
 #include "lcd.h"
 #include <stdio.h>
 #include "uart.h"
 #include "16f877a_Conf.c"
+
+void yagBakim() {
+    Lcd_Clear();
+    for (int i = 0; i < 10; i++) {
+        Lcd_Set_Cursor(1, 1);     
+        Lcd_Write_String("YAG BAKIMI YAPINIZ");
+        Lcd_Set_Cursor(2, 1);     
+        Lcd_Write_String("OIL THE GEARS");
+        RA4 = 1;
+    }
+    Lcd_Clear();
+    RA4 = 0;
+}
+
 unsigned int epromayaz = 0;
 unsigned int kesmeSayaci = 0;
 struct Time {
@@ -32,7 +45,7 @@ struct Time {
     unsigned int seconds;
 };
 
-struct Time currentTime = {0, 0, 0}; // Saat, dakika ve saniye cinsinden süre
+struct Time currentTime = {000, 00, 00}; // Saat, dakika ve saniye cinsinden süre
 
  
 
@@ -76,21 +89,23 @@ void __interrupt() timer_isr(void) {
         T0IF = 0; // Kesme bayra??n? s?f?rla
         TMR0 = 61; // Zamanlay?c? de?erini ayarla (256 - 250 = 6)
   epromayaz++;
-  if (epromayaz==800){
+  if (epromayaz==60){
       epromayaz=0;
-      // EEPROM'a güncel süreyi yaz
-        writeEEPROM(0x00, currentTime.hours);
-        writeEEPROM(0x01, currentTime.minutes);
-    
-   
-        
+     
   }
-       
+   unsigned char highByte = (unsigned char)(currentTime.hours / 256);
+    unsigned char lowByte = (unsigned char)(currentTime.hours % 256); 
         
         kesmeSayaci++;
         if (kesmeSayaci==20){
             kesmeSayaci = 0 ;
-            incrementTime(&currentTime);    
+            incrementTime(&currentTime);
+ 
+   
+       writeEEPROM(0x01, currentTime.hours);
+        writeEEPROM(0x02, currentTime.minutes);
+        writeEEPROM(0x03, currentTime.seconds);
+        
              // EEPROM'dan kaydedilmi? süreyi oku    
                
         }        
@@ -129,16 +144,17 @@ TRISC5 = 0;
 TRISD = 0b00000001; // RD1, RD2, RD3, RD4, RD5, RD6, RD7 ç?k??; di?eri giri?
 
   //buzzer ba?lang?çta kapat
-  __delay_ms(100); //
+  __delay_ms(200); //
   RA4 = 0; // Buzz
   //buzzer bitti
    
   // EEPROM'dan kaydedilmi? süreyi oku
-    currentTime.hours = readEEPROM(0x00);
-    currentTime.minutes = readEEPROM(0x01);
+  // Saat de?erini bellekten okuma
   
-  // int saat = readEEPROM(0x00);
-  //int dakika = readEEPROM(0x01);
+    currentTime.hours = readEEPROM(0x01);
+    currentTime.minutes = readEEPROM(0x02);
+  
+
    
     char lcdText[9]; // HH:MM:SS + null karakteri için yeterli bo?luk
 
@@ -147,7 +163,7 @@ TRISD = 0b00000001; // RD1, RD2, RD3, RD4, RD5, RD6, RD7 ç?k??; di?eri giri?
     OPTION_REGbits.PS2 = 1;  // Prescaler bölme oran?n? 1:256 yap
     OPTION_REGbits.PS1 = 1;
     OPTION_REGbits.PS0 = 1;
-  
+    
      // Kesmeleri etkinle?tir
     INTCONbits.GIE = 1;    // Genel kesmeleri etkinle?tir
     INTCONbits.PEIE = 1;   // Periferik kesmeleri etkinle?tir
@@ -215,104 +231,23 @@ if (ilkAcilis) {
     }
 
 if( !DcEror && !AcEror){
-     if ((currentTime.hours == 500 || currentTime.hours == 501 || currentTime.hours == 502) && currentTime.minutes == 1) {
-    
-    Lcd_Clear();
-    int i=0 ;
-    for(; i < 10; i++)
-{
-   Lcd_Set_Cursor(1, 1);     
-Lcd_Write_String("YAG BAKIMI YAPINIZ");
-Lcd_Set_Cursor(2, 1);     
-Lcd_Write_String("OIL THE GEARS");
-RA4 = 1;
-} 
-    Lcd_Clear();
+  
+   // yag bakim uyari cagirici
+if ((   currentTime.hours % 500 == 0 && currentTime.hours != 0 
+     || currentTime.hours % 500 == 1 && currentTime.hours != 1
+     || currentTime.hours % 500 == 2 && currentTime.hours != 2)
+     && currentTime.minutes == 0) {
+    yagBakim();
+}
+//yag bakimi cagrildi
+ // EEPROM'a güncel süreyi yaz
  
-    RA4 = 0;    
-}
-   //500 YAG BAKIM UYARISI
-if ((currentTime.hours == 500 || currentTime.hours == 501 || currentTime.hours == 502) && currentTime.minutes == 0) {
-    
-    Lcd_Clear();
-    int i=0 ;
-    for(; i < 10; i++)
-{
-   Lcd_Set_Cursor(1, 1);     
-Lcd_Write_String("YAG BAKIMI YAPINIZ");
-Lcd_Set_Cursor(2, 1);     
-Lcd_Write_String("OIL THE GEARS");
-RA4 = 1;
-} 
-    Lcd_Clear();
-    RA4 = 0;    
-}
-  //1000 YAG BAKIM UYARISI
-if ((currentTime.hours == 1000 || currentTime.hours == 1001 || currentTime.hours == 1002) && currentTime.minutes == 0) {
-    
-    Lcd_Clear();
-    int i=0 ;
-    for(; i < 10; i++)
-{
-   Lcd_Set_Cursor(1, 1);     
-Lcd_Write_String("YAG BAKIMI YAPINIZ");
-Lcd_Set_Cursor(2, 1);     
-Lcd_Write_String("OIL THE GEARS");
-RA4 = 1;
-} 
-    Lcd_Clear();
-    RA4 = 0;    
-}
-  //1500 YAG BAKIM UYARISI
-if ((currentTime.hours == 1500 || currentTime.hours == 1501 || currentTime.hours == 1502) && currentTime.minutes == 0) {
-    
-    Lcd_Clear();
-    int i=0 ;
-    for(; i < 10; i++)
-{
-   Lcd_Set_Cursor(1, 1);     
-Lcd_Write_String("YAG BAKIMI YAPINIZ");
-Lcd_Set_Cursor(2, 1);     
-Lcd_Write_String("OIL THE GEARS");
-RA4 = 1;
-} 
-    Lcd_Clear();
-    RA4 = 0;    
-}
-  //2000 YAG BAKIM UYARISI
-if ((currentTime.hours == 2000 || currentTime.hours == 2001 || currentTime.hours == 2002) && currentTime.minutes == 0) {
-    
-    Lcd_Clear();
-    int i=0 ;
-    for(; i < 10; i++)
-{
-   Lcd_Set_Cursor(1, 1);     
-Lcd_Write_String("YAG BAKIMI YAPINIZ");
-Lcd_Set_Cursor(2, 1);     
-Lcd_Write_String("OIL THE GEARS");
-RA4 = 1;
-} 
-    Lcd_Clear();
-    RA4 = 0;    
-}
-  //2500 YAG BAKIM UYARISI
-if ((currentTime.hours == 2500 || currentTime.hours == 2501 || currentTime.hours == 2502) && currentTime.minutes == 0) {
-    
-    Lcd_Clear();
-    int i=0 ;
-    for(; i < 10; i++)
-{
-   Lcd_Set_Cursor(1, 1);     
-Lcd_Write_String("YAG BAKIMI YAPINIZ");
-Lcd_Set_Cursor(2, 1);     
-Lcd_Write_String("OIL THE GEARS");
-RA4 = 1;
-} 
-    Lcd_Clear();
-    RA4 = 0;    
-}
-   int saat = readEEPROM(0x00);
-   int dakika = readEEPROM(0x01);
+  
+      
+  
+        
+   int saat = readEEPROM(0x01);
+   int dakika = readEEPROM(0x02);
  
         // Saati ve dakikay? do?ru formatta birle?tirip lcdText'e yaz
         sprintf(lcdText, "%5uh %02um", saat, dakika);
@@ -339,8 +274,6 @@ RA4 = 1;
     while (ADCON0bits.GO); // Dönü?ümün tamamlanmas?n? bekle
     adcValue2 = (ADRESH << 8) | ADRESL;
     
-    //adcValue2 = adcValue2*oranValue ;
-            
     float integerPart = adcValue2*oranValue*3; // Tam say? k?sm?
     
     int binler = (int)integerPart/1000;
