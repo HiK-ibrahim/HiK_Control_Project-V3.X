@@ -2094,15 +2094,16 @@ void yagBakim() {
     RA4 = 0;
 }
 
-unsigned int epromayaz = 0;
+
 unsigned int kesmeSayaci = 0;
 struct Time {
+    unsigned int carpan;
     unsigned int hours;
     unsigned int minutes;
     unsigned int seconds;
 };
 
-struct Time currentTime = {000, 00, 00};
+struct Time currentTime = {000,000, 00, 00};
 
 
 
@@ -2131,11 +2132,17 @@ void incrementTime(struct Time* time) {
     time->seconds++;
     if (time->seconds >= 60) {
         time->seconds = 0;
+
         time->minutes++;
         if (time->minutes >= 60) {
             time->minutes = 0;
-            time->hours++;
 
+            time->hours++;
+            if (time-> hours >= 255){
+                time-> hours = 0;
+                time->carpan++;
+
+            }
         }
     }
 }
@@ -2144,14 +2151,8 @@ void incrementTime(struct Time* time) {
 void __attribute__((picinterrupt(("")))) timer_isr(void) {
     if (T0IF) {
         T0IF = 0;
-        TMR0 = 61;
-  epromayaz++;
-  if (epromayaz==60){
-      epromayaz=0;
+        TMR0 =61;
 
-  }
-   unsigned char highByte = (unsigned char)(currentTime.hours / 256);
-    unsigned char lowByte = (unsigned char)(currentTime.hours % 256);
 
         kesmeSayaci++;
         if (kesmeSayaci==20){
@@ -2159,10 +2160,10 @@ void __attribute__((picinterrupt(("")))) timer_isr(void) {
             incrementTime(&currentTime);
 
 
-       writeEEPROM(0x01, currentTime.hours);
+        writeEEPROM(0x01, currentTime.hours);
         writeEEPROM(0x02, currentTime.minutes);
         writeEEPROM(0x03, currentTime.seconds);
-
+        writeEEPROM(0x04, currentTime.carpan);
 
 
         }
@@ -2210,8 +2211,8 @@ TRISD = 0b00000001;
 
     currentTime.hours = readEEPROM(0x01);
     currentTime.minutes = readEEPROM(0x02);
-
-
+    currentTime.seconds = readEEPROM(0x03);
+    currentTime.carpan = readEEPROM(0x04);
 
 
     char lcdText[9];
@@ -2257,7 +2258,7 @@ unsigned int displayValue = 0;
     float adcValue1;
     int adcValue2;
     float adcValue3;
-    float rpmtofloat;
+
 
 
 
@@ -2291,24 +2292,22 @@ if (ilkAcilis) {
 if( !RC3 && !RD0){
 
 
-if (( currentTime.hours % 500 == 0 && currentTime.hours != 0
-     || currentTime.hours % 500 == 1 && currentTime.hours != 1
-     || currentTime.hours % 500 == 2 && currentTime.hours != 2)
-     && currentTime.minutes == 0) {
+
+
+
+
+   int dakika = readEEPROM(0x02);
+   int realSaat = readEEPROM(0x04)*255+readEEPROM(0x01);
+
+        sprintf(lcdText, "%5uh %02um", realSaat, dakika);
+
+
+if ( ( realSaat % 500 == 0 && realSaat != 0
+     || realSaat % 500 == 1 && realSaat != 1
+     || realSaat % 500 == 2 && realSaat != 2
+     ) && currentTime.minutes == 0 ) {
     yagBakim();
 }
-
-
-
-
-
-
-
-   int saat = readEEPROM(0x01);
-   int dakika = readEEPROM(0x02);
-
-
-        sprintf(lcdText, "%5uh %02um", saat, dakika);
 
 
      Lcd_Set_Cursor(1, 10);

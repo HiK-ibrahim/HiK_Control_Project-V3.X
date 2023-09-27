@@ -1,5 +1,5 @@
 #define _XTAL_FREQ 4000000
-//18.09.2023 saat fena de?il saniyede 1 yazar
+// 27.09.2023 Saat 255de s?f?rlama sorunu çözüldü 
 //lcd pinleri tan?mlamalari
 #define RS RB5
 #define EN RB4
@@ -37,15 +37,16 @@ void yagBakim() {
     RA4 = 0;
 }
 
-unsigned int epromayaz = 0;
+
 unsigned int kesmeSayaci = 0;
 struct Time {
+    unsigned int carpan;
     unsigned int hours;
     unsigned int minutes;
     unsigned int seconds;
 };
 
-struct Time currentTime = {000, 00, 00}; // Saat, dakika ve saniye cinsinden süre
+struct Time currentTime = {000,000, 00, 00}; // Saat, dakika ve saniye cinsinden süre
 
  
 
@@ -74,11 +75,17 @@ void incrementTime(struct Time* time) {
     time->seconds++;  
     if (time->seconds >= 60) {
         time->seconds = 0;
+        
         time->minutes++;
         if (time->minutes >= 60) {
             time->minutes = 0;
+        
             time->hours++;
-            
+            if (time-> hours >= 255){
+                time-> hours = 0;
+                time->carpan++;
+                
+            }
         }
     }
 }
@@ -87,25 +94,19 @@ void incrementTime(struct Time* time) {
 void __interrupt() timer_isr(void) {
     if (T0IF) { // Zamanlay?c? 0 kesmesi mi?
         T0IF = 0; // Kesme bayra??n? s?f?rla
-        TMR0 = 61; // Zamanlay?c? de?erini ayarla (256 - 250 = 6)
-  epromayaz++;
-  if (epromayaz==60){
-      epromayaz=0;
-     
-  }
-   unsigned char highByte = (unsigned char)(currentTime.hours / 256);
-    unsigned char lowByte = (unsigned char)(currentTime.hours % 256); 
-        
+        TMR0 =61; // Zamanlay?c? de?erini ayarla (256 - 250 = 6)
+  
+ 
         kesmeSayaci++;
         if (kesmeSayaci==20){
             kesmeSayaci = 0 ;
             incrementTime(&currentTime);
  
    
-       writeEEPROM(0x01, currentTime.hours);
+        writeEEPROM(0x01, currentTime.hours);
         writeEEPROM(0x02, currentTime.minutes);
         writeEEPROM(0x03, currentTime.seconds);
-        
+        writeEEPROM(0x04, currentTime.carpan);
              // EEPROM'dan kaydedilmi? süreyi oku    
                
         }        
@@ -151,9 +152,10 @@ TRISD = 0b00000001; // RD1, RD2, RD3, RD4, RD5, RD6, RD7 ç?k??; di?eri giri?
   // EEPROM'dan kaydedilmi? süreyi oku
   // Saat de?erini bellekten okuma
   
-    currentTime.hours = readEEPROM(0x01);
+    currentTime.hours   = readEEPROM(0x01);
     currentTime.minutes = readEEPROM(0x02);
-  
+    currentTime.seconds = readEEPROM(0x03);
+    currentTime.carpan  = readEEPROM(0x04);
 
    
     char lcdText[9]; // HH:MM:SS + null karakteri için yeterli bo?luk
@@ -197,9 +199,9 @@ unsigned int displayValue = 0; // Güncel de?eri saklamak için bir de?i?ken
     ADCON0bits.ADON = 1; // ADC'yi etkinle?tir
 
     float adcValue1; // Birinci potansiyometre de?eri
-    int adcValue2; // ?kinci potansiyometre de?eri
+    int   adcValue2; // ?kinci potansiyometre de?eri
     float adcValue3; // trimpot de?eri
-    float rpmtofloat; // Sonucu saklayacak sabit kayan nokta de?i?ken
+ 
     // adc bitti
 
 
@@ -232,26 +234,24 @@ if (ilkAcilis) {
 
 if( !DcEror && !AcEror){
   
-   // yag bakim uyari cagirici
-if ((   currentTime.hours % 500 == 0 && currentTime.hours != 0 
-     || currentTime.hours % 500 == 1 && currentTime.hours != 1
-     || currentTime.hours % 500 == 2 && currentTime.hours != 2)
-     && currentTime.minutes == 0) {
+
+ // EEPROM'a güncel süreyi yaz
+ 
+        
+  // int saat = readEEPROM(0x01);
+   int dakika   = readEEPROM(0x02);
+   int realSaat = readEEPROM(0x04)*255+readEEPROM(0x01); 
+        // Saati ve dakikay? do?ru formatta birle?tirip lcdText'e yaz
+        sprintf(lcdText, "%5uh %02um", realSaat, dakika);
+
+           // yag bakim uyari cagirici
+if ( (  realSaat % 500 == 0 && realSaat != 0 
+     || realSaat % 500 == 1 && realSaat != 1
+     || realSaat % 500 == 2 && realSaat != 2
+     ) && currentTime.minutes == 0 ) {
     yagBakim();
 }
 //yag bakimi cagrildi
- // EEPROM'a güncel süreyi yaz
- 
-  
-      
-  
-        
-   int saat = readEEPROM(0x01);
-   int dakika = readEEPROM(0x02);
- 
-        // Saati ve dakikay? do?ru formatta birle?tirip lcdText'e yaz
-        sprintf(lcdText, "%5uh %02um", saat, dakika);
-
         // LCD'ye saati yazd?r
      Lcd_Set_Cursor(1, 10);
      Lcd_Write_String("  ");
@@ -276,10 +276,10 @@ if ((   currentTime.hours % 500 == 0 && currentTime.hours != 0
     
     float integerPart = adcValue2*oranValue*3; // Tam say? k?sm?
     
-    int binler = (int)integerPart/1000;
+    int binler =  (int)integerPart/1000;
     int yuzler = ((int)integerPart-binler*1000)/100;
     int onlar  = ((int)integerPart-binler*1000-yuzler*100)/10;
-    int birler = (int)integerPart%10; 
+    int birler =  (int)integerPart%10; 
     
    
     
