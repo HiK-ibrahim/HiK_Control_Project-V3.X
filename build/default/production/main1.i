@@ -2105,8 +2105,6 @@ struct Time {
 
 struct Time currentTime = {000,000, 00, 00};
 
-
-
 void writeEEPROM(unsigned int address, unsigned int data) {
 
     EEADR = address;
@@ -2276,24 +2274,21 @@ while(1){
 
 if (ilkAcilis) {
 
-    Lcd_Set_Cursor(1,1);
-    Lcd_Write_String("STOP DURUMUNA GETIR");
-    Lcd_Set_Cursor(2,1);
-    Lcd_Write_String("PUT IT IN STOP STATE");
-    _delay((unsigned long)((500)*(4000000/4000.0)));
+
         if ( RE2 == 0 && RE0 == 0 && RC0 == 0 && RE1 == 0) {
             ilkAcilis = 0;
         } else {
 
+             Lcd_Set_Cursor(1,1);
+    Lcd_Write_String("STOP DURUMUNA GETIR");
+    Lcd_Set_Cursor(2,1);
+    Lcd_Write_String("PUT IT IN STOP STATE");
+    _delay((unsigned long)((500)*(4000000/4000.0)));
             return 0;
         }
     }
 
 if( !RC3 && !RD0){
-
-
-
-
 
 
    int dakika = readEEPROM(0x02);
@@ -2302,7 +2297,14 @@ if( !RC3 && !RD0){
         sprintf(lcdText, "%5uh %02um", realSaat, dakika);
 
 
-if ( ( realSaat % 500 == 0 && realSaat != 0
+     Lcd_Set_Cursor(1, 10);
+     Lcd_Write_String("  ");
+     Lcd_Set_Cursor(1, 11);
+     Lcd_Write_String(lcdText);
+
+
+
+    if ( ( realSaat % 500 == 0 && realSaat != 0
      || realSaat % 500 == 1 && realSaat != 1
      || realSaat % 500 == 2 && realSaat != 2
      ) && currentTime.minutes == 0 ) {
@@ -2310,10 +2312,6 @@ if ( ( realSaat % 500 == 0 && realSaat != 0
 }
 
 
-     Lcd_Set_Cursor(1, 10);
-     Lcd_Write_String("  ");
-     Lcd_Set_Cursor(1, 11);
-     Lcd_Write_String(lcdText);
 
 
 

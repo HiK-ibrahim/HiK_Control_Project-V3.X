@@ -1,5 +1,5 @@
 #define _XTAL_FREQ 4000000
-// 27.09.2023 Saat 255de s?f?rlama sorunu çözüldü 
+// 28.09.2023 ufak güncelleme
 //lcd pinleri tan?mlamalari
 #define RS RB5
 #define EN RB4
@@ -47,8 +47,6 @@ struct Time {
 };
 
 struct Time currentTime = {000,000, 00, 00}; // Saat, dakika ve saniye cinsinden süre
-
- 
 
 void writeEEPROM(unsigned int address, unsigned int data) {
     // EEPROM'a veri yazma i?lemi
@@ -158,7 +156,7 @@ TRISD = 0b00000001; // RD1, RD2, RD3, RD4, RD5, RD6, RD7 ç?k??; di?eri giri?
     currentTime.carpan  = readEEPROM(0x04);
 
    
-    char lcdText[9]; // HH:MM:SS + null karakteri için yeterli bo?luk
+    char lcdText[9]; // HHHHH:MM + null karakteri için yeterli bo?luk
 
     OPTION_REGbits.T0CS = 0; // Timer0 için dahili osilatörü kullan
     OPTION_REGbits.PSA = 0;  // Prescaler'? Timer0'a ata
@@ -219,44 +217,44 @@ while(1){
     
 if (ilkAcilis) {
     
-    Lcd_Set_Cursor(1,1);
-    Lcd_Write_String("STOP DURUMUNA GETIR");
-    Lcd_Set_Cursor(2,1);
-    Lcd_Write_String("PUT IT IN STOP STATE");
-    __delay_ms(500);
+   
         if ( FwdFEAD == 0 && FWD == 0 &&  RewFEAD == 0 && REW == 0) {
             ilkAcilis = 0; // ?lk çal??t?rma i?lemi tamamland?
         } else {
             // Yön bayraklar? hala 0 de?ilse ana döngüye girmeyin
+             Lcd_Set_Cursor(1,1);
+    Lcd_Write_String("STOP DURUMUNA GETIR");
+    Lcd_Set_Cursor(2,1);
+    Lcd_Write_String("PUT IT IN STOP STATE");
+    __delay_ms(500);
             return 0; // Ana döngüye girmeyin
         }
     }
 
 if( !DcEror && !AcEror){
   
-
- // EEPROM'a güncel süreyi yaz
- 
-        
-  // int saat = readEEPROM(0x01);
+ // EEPROM'dan güncel süreyi oku
    int dakika   = readEEPROM(0x02);
    int realSaat = readEEPROM(0x04)*255+readEEPROM(0x01); 
         // Saati ve dakikay? do?ru formatta birle?tirip lcdText'e yaz
         sprintf(lcdText, "%5uh %02um", realSaat, dakika);
-
-           // yag bakim uyari cagirici
-if ( (  realSaat % 500 == 0 && realSaat != 0 
+        
+    // LCD'ye saati yazd?r
+     Lcd_Set_Cursor(1, 10);
+     Lcd_Write_String("  ");
+     Lcd_Set_Cursor(1, 11);
+     Lcd_Write_String(lcdText); 
+     // Saat, dakika ve saniyeyi yazd?r
+     
+      // yag bakim uyari cagirici
+    if ( (  realSaat % 500 == 0 && realSaat != 0 
      || realSaat % 500 == 1 && realSaat != 1
      || realSaat % 500 == 2 && realSaat != 2
      ) && currentTime.minutes == 0 ) {
     yagBakim();
 }
-//yag bakimi cagrildi
-        // LCD'ye saati yazd?r
-     Lcd_Set_Cursor(1, 10);
-     Lcd_Write_String("  ");
-     Lcd_Set_Cursor(1, 11);
-     Lcd_Write_String(lcdText); // Saat, dakika ve saniyeyi yazd?r
+    //yag bakimi cagrildi
+        
 
      
          // üçüncü( kart?n üstündeki trimpot) de?eri
