@@ -12,15 +12,17 @@ Sistemde 3 adet POT vardır.
 
 2.POT: RPM Potu
 AC servo motorumuzun hızını bu pot ile kontrol eder ve hızı ekrana ondalık 1 basamak yazabilecek hassasiyette yazdırız.
+
 3. pot: Sınır
-Bu pot ise 2.potun üst limitini kısmak için eklenmiştir. fiziksel olarak potun değerini sadece LCD ekranda kısıyoruz.
+Bu pot ise 2.potun üst limitini kısmak için eklenmiştir. 2.Potun değerini bu potun oranı ile sadece LCD ekranda sanal  kısıyoruz.
 
 
 ÖZELLİKLER:
 
 -Sistem ilk açıldığında yön anahtarlarından herhangi biri yönlü ise sistem başlamaz ve 0 konumuna getirilmesi istenir.
 
--Çalışma saati eklendi.
+-Çalışma saati eklendi.("eprom en fazla 8 bit değer tutabildiği için
+çalışma saati 255in üstüne çıktığında epromda farklı bir alanda carpan değişkeni tutularak çalışma saati hesaplanır.")
 
 -500 saat ve katlarında Yağ bakımı uyarısı eklendi.
 
