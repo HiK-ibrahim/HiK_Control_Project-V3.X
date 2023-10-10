@@ -1,5 +1,5 @@
 #define _XTAL_FREQ 4000000
-// 10.10.2023 saat de?eri epromun bütün adreslerini döngüsel olarak kullanacak ve kay?t süresi 1dk
+// 10.10.2023 eprom döngüsü 200 saat yap?ld?
 //lcd pinleri tan?mlamalari
 #define RS RB5
 #define EN RB4
@@ -113,30 +113,14 @@ void __interrupt() timer_isr(void) {
         writeEEPROM(epromBaslaAdress + 2, currentTime.seconds);
         writeEEPROM(epromBaslaAdress + 3, currentTime.carpan);
         
-        if( (epromBaslaAdress+3)*250+ (epromBaslaAdress) ){
-        epromBaslaAdress+4;
+        if( readEEPROM(readEEPROM(epromBaslaAdress)==200 )){
+            
+        epromBaslaAdress= epromBaslaAdress +(readEEPROM(epromBaslaAdress+3))*4;
+        
         }
         
-         /*
-        writeEEPROM(0x01, currentTime.hours);
-        writeEEPROM(0x02, currentTime.minutes);
-        writeEEPROM(0x03, currentTime.seconds);
-        writeEEPROM(0x04, currentTime.carpan);
-        
-        if(readEEPROM(0x04)*250+readEEPROM(0x01)==500){
-        writeEEPROM(0x05, currentTime.hours);
-        writeEEPROM(0x06, currentTime.minutes);
-        writeEEPROM(0x07, currentTime.seconds);
-        writeEEPROM(0x08, currentTime.carpan);         
-        }
-        if(readEEPROM(0x08)*250+readEEPROM(0x05)==1000){
-        writeEEPROM(0x09, currentTime.hours);
-        writeEEPROM(0x10, currentTime.minutes);
-        writeEEPROM(0x11, currentTime.seconds);
-        writeEEPROM(0x12, currentTime.carpan); 
-        }
-        */
-             // EEPROM'dan kaydedilmi? süreyi oku    
+       
+     
                
         }        
     }
@@ -285,11 +269,7 @@ if (ilkAcilis) {
 
 if( !DcEror && !AcEror){
   
-    /*
- // EEPROM'dan güncel süreyi oku
-   int dakika   = readEEPROM(0x02);
-   int realSaat = readEEPROM(0x04)*250+readEEPROM(0x01); 
-   */
+
     
     int dakika = readEEPROM(epromBaslaAdress+1);
     int realSaat = readEEPROM((epromBaslaAdress+3)*250+readEEPROM(epromBaslaAdress));
