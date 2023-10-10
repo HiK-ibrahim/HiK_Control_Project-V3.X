@@ -39,6 +39,7 @@
 [v ___flmul __flmul `(d  1 e 4 0 ]
 "15 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c90\common\Umul16.c
 [v ___wmul __wmul `(ui  1 e 2 0 ]
+[v i1___wmul __wmul `(ui  1 e 2 0 ]
 "4 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c90\common\Umul8_16.c
 [v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
 "10 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c90\common\xxtofl.c
@@ -49,15 +50,16 @@
 [v ___memcpyee __memcpyee `(v  1 e 1 0 ]
 "27 C:\Users\ibrah\Desktop\uzmanlar\16f877a için\yeni denemeler\HiK_Control_Project-V3.X\main1.c
 [v _yagBakim yagBakim `(v  1 e 1 0 ]
-"51
+"54
 [v _writeEEPROM writeEEPROM `(v  1 e 1 0 ]
-"65
+[v i1_writeEEPROM writeEEPROM `(v  1 e 1 0 ]
+"68
 [v _readEEPROM readEEPROM `(ui  1 e 2 0 ]
-"72
+"75
 [v _incrementTime incrementTime `(v  1 e 1 0 ]
-"92
+"95
 [v _timer_isr timer_isr `II(v  1 e 1 0 ]
-"114
+"145
 [v _main main `(i  1 e 2 0 ]
 "4 C:\Users\ibrah\Desktop\uzmanlar\16f877a için\yeni denemeler\HiK_Control_Project-V3.X\uart_lib.c
 [v _UART_Initialize UART_Initialize `(v  1 e 1 0 ]
@@ -236,61 +238,69 @@
 [v _WREN WREN `VEb  1 e 0 @3170 ]
 "358 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c90\common\doprnt.c
 [v _dpowers dpowers `DC[5]ui  1 s 10 dpowers ]
-"41 C:\Users\ibrah\Desktop\uzmanlar\16f877a için\yeni denemeler\HiK_Control_Project-V3.X\main1.c
+"40 C:\Users\ibrah\Desktop\uzmanlar\16f877a için\yeni denemeler\HiK_Control_Project-V3.X\main1.c
+[v _eepromWRclc eepromWRclc `ui  1 e 2 0 ]
+"41
 [v _kesmeSayaci kesmeSayaci `ui  1 e 2 0 ]
+"42
+[v _epromBaslaAdress epromBaslaAdress `i  1 e 2 0 ]
 [s S47 Time 8 `ui 1 carpan 2 0 `ui 1 hours 2 2 `ui 1 minutes 2 4 `ui 1 seconds 2 6 ]
-"49
+"52
 [v _currentTime currentTime `S47  1 e 8 0 ]
-"114
+"145
 [v _main main `(i  1 e 2 0 ]
 {
-"357
-[v main@uartMessage_369 uartMessage `[8]uc  1 a 8 37 ]
-"329
+"422
+[v main@uartMessage_373 uartMessage `[8]uc  1 a 8 37 ]
+"394
 [v main@uartMessage uartMessage `[8]uc  1 a 8 29 ]
-"371
-[v main@combinedText_373 combinedText `[20]uc  1 a 20 0 ]
-"370
-[v main@negativeDisplayValue negativeDisplayValue `i  1 a 2 74 ]
-"355
-[v main@negativeFeedValue negativeFeedValue `i  1 a 2 14 ]
-"342
+"436
+[v main@combinedText_377 combinedText `[20]uc  1 a 20 0 ]
+"435
+[v main@negativeDisplayValue negativeDisplayValue `i  1 a 2 0 ]
+"420
+[v main@negativeFeedValue negativeFeedValue `i  1 a 2 20 ]
+"407
 [v main@combinedText combinedText `[20]uc  1 a 20 58 ]
-"309
-[v main@rpmString rpmString `[5]uc  1 a 5 61 ]
-"301
+"253
+[v main@olmazlar olmazlar `i  1 a 2 68 ]
+"374
+[v main@rpmString rpmString `[5]uc  1 a 5 45 ]
+"366
 [v main@adcString1 adcString1 `[4]uc  1 a 4 76 ]
-"275
-[v main@integerPart integerPart `f  1 a 4 10 ]
-"294
-[v main@gostermeliklcd gostermeliklcd `f  1 a 4 53 ]
-"266
-[v main@oranValue oranValue `f  1 a 4 49 ]
-"238
-[v main@realSaat realSaat `i  1 a 2 16 ]
-"277
-[v main@binler binler `i  1 a 2 8 ]
-"278
-[v main@yuzler yuzler `i  1 a 2 6 ]
-"280
-[v main@birler birler `i  1 a 2 72 ]
-"279
-[v main@onlar onlar `i  1 a 2 70 ]
-"237
-[v main@dakika dakika `i  1 a 2 68 ]
-"159
+"340
+[v main@integerPart integerPart `f  1 a 4 14 ]
+"359
+[v main@gostermeliklcd gostermeliklcd `f  1 a 4 58 ]
+"331
+[v main@oranValue oranValue `f  1 a 4 54 ]
+"300
+[v main@realSaat realSaat `i  1 a 2 24 ]
+"342
+[v main@binler binler `i  1 a 2 12 ]
+"343
+[v main@yuzler yuzler `i  1 a 2 10 ]
+"345
+[v main@birler birler `i  1 a 2 74 ]
+"344
+[v main@onlar onlar `i  1 a 2 72 ]
+"299
+[v main@dakika dakika `i  1 a 2 70 ]
+"251
+[v main@epromAdresi epromAdresi `i  1 a 2 18 ]
+"190
 [v main@lcdText lcdText `[9]uc  1 a 9 20 ]
-"199
-[v main@adcValue1 adcValue1 `f  1 a 4 2 ]
-"201
-[v main@adcValue3 adcValue3 `f  1 a 4 45 ]
-"189
-[v main@displayValue displayValue `ui  1 a 2 18 ]
-"214
-[v main@ilkAcilis ilkAcilis `i  1 a 2 0 ]
-"200
+"230
+[v main@adcValue1 adcValue1 `f  1 a 4 6 ]
+"232
+[v main@adcValue3 adcValue3 `f  1 a 4 50 ]
+"220
+[v main@displayValue displayValue `ui  1 a 2 22 ]
+"245
+[v main@ilkAcilis ilkAcilis `i  1 a 2 4 ]
+"231
 [v main@adcValue2 adcValue2 `i  1 a 2 66 ]
-"433
+"498
 } 0
 "27
 [v _yagBakim yagBakim `(v  1 e 1 0 ]
@@ -341,6 +351,13 @@
 {
 "38
 } 0
+"54 C:\Users\ibrah\Desktop\uzmanlar\16f877a için\yeni denemeler\HiK_Control_Project-V3.X\main1.c
+[v _writeEEPROM writeEEPROM `(v  1 e 1 0 ]
+{
+[v writeEEPROM@address address `ui  1 p 2 0 ]
+[v writeEEPROM@data data `ui  1 p 2 2 ]
+"66
+} 0
 "505 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c90\common\doprnt.c
 [v _sprintf sprintf `(i  1 e 2 0 ]
 {
@@ -377,10 +394,10 @@
 [v ___wmul __wmul `(ui  1 e 2 0 ]
 {
 "17
-[v ___wmul@product product `ui  1 a 2 8 ]
+[v ___wmul@product product `ui  1 a 2 4 ]
 "15
-[v ___wmul@multiplier multiplier `ui  1 p 2 4 ]
-[v ___wmul@multiplicand multiplicand `ui  1 p 2 6 ]
+[v ___wmul@multiplier multiplier `ui  1 p 2 0 ]
+[v ___wmul@multiplicand multiplicand `ui  1 p 2 2 ]
 "53
 } 0
 "5 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c90\common\lwmod.c
@@ -397,19 +414,19 @@
 [v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
 {
 "10
-[v ___lwdiv@quotient quotient `ui  1 a 2 5 ]
+[v ___lwdiv@quotient quotient `ui  1 a 2 4 ]
 "11
-[v ___lwdiv@counter counter `uc  1 a 1 4 ]
+[v ___lwdiv@counter counter `uc  1 a 1 6 ]
 "5
 [v ___lwdiv@divisor divisor `ui  1 p 2 0 ]
 [v ___lwdiv@dividend dividend `ui  1 p 2 2 ]
 "30
 } 0
-"65 C:\Users\ibrah\Desktop\uzmanlar\16f877a için\yeni denemeler\HiK_Control_Project-V3.X\main1.c
+"68 C:\Users\ibrah\Desktop\uzmanlar\16f877a için\yeni denemeler\HiK_Control_Project-V3.X\main1.c
 [v _readEEPROM readEEPROM `(ui  1 e 2 0 ]
 {
-[v readEEPROM@address address `ui  1 p 2 0 ]
-"70
+[v readEEPROM@address address `ui  1 p 2 6 ]
+"73
 } 0
 "10 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c90\common\xxtofl.c
 [v ___xxtofl __xxtofl `(d  1 e 4 0 ]
@@ -439,17 +456,17 @@
 "8 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c90\common\sprcmul.c
 [v ___flmul __flmul `(d  1 e 4 0 ]
 {
-[s S687 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
+[s S691 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
 "13
-[s S692 . 4 `i 1 wordA 2 0 `i 1 wordB 2 2 ]
-[u S695 . 4 `l 1 i 4 0 `d 1 f 4 0 `S687 1 fAsBytes 4 0 `S692 1 fAsWords 4 0 ]
-[v ___flmul@prod prod `S695  1 a 4 46 ]
+[s S696 . 4 `i 1 wordA 2 0 `i 1 wordB 2 2 ]
+[u S699 . 4 `l 1 i 4 0 `d 1 f 4 0 `S691 1 fAsBytes 4 0 `S696 1 fAsWords 4 0 ]
+[v ___flmul@prod prod `S699  1 a 4 46 ]
 "12
 [v ___flmul@grs grs `ul  1 a 4 40 ]
-[s S764 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
+[s S768 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
 "14
-[u S767 . 2 `i 1 i 2 0 `ui 1 n 2 0 `S764 1 nAsBytes 2 0 ]
-[v ___flmul@temp temp `S767  1 a 2 50 ]
+[u S771 . 2 `i 1 i 2 0 `ui 1 n 2 0 `S768 1 nAsBytes 2 0 ]
+[v ___flmul@temp temp `S771  1 a 2 50 ]
 "10
 [v ___flmul@bexp bexp `uc  1 a 1 45 ]
 "11
@@ -564,24 +581,34 @@
 [v Lcd_Port@a a `uc  1 a 1 0 ]
 "24
 } 0
-"92 C:\Users\ibrah\Desktop\uzmanlar\16f877a için\yeni denemeler\HiK_Control_Project-V3.X\main1.c
+"95 C:\Users\ibrah\Desktop\uzmanlar\16f877a için\yeni denemeler\HiK_Control_Project-V3.X\main1.c
 [v _timer_isr timer_isr `II(v  1 e 1 0 ]
 {
-"112
+"143
 } 0
-"51
-[v _writeEEPROM writeEEPROM `(v  1 e 1 0 ]
+"54
+[v i1_writeEEPROM writeEEPROM `(v  1 e 1 0 ]
 {
-[v writeEEPROM@address address `ui  1 p 2 0 ]
-[v writeEEPROM@data data `ui  1 p 2 2 ]
-"63
+[v i1writeEEPROM@address address `ui  1 p 2 0 ]
+[v i1writeEEPROM@data data `ui  1 p 2 2 ]
+"66
 } 0
-"72
+"15 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c90\common\Umul16.c
+[v i1___wmul __wmul `(ui  1 e 2 0 ]
+{
+"17
+[v i1___wmul@product product `ui  1 a 2 4 ]
+"15
+[v i1___wmul@multiplier multiplier `ui  1 p 2 0 ]
+[v i1___wmul@multiplicand multiplicand `ui  1 p 2 2 ]
+"53
+} 0
+"75 C:\Users\ibrah\Desktop\uzmanlar\16f877a için\yeni denemeler\HiK_Control_Project-V3.X\main1.c
 [v _incrementTime incrementTime `(v  1 e 1 0 ]
 {
 [s S47 Time 8 `ui 1 carpan 2 0 `ui 1 hours 2 2 `ui 1 minutes 2 4 `ui 1 seconds 2 6 ]
 [v incrementTime@time time `*.5S47  1 a 1 wreg ]
 [v incrementTime@time time `*.5S47  1 a 1 wreg ]
 [v incrementTime@time time `*.5S47  1 a 1 2 ]
-"89
+"92
 } 0

@@ -2094,8 +2094,11 @@ void yagBakim() {
     RA4 = 0;
 }
 
-
+unsigned int eepromWRclc = 0;
 unsigned int kesmeSayaci = 0;
+int epromBaslaAdress = 0x01;
+
+
 struct Time {
     unsigned int carpan;
     unsigned int hours;
@@ -2136,7 +2139,7 @@ void incrementTime(struct Time* time) {
             time->minutes = 0;
 
             time->hours++;
-            if (time-> hours >= 255){
+            if (time-> hours >= 250){
                 time-> hours = 0;
                 time->carpan++;
 
@@ -2156,14 +2159,21 @@ void __attribute__((picinterrupt(("")))) timer_isr(void) {
         if (kesmeSayaci==20){
             kesmeSayaci = 0 ;
             incrementTime(&currentTime);
+ eepromWRclc++;
+            if (eepromWRclc==60){
+                eepromWRclc=0;
+            }
 
 
-        writeEEPROM(0x01, currentTime.hours);
-        writeEEPROM(0x02, currentTime.minutes);
-        writeEEPROM(0x03, currentTime.seconds);
-        writeEEPROM(0x04, currentTime.carpan);
+        writeEEPROM(epromBaslaAdress , currentTime.hours);
+        writeEEPROM(epromBaslaAdress + 1, currentTime.minutes);
+        writeEEPROM(epromBaslaAdress + 2, currentTime.seconds);
+        writeEEPROM(epromBaslaAdress + 3, currentTime.carpan);
 
-
+        if( (epromBaslaAdress+3)*250+ (epromBaslaAdress) ){
+        epromBaslaAdress+4;
+        }
+# 141 "main1.c"
         }
     }
 }
@@ -2272,6 +2282,20 @@ int ilkAcilis = 1;
 
 while(1){
 
+
+
+      for ( int epromAdresi = 0 ; epromAdresi<255; epromAdresi++){
+
+        int olmazlar = readEEPROM(epromAdresi);
+
+
+        if (olmazlar==255){
+
+       writeEEPROM(epromAdresi,0);
+        }
+
+    }
+# 275 "main1.c"
 if (ilkAcilis) {
 
 
@@ -2291,8 +2315,16 @@ if (ilkAcilis) {
 if( !RC3 && !RD0){
 
 
-   int dakika = readEEPROM(0x02);
-   int realSaat = readEEPROM(0x04)*255+readEEPROM(0x01);
+
+
+
+
+
+    int dakika = readEEPROM(epromBaslaAdress+1);
+    int realSaat = readEEPROM((epromBaslaAdress+3)*250+readEEPROM(epromBaslaAdress));
+
+
+
 
         sprintf(lcdText, "%5uh %02um", realSaat, dakika);
 

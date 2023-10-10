@@ -1,5 +1,5 @@
 #define _XTAL_FREQ 4000000
-// 28.09.2023 ufak güncelleme
+// 10.10.2023 saat de?eri epromun bütün adreslerini döngüsel olarak kullanacak ve kay?t süresi 1dk
 //lcd pinleri tan?mlamalari
 #define RS RB5
 #define EN RB4
@@ -37,8 +37,11 @@ void yagBakim() {
     RA4 = 0;
 }
 
-
+unsigned int eepromWRclc = 0;
 unsigned int kesmeSayaci = 0;
+int epromBaslaAdress = 0x01; // Ba?lang?ç EEPROM adresi
+
+
 struct Time {
     unsigned int carpan;
     unsigned int hours;
@@ -79,7 +82,7 @@ void incrementTime(struct Time* time) {
             time->minutes = 0;
         
             time->hours++;
-            if (time-> hours >= 255){
+            if (time-> hours >= 250){
                 time-> hours = 0;
                 time->carpan++;
                 
@@ -99,12 +102,40 @@ void __interrupt() timer_isr(void) {
         if (kesmeSayaci==20){
             kesmeSayaci = 0 ;
             incrementTime(&currentTime);
+ eepromWRclc++;
+            if (eepromWRclc==60){
+                eepromWRclc=0;
+            }
  
-   
+ 
+        writeEEPROM(epromBaslaAdress    , currentTime.hours);
+        writeEEPROM(epromBaslaAdress + 1, currentTime.minutes);
+        writeEEPROM(epromBaslaAdress + 2, currentTime.seconds);
+        writeEEPROM(epromBaslaAdress + 3, currentTime.carpan);
+        
+        if( (epromBaslaAdress+3)*250+ (epromBaslaAdress) ){
+        epromBaslaAdress+4;
+        }
+        
+         /*
         writeEEPROM(0x01, currentTime.hours);
         writeEEPROM(0x02, currentTime.minutes);
         writeEEPROM(0x03, currentTime.seconds);
         writeEEPROM(0x04, currentTime.carpan);
+        
+        if(readEEPROM(0x04)*250+readEEPROM(0x01)==500){
+        writeEEPROM(0x05, currentTime.hours);
+        writeEEPROM(0x06, currentTime.minutes);
+        writeEEPROM(0x07, currentTime.seconds);
+        writeEEPROM(0x08, currentTime.carpan);         
+        }
+        if(readEEPROM(0x08)*250+readEEPROM(0x05)==1000){
+        writeEEPROM(0x09, currentTime.hours);
+        writeEEPROM(0x10, currentTime.minutes);
+        writeEEPROM(0x11, currentTime.seconds);
+        writeEEPROM(0x12, currentTime.carpan); 
+        }
+        */
              // EEPROM'dan kaydedilmi? süreyi oku    
                
         }        
@@ -215,6 +246,27 @@ int ilkAcilis = 1;
 
 while(1){
     
+    //e?er eprom de?erinde 255 yazarsa s?f?rlamak için 
+  
+      for ( int epromAdresi = 0 ; epromAdresi<255; epromAdresi++){   
+        int olmazlar = readEEPROM(epromAdresi);  
+        if (olmazlar==255){        
+       writeEEPROM(epromAdresi,0);         
+        }
+    }
+    
+ /*
+    if( readEEPROM(0x02)== 255 && readEEPROM(0x01)==255 && readEEPROM(0x04)==255 ){
+        
+        writeEEPROM(0x01, 0);
+        writeEEPROM(0x02, 0);
+        writeEEPROM(0x03, 0);
+        writeEEPROM(0x04, 0);
+    }
+  */
+    
+    
+    
 if (ilkAcilis) {
     
    
@@ -233,10 +285,18 @@ if (ilkAcilis) {
 
 if( !DcEror && !AcEror){
   
+    /*
  // EEPROM'dan güncel süreyi oku
    int dakika   = readEEPROM(0x02);
-   int realSaat = readEEPROM(0x04)*255+readEEPROM(0x01); 
-        // Saati ve dakikay? do?ru formatta birle?tirip lcdText'e yaz
+   int realSaat = readEEPROM(0x04)*250+readEEPROM(0x01); 
+   */
+    
+    int dakika = readEEPROM(epromBaslaAdress+1);
+    int realSaat = readEEPROM((epromBaslaAdress+3)*250+readEEPROM(epromBaslaAdress));
+   
+   
+ // Saati ve dakikay? do?ru formatta birle?tirip lcdText'e yaz
+   
         sprintf(lcdText, "%5uh %02um", realSaat, dakika);
         
     // LCD'ye saati yazd?r
