@@ -2170,8 +2170,9 @@ void __attribute__((picinterrupt(("")))) timer_isr(void) {
         writeEEPROM(epromBaslaAdress + 2, currentTime.seconds);
         writeEEPROM(epromBaslaAdress + 3, currentTime.carpan);
 
-        if( readEEPROM(readEEPROM(epromBaslaAdress)==200 )){
-
+        if( readEEPROM(epromBaslaAdress)==200 ){
+        writeEEPROM(epromBaslaAdress+4,epromBaslaAdress);
+        writeEEPROM(epromBaslaAdress+7,epromBaslaAdress+3);
         epromBaslaAdress= epromBaslaAdress +(readEEPROM(epromBaslaAdress+3))*4;
 
         }
@@ -2295,7 +2296,9 @@ while(1){
        writeEEPROM(epromAdresi,0);
         }
     }
-# 254 "main1.c"
+
+
+
 if (ilkAcilis) {
 
 
@@ -2313,10 +2316,6 @@ if (ilkAcilis) {
     }
 
 if( !RC3 && !RD0){
-
-
-
-
 
 
 

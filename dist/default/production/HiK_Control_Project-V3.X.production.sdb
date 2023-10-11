@@ -59,7 +59,7 @@
 [v _incrementTime incrementTime `(v  1 e 1 0 ]
 "95
 [v _timer_isr timer_isr `II(v  1 e 1 0 ]
-"129
+"130
 [v _main main `(i  1 e 2 0 ]
 "4 C:\Users\ibrah\Desktop\uzmanlar\16f877a için\yeni denemeler\HiK_Control_Project-V3.X\uart_lib.c
 [v _UART_Initialize UART_Initialize `(v  1 e 1 0 ]
@@ -247,60 +247,60 @@
 [s S47 Time 8 `ui 1 carpan 2 0 `ui 1 hours 2 2 `ui 1 minutes 2 4 `ui 1 seconds 2 6 ]
 "52
 [v _currentTime currentTime `S47  1 e 8 0 ]
-"129
+"130
 [v _main main `(i  1 e 2 0 ]
 {
-"401
+"388
 [v main@uartMessage_373 uartMessage `[8]uc  1 a 8 37 ]
-"373
+"360
 [v main@uartMessage uartMessage `[8]uc  1 a 8 29 ]
-"415
+"402
 [v main@combinedText_377 combinedText `[20]uc  1 a 20 0 ]
-"414
+"401
 [v main@negativeDisplayValue negativeDisplayValue `i  1 a 2 0 ]
-"399
-[v main@negativeFeedValue negativeFeedValue `i  1 a 2 20 ]
 "386
+[v main@negativeFeedValue negativeFeedValue `i  1 a 2 20 ]
+"373
 [v main@combinedText combinedText `[20]uc  1 a 20 58 ]
-"236
+"237
 [v main@olmazlar olmazlar `i  1 a 2 68 ]
-"353
+"340
 [v main@rpmString rpmString `[5]uc  1 a 5 45 ]
-"345
+"332
 [v main@adcString1 adcString1 `[4]uc  1 a 4 76 ]
-"319
+"306
 [v main@integerPart integerPart `f  1 a 4 14 ]
-"338
+"325
 [v main@gostermeliklcd gostermeliklcd `f  1 a 4 58 ]
-"310
+"297
 [v main@oranValue oranValue `f  1 a 4 54 ]
-"279
+"266
 [v main@realSaat realSaat `i  1 a 2 24 ]
-"321
+"308
 [v main@binler binler `i  1 a 2 12 ]
-"322
+"309
 [v main@yuzler yuzler `i  1 a 2 10 ]
-"324
+"311
 [v main@birler birler `i  1 a 2 74 ]
-"323
+"310
 [v main@onlar onlar `i  1 a 2 72 ]
-"278
+"265
 [v main@dakika dakika `i  1 a 2 70 ]
-"235
+"236
 [v main@epromAdresi epromAdresi `i  1 a 2 18 ]
-"174
+"175
 [v main@lcdText lcdText `[9]uc  1 a 9 20 ]
-"214
-[v main@adcValue1 adcValue1 `f  1 a 4 6 ]
-"216
-[v main@adcValue3 adcValue3 `f  1 a 4 50 ]
-"204
-[v main@displayValue displayValue `ui  1 a 2 22 ]
-"229
-[v main@ilkAcilis ilkAcilis `i  1 a 2 4 ]
 "215
+[v main@adcValue1 adcValue1 `f  1 a 4 6 ]
+"217
+[v main@adcValue3 adcValue3 `f  1 a 4 50 ]
+"205
+[v main@displayValue displayValue `ui  1 a 2 22 ]
+"230
+[v main@ilkAcilis ilkAcilis `i  1 a 2 4 ]
+"216
 [v main@adcValue2 adcValue2 `i  1 a 2 66 ]
-"477
+"464
 } 0
 "27
 [v _yagBakim yagBakim `(v  1 e 1 0 ]
@@ -584,7 +584,7 @@
 "95 C:\Users\ibrah\Desktop\uzmanlar\16f877a için\yeni denemeler\HiK_Control_Project-V3.X\main1.c
 [v _timer_isr timer_isr `II(v  1 e 1 0 ]
 {
-"127
+"128
 } 0
 "54
 [v i1_writeEEPROM writeEEPROM `(v  1 e 1 0 ]

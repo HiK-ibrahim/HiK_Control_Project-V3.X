@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include "uart.h"
 #include "16f877a_Conf.c"
+#include <stdbool.h>
 
 void yagBakim() {
     Lcd_Clear();
@@ -113,8 +114,9 @@ void __interrupt() timer_isr(void) {
         writeEEPROM(epromBaslaAdress + 2, currentTime.seconds);
         writeEEPROM(epromBaslaAdress + 3, currentTime.carpan);
         
-        if( readEEPROM(readEEPROM(epromBaslaAdress)==200 )){
+         if( readEEPROM(epromBaslaAdress)==249 && readEEPROM(epromBaslaAdress+1)=59 ){
             
+        writeEEPROM(epromBaslaAdress+7,epromBaslaAdress+3);    
         epromBaslaAdress= epromBaslaAdress +(readEEPROM(epromBaslaAdress+3))*4;
         
         }
@@ -125,7 +127,7 @@ void __interrupt() timer_isr(void) {
         }        
     }
 }
-
+_Bool limitler = 0;
 int main()
 {
   unsigned int a;
@@ -238,18 +240,7 @@ while(1){
        writeEEPROM(epromAdresi,0);         
         }
     }
-    
- /*
-    if( readEEPROM(0x02)== 255 && readEEPROM(0x01)==255 && readEEPROM(0x04)==255 ){
-        
-        writeEEPROM(0x01, 0);
-        writeEEPROM(0x02, 0);
-        writeEEPROM(0x03, 0);
-        writeEEPROM(0x04, 0);
-    }
-  */
-    
-    
+
     
 if (ilkAcilis) {
     
@@ -267,8 +258,10 @@ if (ilkAcilis) {
         }
     }
 
-if( !DcEror && !AcEror){
-  
+if( !DcEror && !AcEror && limitler == 0){
+  if ( FwdFEAD == 0 && FWD == 0 &&  RewFEAD == 0 && REW == 0) {
+            limitler = 0; // limitler bayragi dustu
+        }
 
     
     int dakika = readEEPROM(epromBaslaAdress+1);
@@ -358,6 +351,7 @@ Lcd_Write_String(rpmString);
 
 // Fwd k?sm?
  if (FwdLMT == 1 && (FWD == 1 || FwdFEAD == 1)) {
+     limitler=1;
             Lcd_Set_Cursor(2, 13);
             Lcd_Write_String(" FWD LMT");
             UART_Write_Text("s0\r\n");
@@ -385,6 +379,7 @@ Lcd_Write_String(rpmString);
             
 //rew k?sm?            
         } else if (RewLMT == 1 && (REW == 1 || RewFEAD == 1)) {
+            limitler=1;
             Lcd_Set_Cursor(2, 13);
             Lcd_Write_String(" REW LMT");
             UART_Write_Text("s0\r\n");
@@ -467,6 +462,25 @@ else if( DcEror==1) {
       __delay_ms(3000);
       RA4=1;
 }
+      else if (limitler==1){
+         /*if(akimSayaci>=3){
+             //yuksekAkimdaDurdur();
+         UART_Write_Text("m2\r\n");
+         akimSayaci=0;
+         }*/
+         UART_Write_Text("s0\r\n");
+         Lcd_Set_Cursor(1,1);
+         Lcd_Write_String("STOP DURUMUNA GETIR ");
+        Lcd_Set_Cursor(2,1);
+        Lcd_Write_String("PUT IT IN STOP STATE");
+         RA4=1;
+      __delay_ms(1000);
+      RA4=0;
+      __delay_ms(1000);
+      if ( FwdFEAD == 0 && FWD == 0 &&  RewFEAD == 0 && REW == 0) {
+            limitler = 0; // limitler bayragi dustu
+        }
+     }
     }
   return 0;
   
