@@ -2080,6 +2080,9 @@ void UART_Write_Text(char *text);
 #pragma config CP = OFF
 # 25 "main1.c" 2
 
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.41\\pic\\include\\c90\\stdbool.h" 1 3
+# 26 "main1.c" 2
+
 
 void yagBakim() {
     Lcd_Clear();
@@ -2170,8 +2173,8 @@ void __attribute__((picinterrupt(("")))) timer_isr(void) {
         writeEEPROM(epromBaslaAdress + 2, currentTime.seconds);
         writeEEPROM(epromBaslaAdress + 3, currentTime.carpan);
 
-        if( readEEPROM(epromBaslaAdress)==200 ){
-        writeEEPROM(epromBaslaAdress+4,epromBaslaAdress);
+         if( readEEPROM(epromBaslaAdress)==249 && readEEPROM(epromBaslaAdress+1)==59 ){
+
         writeEEPROM(epromBaslaAdress+7,epromBaslaAdress+3);
         epromBaslaAdress= epromBaslaAdress +(readEEPROM(epromBaslaAdress+3))*4;
 
@@ -2183,7 +2186,7 @@ void __attribute__((picinterrupt(("")))) timer_isr(void) {
         }
     }
 }
-
+_Bool limitler = 0;
 int main()
 {
   unsigned int a;
@@ -2298,7 +2301,6 @@ while(1){
     }
 
 
-
 if (ilkAcilis) {
 
 
@@ -2315,8 +2317,10 @@ if (ilkAcilis) {
         }
     }
 
-if( !RC3 && !RD0){
-
+if( !RC3 && !RD0 && limitler == 0){
+  if ( RE2 == 0 && RE0 == 0 && RC0 == 0 && RE1 == 0) {
+            limitler = 0;
+        }
 
 
     int dakika = readEEPROM(epromBaslaAdress+1);
@@ -2406,6 +2410,7 @@ Lcd_Write_String(rpmString);
 
 
  if (RC1 == 1 && (RE0 == 1 || RE2 == 1)) {
+     limitler=1;
             Lcd_Set_Cursor(2, 13);
             Lcd_Write_String(" FWD LMT");
             UART_Write_Text("s0\r\n");
@@ -2433,6 +2438,7 @@ Lcd_Write_String(rpmString);
 
 
         } else if (RC2 == 1 && (RE1 == 1 || RC0 == 1)) {
+            limitler=1;
             Lcd_Set_Cursor(2, 13);
             Lcd_Write_String(" REW LMT");
             UART_Write_Text("s0\r\n");
@@ -2515,6 +2521,25 @@ else if( RC3==1) {
       _delay((unsigned long)((3000)*(4000000/4000.0)));
       RA4=1;
 }
+      else if (limitler==1){
+
+
+
+
+
+         UART_Write_Text("s0\r\n");
+         Lcd_Set_Cursor(1,1);
+         Lcd_Write_String("STOP DURUMUNA GETIR ");
+        Lcd_Set_Cursor(2,1);
+        Lcd_Write_String("PUT IT IN STOP STATE");
+         RA4=1;
+      _delay((unsigned long)((1000)*(4000000/4000.0)));
+      RA4=0;
+      _delay((unsigned long)((1000)*(4000000/4000.0)));
+      if ( RE2 == 0 && RE0 == 0 && RC0 == 0 && RE1 == 0) {
+            limitler = 0;
+        }
+     }
     }
   return 0;
 

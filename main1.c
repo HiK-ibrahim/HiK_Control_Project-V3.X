@@ -114,7 +114,7 @@ void __interrupt() timer_isr(void) {
         writeEEPROM(epromBaslaAdress + 2, currentTime.seconds);
         writeEEPROM(epromBaslaAdress + 3, currentTime.carpan);
         
-         if( readEEPROM(epromBaslaAdress)==249 && readEEPROM(epromBaslaAdress+1)=59 ){
+         if( readEEPROM(epromBaslaAdress)==249 && readEEPROM(epromBaslaAdress+1)==59 ){
             
         writeEEPROM(epromBaslaAdress+7,epromBaslaAdress+3);    
         epromBaslaAdress= epromBaslaAdress +(readEEPROM(epromBaslaAdress+3))*4;
