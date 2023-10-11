@@ -1,5 +1,5 @@
 #define _XTAL_FREQ 4000000
-// 10.10.2023 eprom döngüsü 200 saat yap?ld?
+// 11.10.2023 döngüsel eprom iptal 6dk da bir yaz?l?yor
 //lcd pinleri tan?mlamalari
 #define RS RB5
 #define EN RB4
@@ -23,7 +23,6 @@
 #include <stdio.h>
 #include "uart.h"
 #include "16f877a_Conf.c"
-#include <stdbool.h>
 
 void yagBakim() {
     Lcd_Clear();
@@ -40,9 +39,6 @@ void yagBakim() {
 
 unsigned int eepromWRclc = 0;
 unsigned int kesmeSayaci = 0;
-int epromBaslaAdress = 0x01; // Ba?lang?ç EEPROM adresi
-
-
 struct Time {
     unsigned int carpan;
     unsigned int hours;
@@ -104,30 +100,20 @@ void __interrupt() timer_isr(void) {
             kesmeSayaci = 0 ;
             incrementTime(&currentTime);
  eepromWRclc++;
-            if (eepromWRclc==60){
+            if (eepromWRclc==360){
                 eepromWRclc=0;
             }
  
- 
-        writeEEPROM(epromBaslaAdress    , currentTime.hours);
-        writeEEPROM(epromBaslaAdress + 1, currentTime.minutes);
-        writeEEPROM(epromBaslaAdress + 2, currentTime.seconds);
-        writeEEPROM(epromBaslaAdress + 3, currentTime.carpan);
-        
-         if( readEEPROM(epromBaslaAdress)==249 && readEEPROM(epromBaslaAdress+1)==59 ){
-            
-        writeEEPROM(epromBaslaAdress+7,epromBaslaAdress+3);    
-        epromBaslaAdress= epromBaslaAdress +(readEEPROM(epromBaslaAdress+3))*4;
-        
-        }
-        
-       
-     
+        writeEEPROM(0x01, currentTime.hours);
+        writeEEPROM(0x02, currentTime.minutes);
+        writeEEPROM(0x03, currentTime.seconds);
+        writeEEPROM(0x04, currentTime.carpan);
+             // EEPROM'dan kaydedilmi? süreyi oku    
                
         }        
     }
 }
-_Bool limitler = 0;
+
 int main()
 {
   unsigned int a;
@@ -232,15 +218,15 @@ int ilkAcilis = 1;
 
 while(1){
     
-    //e?er eprom de?erinde 255 yazarsa s?f?rlamak için 
+       //e?er eprom de?erinde 255 yazarsa s?f?rlamak için 
   
+    
       for ( int epromAdresi = 0 ; epromAdresi<255; epromAdresi++){   
         int olmazlar = readEEPROM(epromAdresi);  
         if (olmazlar==255){        
        writeEEPROM(epromAdresi,0);         
         }
     }
-
     
 if (ilkAcilis) {
     
@@ -258,18 +244,12 @@ if (ilkAcilis) {
         }
     }
 
-if( !DcEror && !AcEror && limitler == 0){
-  if ( FwdFEAD == 0 && FWD == 0 &&  RewFEAD == 0 && REW == 0) {
-            limitler = 0; // limitler bayragi dustu
-        }
-
-    
-    int dakika = readEEPROM(epromBaslaAdress+1);
-    int realSaat = readEEPROM((epromBaslaAdress+3)*250+readEEPROM(epromBaslaAdress));
-   
-   
- // Saati ve dakikay? do?ru formatta birle?tirip lcdText'e yaz
-   
+if( !DcEror && !AcEror){
+  
+ // EEPROM'dan güncel süreyi oku
+   int dakika   = readEEPROM(0x02);
+   int realSaat = readEEPROM(0x04)*250+readEEPROM(0x01); 
+        // Saati ve dakikay? do?ru formatta birle?tirip lcdText'e yaz
         sprintf(lcdText, "%5uh %02um", realSaat, dakika);
         
     // LCD'ye saati yazd?r
@@ -351,7 +331,6 @@ Lcd_Write_String(rpmString);
 
 // Fwd k?sm?
  if (FwdLMT == 1 && (FWD == 1 || FwdFEAD == 1)) {
-     limitler=1;
             Lcd_Set_Cursor(2, 13);
             Lcd_Write_String(" FWD LMT");
             UART_Write_Text("s0\r\n");
@@ -379,7 +358,6 @@ Lcd_Write_String(rpmString);
             
 //rew k?sm?            
         } else if (RewLMT == 1 && (REW == 1 || RewFEAD == 1)) {
-            limitler=1;
             Lcd_Set_Cursor(2, 13);
             Lcd_Write_String(" REW LMT");
             UART_Write_Text("s0\r\n");
@@ -462,25 +440,6 @@ else if( DcEror==1) {
       __delay_ms(3000);
       RA4=1;
 }
-      else if (limitler==1){
-         /*if(akimSayaci>=3){
-             //yuksekAkimdaDurdur();
-         UART_Write_Text("m2\r\n");
-         akimSayaci=0;
-         }*/
-         UART_Write_Text("s0\r\n");
-         Lcd_Set_Cursor(1,1);
-         Lcd_Write_String("STOP DURUMUNA GETIR ");
-        Lcd_Set_Cursor(2,1);
-        Lcd_Write_String("PUT IT IN STOP STATE");
-         RA4=1;
-      __delay_ms(1000);
-      RA4=0;
-      __delay_ms(1000);
-      if ( FwdFEAD == 0 && FWD == 0 &&  RewFEAD == 0 && REW == 0) {
-            limitler = 0; // limitler bayragi dustu
-        }
-     }
     }
   return 0;
   
