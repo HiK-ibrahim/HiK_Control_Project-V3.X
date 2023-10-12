@@ -113,7 +113,7 @@ void __interrupt() timer_isr(void) {
         }        
     }
 }
-
+_Bool limitler = 0;
 int main()
 {
   unsigned int a;
@@ -244,7 +244,10 @@ if (ilkAcilis) {
         }
     }
 
-if( !DcEror && !AcEror){
+if( !DcEror && !AcEror && limitler == 0){  
+    if ( FwdFEAD == 0 && FWD == 0 &&  RewFEAD == 0 && REW == 0) {
+            limitler = 0; // limitler bayragi dustu
+        }
   
  // EEPROM'dan güncel süreyi oku
    int dakika   = readEEPROM(0x02);
@@ -331,6 +334,7 @@ Lcd_Write_String(rpmString);
 
 // Fwd k?sm?
  if (FwdLMT == 1 && (FWD == 1 || FwdFEAD == 1)) {
+     limitler=1;
             Lcd_Set_Cursor(2, 13);
             Lcd_Write_String(" FWD LMT");
             UART_Write_Text("s0\r\n");
@@ -358,6 +362,7 @@ Lcd_Write_String(rpmString);
             
 //rew k?sm?            
         } else if (RewLMT == 1 && (REW == 1 || RewFEAD == 1)) {
+            limitler=1;
             Lcd_Set_Cursor(2, 13);
             Lcd_Write_String(" REW LMT");
             UART_Write_Text("s0\r\n");
@@ -440,6 +445,25 @@ else if( DcEror==1) {
       __delay_ms(3000);
       RA4=1;
 }
+       else if (limitler==1){
+         /*if(akimSayaci>=3){
+             //yuksekAkimdaDurdur();
+         UART_Write_Text("m2\r\n");
+         akimSayaci=0;
+         }*/
+         UART_Write_Text("s0\r\n");
+         Lcd_Set_Cursor(1,1);
+         Lcd_Write_String("STOP DURUMUNA GETIR ");
+        Lcd_Set_Cursor(2,1);
+        Lcd_Write_String("PUT IT IN STOP STATE");
+         RA4=1;
+      __delay_ms(1000);
+      RA4=0;
+      __delay_ms(1000);
+      if ( FwdFEAD == 0 && FWD == 0 &&  RewFEAD == 0 && REW == 0) {
+            limitler = 0; // limitler bayragi dustu
+        }
+     }
     }
   return 0;
   

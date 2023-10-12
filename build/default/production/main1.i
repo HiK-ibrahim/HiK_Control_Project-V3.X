@@ -2170,7 +2170,7 @@ void __attribute__((picinterrupt(("")))) timer_isr(void) {
         }
     }
 }
-
+_Bool limitler = 0;
 int main()
 {
   unsigned int a;
@@ -2301,7 +2301,10 @@ if (ilkAcilis) {
         }
     }
 
-if( !RC3 && !RD0){
+if( !RC3 && !RD0 && limitler == 0){
+    if ( RE2 == 0 && RE0 == 0 && RC0 == 0 && RE1 == 0) {
+            limitler = 0;
+        }
 
 
    int dakika = readEEPROM(0x02);
@@ -2388,6 +2391,7 @@ Lcd_Write_String(rpmString);
 
 
  if (RC1 == 1 && (RE0 == 1 || RE2 == 1)) {
+     limitler=1;
             Lcd_Set_Cursor(2, 13);
             Lcd_Write_String(" FWD LMT");
             UART_Write_Text("s0\r\n");
@@ -2415,6 +2419,7 @@ Lcd_Write_String(rpmString);
 
 
         } else if (RC2 == 1 && (RE1 == 1 || RC0 == 1)) {
+            limitler=1;
             Lcd_Set_Cursor(2, 13);
             Lcd_Write_String(" REW LMT");
             UART_Write_Text("s0\r\n");
@@ -2497,6 +2502,25 @@ else if( RC3==1) {
       _delay((unsigned long)((3000)*(4000000/4000.0)));
       RA4=1;
 }
+       else if (limitler==1){
+
+
+
+
+
+         UART_Write_Text("s0\r\n");
+         Lcd_Set_Cursor(1,1);
+         Lcd_Write_String("STOP DURUMUNA GETIR ");
+        Lcd_Set_Cursor(2,1);
+        Lcd_Write_String("PUT IT IN STOP STATE");
+         RA4=1;
+      _delay((unsigned long)((1000)*(4000000/4000.0)));
+      RA4=0;
+      _delay((unsigned long)((1000)*(4000000/4000.0)));
+      if ( RE2 == 0 && RE0 == 0 && RC0 == 0 && RE1 == 0) {
+            limitler = 0;
+        }
+     }
     }
   return 0;
 
