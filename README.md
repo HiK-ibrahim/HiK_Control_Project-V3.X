@@ -24,8 +24,6 @@ Bu pot ise 2.potun üst limitini kısmak için eklenmiştir. 2.Potun değerini b
 -Çalışma saati eklendi.("eprom en fazla 8 bit değer tutabildiği için
 çalışma saati 255in üstüne çıktığında epromda farklı bir alanda carpan değişkeni tutularak çalışma saati hesaplanır.")
 
--Çalışma saati eproma kaydedilirken kaydedilen 4 adres döngüsel olarak 200 saaatte bir farklı adrese kaydediliyor
-
 -500 saat ve katlarında Yağ bakımı uyarısı eklendi.
 
 -Feed moduna yumuşak kalkış eklendi.
