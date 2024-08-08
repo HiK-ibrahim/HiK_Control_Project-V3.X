@@ -27,3 +27,5 @@ Bu pot ise 2.potun üst limitini kısmak için eklenmiştir. 2.Potun değerini b
 -500 saat ve katlarında Yağ bakımı uyarısı eklendi.
 
 -Feed moduna yumuşak kalkış eklendi.
+![image](https://github.com/user-attachments/assets/c66f460f-2a65-4f9c-9b3e-feff6e86b78f)
+
