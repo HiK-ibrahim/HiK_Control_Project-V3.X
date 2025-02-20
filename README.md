@@ -30,5 +30,7 @@ Bu pot ise 2.potun üst limitini kısmak için eklenmiştir. 2.Potun değerini b
 ![image](https://github.com/user-attachments/assets/c66f460f-2a65-4f9c-9b3e-feff6e86b78f)
 ![DSC_4383](https://github.com/user-attachments/assets/c2d5f420-e4cc-4beb-8092-1bf44a23f84d)
 ![DSC_4382](https://github.com/user-attachments/assets/1b3aee57-de90-4efc-a79b-0dda7d50196e)
+![DSC_4385](https://github.com/user-attachments/assets/7cef709e-e5b5-44f4-a6ec-d29383591938)
+
 
 
